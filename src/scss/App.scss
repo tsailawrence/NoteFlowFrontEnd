@@ -1,0 +1,19 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #root {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .App-sidebar {
+    width: 10%;
+  }
+  .App-tab {
+    width: 90%;
+  }
+}
