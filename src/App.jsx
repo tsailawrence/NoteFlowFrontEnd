@@ -3,7 +3,7 @@ import Sidebar from "./Components/Sidebar/Sidebar.jsx";
 import Tab from "./Components/Tab/Tab.jsx";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
-import FlowWithProvider from "./pages/Login/Flow.jsx"
+import FlowWithProvider from "./pages/Flow/Flow.jsx"
 import { useEffect, useState } from "react";
 function App() {
   const [flows, setFlows] = useState(1);
