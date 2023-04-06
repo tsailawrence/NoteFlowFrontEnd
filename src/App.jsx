@@ -12,7 +12,7 @@ function App() {
   const [login, setLogin] = useState(false);
   return (
     <div className="App">
-      {/* {!login && <Login setLogin={setLogin} />}
+      {!login && <Login setLogin={setLogin} />}
       {login && (
         <>
           <div className="App-sidebar">
@@ -22,8 +22,8 @@ function App() {
             <Tab flows={flows} setFlows={setFlows} />
           </div>
         </>
-      )} */}
-      <Editor />
+      )}
+      {/* <Editor /> */}
     </div>
   );
 }
