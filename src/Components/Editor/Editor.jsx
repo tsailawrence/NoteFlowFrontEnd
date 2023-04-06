@@ -1,6 +1,6 @@
 import React from "react";
 import ReactQuill from "react-quill";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import "./Editor.scss";
 import katex from "katex";
@@ -38,7 +38,12 @@ const modules = {
 
 const Editor = () => {
   const [value, setValue] = useState("");
-  console.log(value);
+  const [thumbnail, setThumbnail] = useState({});
+
+  useEffect(() => {}, [value]);
+  const nodes = document.getElementsByClassName("ql-editor")[0].childNodes;
+  nodes.forEach((n) => {});
+  console.log([0]?.innerText);
 
   return (
     <ReactQuill

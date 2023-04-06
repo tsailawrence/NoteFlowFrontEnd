@@ -70,6 +70,7 @@ const Login = ({ setLogin }) => {
       <div className="login-container">
         <div className="logo">
           <img src="/src/assets/logo.png" alt="" width="190" height="190" />
+          <h1>NoteFlow</h1>
         </div>
         <div className="info">
           <h2>Log in</h2>
