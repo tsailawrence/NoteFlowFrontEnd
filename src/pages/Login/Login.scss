@@ -3,70 +3,62 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  // border: red solid 2px;
 
-  .container {
-    width: 70%;
-    height: 60%;
+  .login-container {
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    gap: 1vw;
     align-items: center;
     justify-content: center;
     background-color: white;
-    border-radius: 15px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    border: black solid 2px;
-    padding: 1.5vw 1.5vw;
+    padding: 0;
+    margin: 0;
+    // border: red solid 2px;
 
     .logo {
-      flex: 1;
+      width: 50%;
       background-color: black;
-      border-radius: 15px;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: white;
+      margin: 0;
     }
 
     .info {
-      flex: 1;
+      width: 50%;
       height: 100%;
+      margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 1vw;
+      gap: 2vw;
       align-items: center;
-      text-align: center;
+      // text-align: center;
       justify-content: center;
-      position: relative;
-      border: black solid 2px;
-      border-radius: 15px;
-
-      #signInDiv {
-        display: flex;
-        justify-content: center;
-        max-width: 80%;
-      }
+      // border-radius: 15px;
+      // border: red solid 2px;
 
       h2 {
-        position: absolute;
-        top: 10px;
-        font-size: 2vw;
-        margin: 0;
+        font-size: 4vw;
+        // border: red solid 2px;
       }
 
       .infoContainer {
-        position: relative;
-        top: calc(30px + 1.5vw);
         width: 90%;
-        height: calc(100% - 3vw - 10px);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 5px;
-        justify-content: flex-start;
+        justify-content: center;
+        border: red soild 2px;
 
         .profile {
           padding: 0;
@@ -80,26 +72,33 @@
             font-size: 16px;
           }
         }
+      }
 
-        .horizontalLine {
-          width: 90%;
-          font-size: 12px;
-          text-align: center;
-          border-bottom: 1px solid #414a4c;
-          line-height: 0.1em;
+      #signInDiv {
+        max-width: 80%;
+        margin-top: 1vw;
+        // border: red solid 2px;
+      }
+
+      .horizontalLine {
+        width: 65%;
+        font-size: 1vw;
+        text-align: center;
+        border-bottom: 1px solid #414a4c;
+        line-height: 0.1em;
+        margin: 0;
+        margin-top: 1vw;
+
+        span {
+          background: #fff;
+          padding: 0 10px;
           margin: 0;
-
-          span {
-            background: #fff;
-            padding: 0 10px;
-            margin: 0;
-          }
         }
+      }
 
-        button {
-          &:hover {
-            border: #666666;
-          }
+      button {
+        &:hover {
+          border: #666666;
         }
       }
     }

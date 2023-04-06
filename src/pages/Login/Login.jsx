@@ -67,21 +67,16 @@ const Login = ({ setLogin }) => {
 
   return (
     <div className="login">
-      <div className="container">
+      <div className="login-container">
         <div className="logo">
-          <h1>LOGO</h1>
+          <img src="/src/assets/logo.png" alt="" width="190" height="190" />
         </div>
         <div className="info">
           <h2>Log in</h2>
-          <div className="infoContainer">
-            <div id="signInDiv" ref={divRef}></div>
-            {user && <Profile user={user} />}
 
+          <div className="infoContainer">
             {Object.keys(user).length === 0 && (
               <>
-                <div className="horizontalLine">
-                  <span>OR</span>
-                </div>
                 <Box
                   component="form"
                   onSubmit={handleSubmit}
@@ -137,20 +132,50 @@ const Login = ({ setLogin }) => {
                 </Box>
               </>
             )}
-            {Object.keys(user).length !== 0 && (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 2, mb: 2 }}
-                style={{ backgroundColor: "#0e1111" }}
-                onClick={(e) => {
-                  handleLogOut(e);
-                }}
-              >
-                Log out
-              </Button>
-            )}
+          </div>
+          <div className="horizontalLine">
+            <span>OR</span>
+          </div>
+          <div id="signInDiv" ref={divRef}></div>
+          {user && <Profile user={user} />}
+
+          {/* {Object.keys(user).length !== 0 && (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 2, mb: 2 }}
+              style={{ backgroundColor: "#0e1111" }}
+              onClick={(e) => {
+                handleLogOut(e);
+              }}
+            >
+              Log out
+            </Button>
+          )} */}
+
+          <div
+            className="links"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "65%",
+            }}
+          >
+            <Link href="#" variant="body2" style={{ color: "#414a4c" }}>
+              Doesn't have an account yet?
+            </Link>
+            <Button
+              type="submit"
+              variant="contained"
+              style={{ backgroundColor: "#0e1111", width: "50%" }}
+              onClick={(e) => {
+                handleLogOut(e);
+              }}
+            >
+              Register
+            </Button>
           </div>
         </div>
       </div>

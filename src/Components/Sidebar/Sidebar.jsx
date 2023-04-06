@@ -2,7 +2,9 @@ import "./Sidebar.scss";
 const Sidebar = ({ flows, setFlows }) => {
   return (
     <div className="d-flex sidebar border-end border-secondary">
-      <div className="logo">Logo</div>
+      <div className="logo">
+        <img src="/src/assets/logo.png" alt="" width="60" height="60" />
+      </div>
       <div className="row sidebar-item" onClick={() => setFlows(flows + 1)}>
         <img className="col-5" src="src/assets/edit_white_24dp.svg" />
         <div className="col-7">Flows</div>
