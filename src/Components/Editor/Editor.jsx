@@ -1,83 +1,54 @@
-import ExampleTheme from "./themes/ExampleTheme";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
-import { YouTubeNode } from "./plugins/YoutubePlugins/YouTubeNode";
-
-import { ListItemNode, ListNode } from "@lexical/list";
-import { CodeHighlightNode, CodeNode } from "@lexical/code";
-import { AutoLinkNode, LinkNode } from "@lexical/link";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { TRANSFORMERS } from "@lexical/markdown";
-
-import ActionsPlugin from "./plugins/ActionsPlugin";
-import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
-import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-import prepopulatedText from "./SampleText.js";
-import YouTubePlugin from "./plugins/YoutubePlugins/YoutubePlugin";
-
+import React from "react";
+import ReactQuill from "react-quill";
+import { useState } from "react";
+import "react-quill/dist/quill.snow.css";
 import "./Editor.scss";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+window.katex = katex;
 
-function Placeholder() {
-  return (
-    <div className="editor-placeholder">
-      Play around with the Markdown plugin...
-    </div>
-  );
-}
-
-const editorConfig = {
-  editorState: prepopulatedText,
-  theme: ExampleTheme,
-  // Handling of errors during update
-  onError(error) {
-    throw error;
-  },
-  // Any custom nodes go here
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    QuoteNode,
-    CodeNode,
-    CodeHighlightNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-    AutoLinkNode,
-    LinkNode,
-    YouTubeNode,
+const modules = {
+  toolbar: [
+    [
+      {
+        header: [1, 2, 3, 4, 5, 6, false],
+      },
+    ],
+    [{ font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "+1" },
+      { indent: "-1" },
+    ],
+    [{ color: [] }, { background: [] }],
+    ["link", "image", "video", "formula"],
+    [
+      { align: "" },
+      { align: "right" },
+      { align: "center" },
+      { align: "justify" },
+    ],
+    ["clean"],
   ],
+  history: [{ delay: 0 }],
 };
 
-export default function Editor() {
+const Editor = () => {
+  const [value, setValue] = useState("");
+  console.log(value);
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
-      <div className="devContainer">
-        <div className="editor-container">
-          <ToolbarPlugin />
-          <div className="editor-inner">
-            <RichTextPlugin
-              contentEditable={<ContentEditable className="editor-input" />}
-              placeholder={<Placeholder />}
-            />
-            <AutoFocusPlugin />
-            <ListPlugin />
-            <LinkPlugin />
-            <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-            <CodeHighlightPlugin />
-            <AutoLinkPlugin />
-            <YouTubePlugin />
-          </div>
-          <ActionsPlugin />
-        </div>
-      </div>
-    </LexicalComposer>
+    <ReactQuill
+      theme="snow"
+      value={value}
+      onChange={setValue}
+      className="editor"
+      modules={modules}
+    />
   );
-}
+};
+
+export default Editor;
