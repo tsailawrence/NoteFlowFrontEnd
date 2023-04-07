@@ -1,0 +1,37 @@
+.navbar{
+  height: 80px;
+}
+.toolBarButton{
+  height: 50px;
+  width: 50px;
+  margin-top:5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.titleInput {
+  outline: 0;
+  height:30px;
+  width: 300px;
+  border-width: 0 0 2px;
+  border-color: #212529;
+  background-color: #212529;
+  color: white;
+  padding-left: 10px;
+  font-size: large;
+}
+.titleInput:focus {
+  border-color: #212529;
+  outline: 1px dotted #000
+}
+
+.contextMenuButton{
+  border-radius: 3px; 
+  margin-left: 3px;
+}
+
+.styleBar{
+  background-color: '#212529'
+
+}
