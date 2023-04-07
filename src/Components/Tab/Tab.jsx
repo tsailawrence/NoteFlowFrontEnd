@@ -1,41 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Tab.scss";
-const Tab = ({ flows }) => {
+import flowsTemplate from "../Flows/Flows";
+import libraryTemplate from "../Library/Library";
+const Tab = ({ flows, library, calendar, setting }) => {
   // 暫時用，之後會連後端拿資料
-  const tempFlows = {
-    //tab的名字與key
-    name: "Flows",
-    key: 0,
-    // 每個tab上方的工具欄/搜尋列，需事先定義好
-    bar: (
-      <div className="row m-0 content-top-bar">
-        <div className="col-auto d-flex align-items-center justify-content-around me-auto">
-          <img
-            className="content-top-bar-pic me-2"
-            src="src/assets/edit_white_24dp.svg"
-          />
-          <div className="text-white">Flows</div>
-        </div>
-        <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
-          <img
-            className="content-top-bar-pic me-2"
-            src="src/assets/sort_white_24dp.svg"
-          />
-          <div className="text-white">Oldest to newest</div>
-        </div>
-      </div>
-    ),
-    // Flows頁面中會出現的Flow列表
-    content: [
-      { src: "", name: "flow1", time: "1" },
-      { src: "", name: "flow2", time: "2" },
-      { src: "", name: "flow3", time: "3" },
-      { src: "", name: "flow4", time: "4" },
-      { src: "", name: "flow5", time: "5" },
-      { src: "", name: "flow6", time: "6" },
-    ],
-    // 之後會再加一個attribute，支援單一Flow要render出來的功能
-  };
+  const tempFlows = flowsTemplate;
+  const tempLibrary = libraryTemplate;
+  const [flowsRef, setFlowsRef] = useState(flows);
+  const [libraryRef, setLibraryRef] = useState(library);
+  const [calendarRef, setCalendarRef] = useState(calendar);
+  const [settingRef, setSettingRef] = useState(setting);
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const [tabState, setTabState] = useState({ 0: 1 });
@@ -93,16 +67,40 @@ const Tab = ({ flows }) => {
         .getAttribute("data-bs-target")
         .match(/\d+/g)[0]
     );
-    if (tabState[activeKey] === 0) {
-      const { [activeKey]: temp, ...rest } = tabState;
-      setTabState({ ...rest, [activeKey]: 1 });
-      const tempTabs = [...tabs];
-      const currentTab = tabs.filter((obj) => obj.key === activeKey)[0];
-      const index = tempTabs.indexOf(currentTab);
-      tempTabs[index].name = "Flows";
-      setTabs(tempTabs);
+    let mode;
+    let template;
+    if (flowsRef !== flows) {
+      mode = 1;
+      template = { ...flowsTemplate };
+      setFlowsRef(flows);
+    } else if (libraryRef !== library) {
+      mode = 2;
+      template = { ...libraryTemplate };
+      setLibraryRef(library);
+    } else if (calendarRef !== calendar) {
+      mode = 3;
+      template = { ...calendarTemplate };
+      setCalendarRef(calendar);
+    } else if (settingRef !== setting) {
+      mode = 4;
+      template = { ...settingTemplate };
+      setSettingRef(setting);
+    } else {
+      return;
     }
-  }, [flows]);
+    const { [activeKey]: temp, ...rest } = tabState;
+    setTabState({ ...rest, [activeKey]: mode });
+    let tempTabs = [...tabs];
+    const currentTab = tabs.filter((obj) => obj.key === activeKey)[0];
+    const index = tempTabs.indexOf(currentTab);
+    let newTab = { ...tempTabs[index] };
+    newTab.name = template.name;
+    newTab.bar = template.bar;
+    newTab.layout = template.layout;
+    newTab.content = template.content;
+    tempTabs[index] = newTab;
+    setTabs(tempTabs);
+  }, [flows, library, calendar, setting]);
   return (
     <div className="container">
       <div className="row d-flex align-middle topnavbar">
@@ -150,56 +148,29 @@ const Tab = ({ flows }) => {
       <div className="row d-flex align-middle">
         <div className="col-md-12 p-0">
           <div className="tab-content" id="pills-tabContent">
-            {tabs.map((tab) => (
-              <div
-                className="tab-pane show active"
-                id={"pills-" + tab.key}
-                key={tab.key}
-                role="tabpanel"
-                aria-labelledby={"pills-" + tab.key + "-tab"}
-              >
-                {/* Flow頁面的工具欄會放在state variable後嵌入於此 */}
-                {tab.bar}
-                {/* 目前content-body僅處理Flows頁面的排列，之後會修改如何呈現Flow頁面的區塊 */}
-                {tabState[tab.key] ? (
-                  <div className="content-body py-4">
-                    <div className="d-flex flex-wrap align-items-center justify-content-evenly">
-                      {tab.content.map((item) => {
-                        if (item.src !== undefined) {
-                          return (
-                            <div
-                              className="mt-4 px-3 content-item"
-                              key={item.name}
-                            >
-                              <div
-                                className="content-item-pic"
-                                onClick={() => intoFlow(tab.key, item.name)}
-                              ></div>
-                              <div className="d-flex content-item-desc">
-                                <div className="me-auto">{item.name}</div>
-                                <div className="ms-auto">
-                                  Edited {item.time} hours ago
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div
-                              className="mt-4 px-3 content-item"
-                              key={item.name}
-                            ></div>
-                          );
-                        }
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  //Flow頁面的筆記內容會嵌入於此
-                  <div className="content-body">Temp Flow</div>
-                )}
-              </div>
-            ))}
+            {tabs.map((tab) => {
+              return (
+                <div
+                  className="tab-pane show active"
+                  id={"pills-" + tab.key}
+                  key={tab.key}
+                  role="tabpanel"
+                  aria-labelledby={"pills-" + tab.key + "-tab"}
+                >
+                  {/* Flow頁面的工具欄會放在state variable後嵌入於此 */}
+                  {tab.bar}
+                  {/* 目前content-body僅處理Flows頁面的排列，之後會修改如何呈現Flow頁面的區塊 */}
+                  {tabState[tab.key] === 1 ? (
+                    tempFlows.layout(tab, intoFlow)
+                  ) : tabState[tab.key] === 2 ? (
+                    tempLibrary.layout(tab, intoFlow)
+                  ) : (
+                    //Flow頁面的筆記內容會嵌入於此
+                    <div className="content-body">not implemented</div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
