@@ -5,6 +5,7 @@ const Sidebar = ({ setFlows, setLibrary, setCalendar, setSetting }) => {
       <div className="logo">
         <img src="/src/assets/logo.png" alt="" width="60" height="60" />
       </div>
+
       <div className="row sidebar-item" onClick={() => setFlows(Date.now())}>
         <img className="col-4" src="src/assets/edit_white_24dp.svg" />
         <div className="col-7">Flows</div>
