@@ -3,12 +3,13 @@ import "./Tab.scss";
 import flowsTemplate from "../Flows/Flows";
 import libraryTemplate from "../Library/Library";
 import calendarTemplate from "../Calendar/Calendar";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import settingsTemplate from "../Settings/Settings";
 const Tab = ({ flows, library, calendar, settings }) => {
   // 暫時用，之後會連後端拿資料
   const tempFlows = flowsTemplate;
   const tempLibrary = libraryTemplate;
   const tempCalendar = calendarTemplate;
+  const tempSettings = settingsTemplate;
   const [flowsRef, setFlowsRef] = useState(flows);
   const [libraryRef, setLibraryRef] = useState(library);
   const [calendarRef, setCalendarRef] = useState(calendar);
@@ -94,7 +95,7 @@ const Tab = ({ flows, library, calendar, settings }) => {
       setCalendarRef(calendar);
     } else if (settingsRef !== settings) {
       mode = 4;
-      template = tempsettings;
+      template = tempSettings;
       setSettingsRef(settings);
     } else {
       return;
@@ -168,17 +169,16 @@ const Tab = ({ flows, library, calendar, settings }) => {
                   role="tabpanel"
                   aria-labelledby={"pills-" + tab.key + "-tab"}
                 >
-                  {/* Flow頁面的工具欄會放在state variable後嵌入於此 */}
                   {tab.bar}
-                  {/* 目前content-body僅處理Flows頁面的排列，之後會修改如何呈現Flow頁面的區塊 */}
                   {tabState[tab.key] === 1 ? (
                     tempFlows.layout(tab, intoFlow)
                   ) : tabState[tab.key] === 2 ? (
                     tempLibrary.layout(tab, intoFlow)
                   ) : tabState[tab.key] === 3 ? (
                     tempCalendar.layout(tab, intoFlow, getDate)
+                  ) : tabState[tab.key] === 4 ? (
+                    tempSettings.layout()
                   ) : (
-                    //Flow頁面的筆記內容會嵌入於此
                     <div className="content-body">not implemented</div>
                   )}
                 </div>
