@@ -68,3 +68,22 @@
         color: gray;
     }
 }
+.calendar{
+    height: calc(100vh - 100px);
+    overflow-y: hidden;
+}
+.calendar-item{
+    min-width: 32%;
+    .calendar-item-pic{
+        cursor: pointer;
+        height: 20vmin;
+        width: 100%;
+        border: 1px solid black;
+    }
+}
+.calendar-item-desc{
+    font-size: 1.5vmin;
+    .ms-auto{
+        color: gray;
+    }
+}
