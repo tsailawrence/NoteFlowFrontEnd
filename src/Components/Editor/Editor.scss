@@ -1,3 +1,67 @@
 .editor {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .header {
+    height: 80px;
+    background-color: #c5c5c5;
+    display: flex;
+    align-items: center;
+    position: relative;
+    .title-input {
+      margin-left: 10px;
+      margin-bottom: 0;
+      font-size: 30px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      // border-bottom: black solid 1px;
+      width: 50vw;
+
+      &:focus {
+        outline: none;
+        border-bottom: none;
+      }
+
+      &:focus + .focus-border {
+        width: 50vw;
+        transition: 0.4s;
+      }
+    }
+    .focus-border {
+      position: absolute;
+      bottom: 15px;
+      left: 10px;
+      width: 0px;
+      height: 2px;
+      background-color: black;
+      transition: 0.4s;
+    }
+
+    .users {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      position: absolute;
+      right: 3vw;
+      bottom: 25px;
+      width: fit-content;
+      .user {
+        border-radius: 50% 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        color: white;
+      }
+    }
+  }
+  .text-editor {
+    height: calc(100vh - 80px);
+
+    .editor-input {
+      height: calc(100% - 80px);
+    }
+  }
 }

@@ -1,26 +1,41 @@
-.sidebar{
-    background-color: black;
-    color: white;
-    height: 100%;
-    min-height: 100vh;
-    text-align: left;
-    flex-direction: column;
-    align-items: center;
-}
-.logo{
+.sidebar {
+  background-color: black;
+  color: white;
+  height: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: flex-start;
+  position: relative;
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
-    margin-top: 5vmin;
-    margin-bottom: 5vmin;
+    margin-top: 3vmin;
+    margin-bottom: 3vmin;
 }
 .sidebar-item{  
-    width: 90%;
-    margin-top: 5vmin;
-    margin-bottom: 5vmin; 
+    width: 100%;
+    margin-top: 4vmin;
+    margin-bottom: 4vmin; 
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     font-size: 2vmin;
-}
 
+    img {
+      //   border: red solid 2px;
+      margin: 0;
+    }
+
+    .text {
+      //   border: red solid 2px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
