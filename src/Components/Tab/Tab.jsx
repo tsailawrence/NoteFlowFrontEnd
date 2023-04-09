@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Tab.scss";
+import { Navigate, useNavigate } from "react-router-dom";
+import userFlows from "../../data";
+
 const Tab = ({ flows }) => {
   // 暫時用，之後會連後端拿資料
   const tempFlows = {
@@ -26,19 +29,14 @@ const Tab = ({ flows }) => {
       </div>
     ),
     // Flows頁面中會出現的Flow列表
-    content: [
-      { src: "", name: "flow1", time: "1" },
-      { src: "", name: "flow2", time: "2" },
-      { src: "", name: "flow3", time: "3" },
-      { src: "", name: "flow4", time: "4" },
-      { src: "", name: "flow5", time: "5" },
-      { src: "", name: "flow6", time: "6" },
-    ],
+    content: userFlows,
     // 之後會再加一個attribute，支援單一Flow要render出來的功能
   };
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const [tabState, setTabState] = useState({ 0: 1 });
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (tabs.length === 0) {
       setTabs([tempFlows]);
@@ -76,8 +74,9 @@ const Tab = ({ flows }) => {
     setKey(key + 1);
     setTabState({ ...tabState, [key]: 1 });
     setTabs([...tabs, addFlows]);
+    
   };
-  const intoFlow = (target, name) => {
+  const intoFlow = (target, name, flow) => {
     const { [target]: temp, ...rest } = tabState;
     setTabState({ ...rest, [target]: 0 });
     const tempTabs = [...tabs];
@@ -85,6 +84,7 @@ const Tab = ({ flows }) => {
     const index = tempTabs.indexOf(currentTab);
     tempTabs[index].name = name;
     setTabs(tempTabs);
+    navigate('/flow',{state:flow});
   };
   useEffect(() => {
     const activeKey = parseInt(
@@ -173,7 +173,7 @@ const Tab = ({ flows }) => {
                             >
                               <div
                                 className="content-item-pic"
-                                onClick={() => intoFlow(tab.key, item.name)}
+                                onClick={() => {intoFlow(tab.key, item.name, item)}}
                               ></div>
                               <div className="d-flex content-item-desc">
                                 <div className="me-auto">{item.name}</div>
@@ -196,7 +196,8 @@ const Tab = ({ flows }) => {
                   </div>
                 ) : (
                   //Flow頁面的筆記內容會嵌入於此
-                  <div className="content-body">Temp Flow</div>
+                  // <div className="content-body">Temp Flow</div>
+                  <></>
                 )}
               </div>
             ))}

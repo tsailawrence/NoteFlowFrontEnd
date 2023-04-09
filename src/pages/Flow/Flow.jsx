@@ -18,6 +18,7 @@ import ReactFlow, {
 import CustomNode from "../../Components/Flow/Node";
 import ToolBar from "../../Components/Flow/ToolBar";
 import StyleBar from "../../Components/Flow/StyleBar";
+import { Navigate, useLocation } from "react-router-dom";
 
 import _ from "lodash";
 
@@ -38,16 +39,18 @@ const defaultNodeStyle = {
 };
 
 function Flow(props) {
+  const location = useLocation();
   const reactFlowInstance = useReactFlow();
   const xPos = useRef(50);
   const yPos = useRef(0);
   const nodeId = useRef(0);
   const [bgVariant, setBgVariant] = useState("line");
   const [rfInstance, setRfInstance] = useState(null);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [title, setTitle]= useState("Untitle");
+  const [edges, setEdges, onEdgesChange] = useEdgesState(location.state.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(location.state.nodes);
+  const [title, setTitle]= useState(location.state.name);
   const [isStyleBarOpen, setIsStyleBarOpen] = useState(false);
+  const [back, setBack] = useState(false);
 
   const onConnect = useCallback((params) => {setEdges((eds) => addEdge(params, eds))}, [setEdges]);
   const onEdgeUpdate = useCallback((oldEdge, newConnection) => setEdges((els) => updateEdge(oldEdge, newConnection, els)),[]);
@@ -93,7 +96,6 @@ function Flow(props) {
   };
 
   const changeStyle = () => {
-    console.log('ji')
     setIsStyleBarOpen(true);
 
   }
@@ -101,10 +103,17 @@ function Flow(props) {
   const onSave = useCallback(() => {
     if (rfInstance) {
       const flow = rfInstance.toObject();
-      console.log(flow)
+      setBack(true);
+      // console.log(flow)
+      // console.log(JSON.stringify(flow))
       //connect to backend
+      // return(
+      //   <Navigate to="/"/>
+      // )
     }
+
   }, [rfInstance]);
+
 
   const onNodeClick = (event, node)=>{
     //open editor by nodeID    
@@ -127,37 +136,42 @@ function Flow(props) {
   }
 
   return (
-    <>
-      <ToolBar flowTitle = {title} addNode={addNode} onSave = {onSave} changeBackground={(bgStyle)=>{setBgVariant(bgStyle)}}/>
-      
-      <ReactFlow
-        className="Flow"
-        nodes={nodes}
-        edges={edges}
-        onNodesDelete={onNodesDelete}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onEdgeUpdate={onEdgeUpdate}
-        onConnect={onConnect}
-        onInit={setRfInstance}
-        // onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
-      >
-        {isStyleBarOpen?<StyleBar isOpen={isStyleBarOpen}/>:null}
-        <MiniMap nodeStrokeWidth={3} zoomable pannable />
-        <Controls />
-        <Background color="#ccc" variant={bgVariant} />
-      </ReactFlow>
 
+    <>
+      {!back ?
+      <>
+        <ToolBar flowTitle = {title} addNode={addNode} onSave = {onSave} changeBackground={(bgStyle)=>{setBgVariant(bgStyle)}}/>
+        <ReactFlow
+          className="Flow"
+          nodes={nodes}
+          edges={edges}
+          onNodesDelete={onNodesDelete}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onEdgeUpdate={onEdgeUpdate}
+          onConnect={onConnect}
+          onInit={setRfInstance}
+          // onNodeClick={onNodeClick}
+          nodeTypes={nodeTypes}
+        >
+          {isStyleBarOpen?<StyleBar isOpen={isStyleBarOpen}/>:null}
+          <MiniMap nodeStrokeWidth={3} zoomable pannable />
+          <Controls />
+          <Background color="#ccc" variant={bgVariant} />
+        </ReactFlow>
+      </>
+    : <Navigate to="/"/>}
     </>
   );
 }
 
 function FlowWithProvider(...props) {
   return (
-    <ReactFlowProvider >
-      <Flow {...props} />
-    </ReactFlowProvider>
+    <div className = "FlowContainer">
+      <ReactFlowProvider >
+        <Flow {...props} />
+      </ReactFlowProvider>
+    </div>
   );
 }
 
