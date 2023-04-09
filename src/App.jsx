@@ -7,43 +7,32 @@ import { useState } from "react";
 import Editor from "./Components/Editor/Editor";
 import { Login } from "./pages/Login/Login";
 import "./scss/App.scss";
+import Router from "./Router.jsx";
 
 function App() {
-  const [flows, setFlows] = useState(0);
-  const [library, setLibrary] = useState(0);
-  const [calendar, setCalendar] = useState(0);
-  const [settings, setSettings] = useState(0);
-  const [login, setLogin] = useState(false);
+  return <Router/>
+  // const [flows, setFlows] = useState(1);
+  // const [login, setLogin] = useState(false);
+  // return (
+  //   <div className="App">
+  //     {!login && <Login setLogin={setLogin} />}
+  //     {login && (
+  //       <>
+  //         <div className="App-sidebar">
+  //           <Sidebar flows={flows} setFlows={setFlows} />
+  //         </div>
+  //         <div className="App-tab">
+  //           <Tab flows={flows} setFlows={setFlows} />
+  //         </div>
+  //       </>
+  //     )}
+  //     {/* <div className="FlowEditor">
+  //       <FlowWithProvider/>
+  //     </div> */}
+  //     {/* <Editor /> */}
+  //   </div>
+  // );
 
-  return (
-    <div className="App">
-      {!login && <Login setLogin={setLogin} />}
-      {login && (
-        <>
-          <div className="App-sidebar">
-            <Sidebar
-              setFlows={setFlows}
-              setLibrary={setLibrary}
-              setCalendar={setCalendar}
-              setSettings={setSettings}
-            />
-          </div>
-          <div className="App-tab">
-            <Tab
-              flows={flows}
-              library={library}
-              calendar={calendar}
-              settings={settings}
-            />
-          </div>
-        </>
-      )}
-      {/* <div className="FlowEditor">
-        <FlowWithProvider/>
-      </div>
-      {/* <Editor /> */}
-    </div>
-  );
 }
 
 export default App;

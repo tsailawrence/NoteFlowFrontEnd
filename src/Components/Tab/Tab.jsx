@@ -4,6 +4,9 @@ import flowsTemplate from "../Flows/Flows";
 import libraryTemplate from "../Library/Library";
 import calendarTemplate from "../Calendar/Calendar";
 import settingsTemplate from "../Settings/Settings";
+import { Navigate, useNavigate } from "react-router-dom";
+import userFlows from "../../data";
+
 const Tab = ({ flows, library, calendar, settings }) => {
   // 暫時用，之後會連後端拿資料
   const tempFlows = flowsTemplate;
@@ -17,6 +20,8 @@ const Tab = ({ flows, library, calendar, settings }) => {
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const [tabState, setTabState] = useState({ 0: 1 });
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (tabs.length === 0) {
       setTabs([tempFlows]);
@@ -54,8 +59,9 @@ const Tab = ({ flows, library, calendar, settings }) => {
     setKey(key + 1);
     setTabState({ ...tabState, [key]: 1 });
     setTabs([...tabs, addFlows]);
+    
   };
-  const intoFlow = (target, name) => {
+  const intoFlow = (target, name, flow) => {
     const { [target]: temp, ...rest } = tabState;
     setTabState({ ...rest, [target]: 0 });
     const tempTabs = [...tabs];
@@ -63,6 +69,7 @@ const Tab = ({ flows, library, calendar, settings }) => {
     const index = tempTabs.indexOf(currentTab);
     tempTabs[index].name = name;
     setTabs(tempTabs);
+    navigate('/flow',{state:flow});
   };
   const getDate = () => {
     const today = new Date();
