@@ -1,27 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { create } from "zustand";
+const useParams = create((set) => ({
+  login: false,
+  setLogin: (param) => set((state) => ({ login: param })),
 
-// Create a new context object
-const MyContext = createContext({});
-
-// Create a custom hook to access the context
-
-// Create a provider component to wrap the application with the context
-const MyProvider = (props) => {
-  const [login, setLogin] = useState(false);
-  useEffect(() => {
-    console.log(login);
-  }, [login]);
-
-  return (
-    <MyContext.Provider
-      value={{
-        login,
-        setLogin,
-      }}
-      {...props}
-    />
-  );
-};
-const useParams = () => useContext(MyContext);
-
-export { MyProvider, useParams };
+  user: {},
+  setUser: (userObject) => set((state) => ({ user: userObject })),
+}));
+export { useParams };
