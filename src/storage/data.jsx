@@ -4,13 +4,14 @@ const userFlows = [
     "name": "AI & ML",
     "src": "",
     "time": "1",
+    "nextNodeId": 6,
     "nodes": [
       {
         "width": 150,
         "height": 50,
         "id": "1",
         "data": {
-          "label": "Untitled",
+          "label": "SVM",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -37,7 +38,7 @@ const userFlows = [
         "height": 50,
         "id": "2",
         "data": {
-          "label": "Untitled",
+          "label": "Linear",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -64,7 +65,7 @@ const userFlows = [
         "height": 50,
         "id": "3",
         "data": {
-          "label": "Untitled",
+          "label": "Tree",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -91,7 +92,7 @@ const userFlows = [
         "height": 50,
         "id": "4",
         "data": {
-          "label": "Untitled",
+          "label": "CNN",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -118,7 +119,7 @@ const userFlows = [
         "height": 50,
         "id": "5",
         "data": {
-          "label": "Untitled",
+          "label": "RNN",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -189,13 +190,15 @@ const userFlows = [
     "name": "Software Development",
     "src": "",
     "time": "2",
+    "nextNodeId": 3,
+
     "nodes": [
       {
         "width": 150,
         "height": 50,
         "id": "1",
         "data": {
-          "label": "Untitled",
+          "label": "Web API",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -222,7 +225,7 @@ const userFlows = [
         "height": 50,
         "id": "2",
         "data": {
-          "label": "Untitled",
+          "label": "Scrum",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -265,13 +268,15 @@ const userFlows = [
     "name": "Cafe Journal",
     "src": "",
     "time": "3",
+    "nextNodeId": 4,
+
     "nodes": [
       {
         "width": 150,
         "height": 50,
         "id": "1",
         "data": {
-          "label": "Untitled",
+          "label": "AGCT",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -298,7 +303,7 @@ const userFlows = [
         "height": 50,
         "id": "2",
         "data": {
-          "label": "Untitled",
+          "label": "羊毛與花",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
@@ -325,7 +330,7 @@ const userFlows = [
         "height": 50,
         "id": "3",
         "data": {
-          "label": "Untitled",
+          "label": "小米酒",
           "toolbarPosition": "top"
         },
         "type": "CustomNode",
