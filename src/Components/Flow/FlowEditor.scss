@@ -15,7 +15,7 @@
   height:30px;
   width: 300px;
   border-width: 0 0 2px;
-  border-color: #212529;
+  // border-color: #212529;
   background-color: #212529;
   color: white;
   padding-left: 10px;
@@ -23,7 +23,7 @@
 }
 .titleInput:focus {
   border-color: #212529;
-  outline: 1px dotted #000
+  // outline: 1px dotted #000
 }
 
 .contextMenuButton{
@@ -33,5 +33,4 @@
 
 .styleBar{
   background-color: '#212529'
-
 }

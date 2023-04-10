@@ -18,6 +18,11 @@ import ReactFlow, {
 import CustomNode from "../../Components/Flow/Node";
 import ToolBar from "../../Components/Flow/ToolBar";
 import StyleBar from "../../Components/Flow/StyleBar";
+import { Navigate, useLocation } from "react-router-dom";
+import Drawer from "@mui/material//Drawer";
+import Editor from "../../Components/Editor/Editor";
+import { useFlowStorage } from "../../storage/Storage"
+
 
 import _ from "lodash";
 
@@ -29,6 +34,10 @@ const nodeTypes = {
   CustomNode,
 };
 
+// const edgeTypes = {
+//   CustomEdge
+// }
+
 const defaultNodeStyle = {
   border: '2px solid',
   background: 'white',
@@ -38,17 +47,24 @@ const defaultNodeStyle = {
 };
 
 function Flow(props) {
+  const location = useLocation();
   const reactFlowInstance = useReactFlow();
   const xPos = useRef(50);
   const yPos = useRef(0);
-  const nodeId = useRef(0);
+  const nodeId = useRef(location.state.nextNodeId);
+
   const [bgVariant, setBgVariant] = useState("line");
   const [rfInstance, setRfInstance] = useState(null);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [title, setTitle]= useState("Untitle");
+  const [edges, setEdges, onEdgesChange] = useEdgesState(location.state.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(location.state.nodes);
+  const [title, setTitle]= useState(location.state.name);
   const [isStyleBarOpen, setIsStyleBarOpen] = useState(false);
+  const [back, setBack] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [flowID, setFlowID] = useState(location.state.id);
+  const saveFlow = useFlowStorage((state) => state.saveFlow);
 
+  
   const onConnect = useCallback((params) => {setEdges((eds) => addEdge(params, eds))}, [setEdges]);
   const onEdgeUpdate = useCallback((oldEdge, newConnection) => setEdges((els) => updateEdge(oldEdge, newConnection, els)),[]);
 
@@ -81,11 +97,11 @@ function Flow(props) {
     }
     const newNode =  {
       id: (nodeId.current + 1).toString(),      
-      //label 要放editor 寫好的title
-      data: { label: "Untitled", toolbarPosition:Position.Top, copyNode: (id)=>{copyNode(id)}, changeStyle:(id)=>{changeStyle(id)}},
+      data: { label: "Untitled", toolbarPosition:Position.Top},
       type: "CustomNode",
       position: { x: xPos.current, y: yPos.current},
       style: defaultNodeStyle,   
+      // copyNode: (id)=>{copyNode(id)}, changeStyle:(id)=>{changeStyle(id)}
     };
 
     setNodes([...nodes, newNode]);
@@ -93,23 +109,26 @@ function Flow(props) {
   };
 
   const changeStyle = () => {
-    console.log('ji')
     setIsStyleBarOpen(true);
-
   }
 
-  const onSave = useCallback(() => {
+  const onSave = useCallback((title) => {
     if (rfInstance) {
       const flow = rfInstance.toObject();
-      console.log(flow)
+      setBack(true);
+      saveFlow({id: flowID, flow: flow, nextNodeId: nodeId.current+1, title: title});
       //connect to backend
     }
+
   }, [rfInstance]);
 
-  const onNodeClick = (event, node)=>{
+  const handleDrawerClose = ()=>{
+    setIsEdit(false);
+  }
+  const onNodeDoubleClick = (event, node)=>{
     //open editor by nodeID    
-    console.log(event)
-    console.log(node)
+    console.log(node.id)
+    setIsEdit(true)
   }
 
   const copyNode = (id) => {    
@@ -121,43 +140,66 @@ function Flow(props) {
     let copy =  _.cloneDeep(rfInstance.toObject().nodes.find(nds => nds.id == id) )
   
     copy.position = {x: xPos.current, y: yPos.current}
-    copy.id = (nodeId.current + 1).toString();
-    nodeId.current += 1;
+    copy.id = nodeId.current + 1;
+    // setNextNodeId({id: flowID, nextNodeId: nodeId.current + 1});
     setNodes([...rfInstance.toObject().nodes, copy]);
   }
 
   return (
-    <>
-      <ToolBar flowTitle = {title} addNode={addNode} onSave = {onSave} changeBackground={(bgStyle)=>{setBgVariant(bgStyle)}}/>
-      
-      <ReactFlow
-        className="Flow"
-        nodes={nodes}
-        edges={edges}
-        onNodesDelete={onNodesDelete}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onEdgeUpdate={onEdgeUpdate}
-        onConnect={onConnect}
-        onInit={setRfInstance}
-        // onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
-      >
-        {isStyleBarOpen?<StyleBar isOpen={isStyleBarOpen}/>:null}
-        <MiniMap nodeStrokeWidth={3} zoomable pannable />
-        <Controls />
-        <Background color="#ccc" variant={bgVariant} />
-      </ReactFlow>
-
-    </>
+    <div className="FlowEditPanel">
+      {!back ?
+      <>
+        <ToolBar flowTitle = {title} addNode={addNode} onSave = {onSave} changeBackground={(bgStyle)=>{setBgVariant(bgStyle)}}/>
+        <ReactFlow
+          className="NodePanel"
+          nodes={nodes}
+          edges={edges}
+          onNodesDelete={onNodesDelete}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onEdgeUpdate={onEdgeUpdate}
+          onConnect={onConnect}
+          onInit={setRfInstance}
+          onNodeDoubleClick={onNodeDoubleClick}
+          nodeTypes={nodeTypes}
+          // edgeTypes={edgeTypes}
+        >
+          {isStyleBarOpen?<StyleBar isOpen={isStyleBarOpen}/>:null}
+          <MiniMap nodeStrokeWidth={10} zoomable pannable />
+          <Controls />
+          <Background color="#ccc" variant={bgVariant} />
+        </ReactFlow>
+      </>
+      : <Navigate to="/"/>}
+      {isEdit &&
+        <div className="EditorContainer" >
+          <Drawer
+            sx={{
+              width: "60%",
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width:  "60%",
+              },
+            }}
+            variant="persistent"
+            anchor="right"
+            open={open}
+          >
+            <Editor handleDrawerClose={handleDrawerClose}/>
+          </Drawer>
+          {/* <Editor id={editID}/> */}
+        </div>}
+    </div>
   );
 }
 
 function FlowWithProvider(...props) {
   return (
-    <ReactFlowProvider >
-      <Flow {...props} />
-    </ReactFlowProvider>
+    <div className = "FlowContainer">
+      <ReactFlowProvider >
+        <Flow {...props} />
+      </ReactFlowProvider>
+    </div>
   );
 }
 

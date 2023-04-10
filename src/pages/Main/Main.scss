@@ -1,0 +1,36 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  #root {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .App-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    gap: 0;
+
+    align-items: center;
+    justify-content: center;
+    .App-sidebar {
+      width: 10vw;
+      min-width: 100px;
+    }
+    .App-tab {
+      width: 90vw;
+      padding: 0;
+      margin: 0;
+      background-color: black;
+    }
+  }
+}
