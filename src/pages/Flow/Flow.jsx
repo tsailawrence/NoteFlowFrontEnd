@@ -18,10 +18,11 @@ import ReactFlow, {
 import CustomNode from "../../Components/Flow/Node";
 import ToolBar from "../../Components/Flow/ToolBar";
 import StyleBar from "../../Components/Flow/StyleBar";
-import { Navigate, useLocation } from "react-router-dom";
 import Drawer from "@mui/material//Drawer";
 import Editor from "../../Components/Editor/Editor";
+import PageTab from "../../Components/PageTab/PageTab";
 import { useFlowStorage } from "../../storage/Storage";
+import { Navigate, useLocation } from "react-router-dom";
 import { toPng } from "html-to-image";
 
 import _ from "lodash";
@@ -87,6 +88,8 @@ function Flow(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [flowID, setFlowID] = useState(location.state.id);
   const saveFlow = useFlowStorage((state) => state.saveFlow);
+  // const saveFlow = useFlowStorage((state) => state.saveFlow);
+
 
   // 被雙擊的 node
   const [activeNodeID, setActiveNodeID] = useState(null);
@@ -267,8 +270,9 @@ function Flow(props) {
 
 function FlowWithProvider(...props) {
   return (
-    <div className="FlowContainer">
-      <ReactFlowProvider>
+    <div className = "FlowContainer">
+      <PageTab/>
+      <ReactFlowProvider >
         <Flow {...props} />
       </ReactFlowProvider>
     </div>
