@@ -7,6 +7,7 @@ import { useState } from "react";
 import Editor from "./Components/Editor/Editor";
 import { Login } from "./pages/Login/Login";
 import "./scss/App.scss";
+import "./fonts/Bauhaus.ttf";
 
 function App() {
   const [flows, setFlows] = useState(0);
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* {!login && <Login setLogin={setLogin} />}
+      {!login && <Login setLogin={setLogin} />}
       {login && (
         <>
           <div className="App-sidebar">
@@ -39,7 +40,7 @@ function App() {
         </>
       )}
       {/* <div className="FlowEditor">
-        <FlowWithProvider/>
+        <FlowWithProvider />
       </div> */}
       {/* <Editor /> */}
     </div>
