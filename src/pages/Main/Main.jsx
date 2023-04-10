@@ -11,7 +11,7 @@ export default function Main() {
   const [flows, setFlows] = useState(1);
   const { login } = useParams();
   const navigateTo = useNavigate();
-  console.log(login);
+  // console.log(login);
 
   return (
     <div className="App">

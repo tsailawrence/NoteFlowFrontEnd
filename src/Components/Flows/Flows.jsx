@@ -10,17 +10,13 @@ const flowsTemplate = {
   bar: (
     <div className="row m-0 content-top-bar">
       <div className="col-auto d-flex align-items-center justify-content-around me-auto">
-        <img
+        {/* <img
           className="content-top-bar-pic me-2"
           src="src/assets/edit_white_24dp.svg"
         />
-        <div className="text-white">Flows</div>
+        <div className="text-white">Flows</div> */}
       </div>
       <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
-        <Button>
-          <FaPlus size={20} color="white"/>
-          <div className="text-white">Create New Flow</div>
-        </Button>
         <Button>
           <img
             className="content-top-bar-pic me-2"

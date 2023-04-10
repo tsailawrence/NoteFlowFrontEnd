@@ -18,10 +18,12 @@ import ReactFlow, {
 import CustomNode from "../../Components/Flow/Node";
 import ToolBar from "../../Components/Flow/ToolBar";
 import StyleBar from "../../Components/Flow/StyleBar";
-import { Navigate, useLocation } from "react-router-dom";
 import Drawer from "@mui/material//Drawer";
 import Editor from "../../Components/Editor/Editor";
-import { useFlowStorage } from "../../storage/Storage"
+import PageTab from "../../Components/PageTab/PageTab";
+import { useFlowStorage } from "../../storage/Storage";
+import { Navigate, useLocation } from "react-router-dom";
+
 
 
 import _ from "lodash";
@@ -63,6 +65,8 @@ function Flow(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [flowID, setFlowID] = useState(location.state.id);
   const saveFlow = useFlowStorage((state) => state.saveFlow);
+  // const saveFlow = useFlowStorage((state) => state.saveFlow);
+
 
   
   const onConnect = useCallback((params) => {setEdges((eds) => addEdge(params, eds))}, [setEdges]);
@@ -170,7 +174,7 @@ function Flow(props) {
           <Background color="#ccc" variant={bgVariant} />
         </ReactFlow>
       </>
-      : <Navigate to="/"/>}
+      : <Navigate to="/home"/>}
       {isEdit &&
         <div className="EditorContainer" >
           <Drawer
@@ -196,6 +200,7 @@ function Flow(props) {
 function FlowWithProvider(...props) {
   return (
     <div className = "FlowContainer">
+      <PageTab/>
       <ReactFlowProvider >
         <Flow {...props} />
       </ReactFlowProvider>
