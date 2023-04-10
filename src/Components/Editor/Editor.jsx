@@ -3,8 +3,11 @@ import ReactQuill from "react-quill";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
 import "react-quill/dist/quill.snow.css";
 import "./Editor.scss";
+import { IoIosArrowBack } from "react-icons/io";
+import IconButton from '@mui/material/IconButton';
 
-export const Editor = () => {
+
+export const Editor = ({handleDrawerClose}) => {
   const [state, setState] = React.useState({ value: null });
   const handleChange = (value) => {
     setState({ ...state, value });
@@ -15,6 +18,9 @@ export const Editor = () => {
   return (
     <div className="editor">
       <div className="header">
+        <IconButton size="large" onClick = {()=>handleDrawerClose()}>
+          <IoIosArrowBack size = {20}/>
+        </IconButton>
         <input
           className="title-input"
           type="text"
