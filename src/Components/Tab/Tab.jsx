@@ -2,17 +2,26 @@ import { useEffect, useState, useRef } from "react";
 import "./Tab.scss";
 import flowsTemplate from "../Flows/Flows";
 import libraryTemplate from "../Library/Library";
-const Tab = ({ flows, library, calendar, setting }) => {
+import calendarTemplate from "../Calendar/Calendar";
+import settingsTemplate from "../Settings/Settings";
+import { Navigate, useNavigate } from "react-router-dom";
+import userFlows from "../../data";
+
+const Tab = ({ flows, library, calendar, settings }) => {
   // 暫時用，之後會連後端拿資料
   const tempFlows = flowsTemplate;
   const tempLibrary = libraryTemplate;
+  const tempCalendar = calendarTemplate;
+  const tempSettings = settingsTemplate;
   const [flowsRef, setFlowsRef] = useState(flows);
   const [libraryRef, setLibraryRef] = useState(library);
   const [calendarRef, setCalendarRef] = useState(calendar);
-  const [settingRef, setSettingRef] = useState(setting);
+  const [settingsRef, setSettingsRef] = useState(settings);
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const [tabState, setTabState] = useState({ 0: 1 });
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (tabs.length === 0) {
       setTabs([tempFlows]);
@@ -50,8 +59,9 @@ const Tab = ({ flows, library, calendar, setting }) => {
     setKey(key + 1);
     setTabState({ ...tabState, [key]: 1 });
     setTabs([...tabs, addFlows]);
+    
   };
-  const intoFlow = (target, name) => {
+  const intoFlow = (target, name, flow) => {
     const { [target]: temp, ...rest } = tabState;
     setTabState({ ...rest, [target]: 0 });
     const tempTabs = [...tabs];
@@ -59,6 +69,15 @@ const Tab = ({ flows, library, calendar, setting }) => {
     const index = tempTabs.indexOf(currentTab);
     tempTabs[index].name = name;
     setTabs(tempTabs);
+    navigate('/flow',{state:flow});
+  };
+  const getDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const dateString = year + "-" + month + "-" + day;
+    return dateString;
   };
   useEffect(() => {
     const activeKey = parseInt(
@@ -71,20 +90,20 @@ const Tab = ({ flows, library, calendar, setting }) => {
     let template;
     if (flowsRef !== flows) {
       mode = 1;
-      template = { ...flowsTemplate };
+      template = tempFlows;
       setFlowsRef(flows);
     } else if (libraryRef !== library) {
       mode = 2;
-      template = { ...libraryTemplate };
+      template = tempLibrary;
       setLibraryRef(library);
     } else if (calendarRef !== calendar) {
       mode = 3;
-      template = { ...calendarTemplate };
+      template = tempCalendar;
       setCalendarRef(calendar);
-    } else if (settingRef !== setting) {
+    } else if (settingsRef !== settings) {
       mode = 4;
-      template = { ...settingTemplate };
-      setSettingRef(setting);
+      template = tempSettings;
+      setSettingsRef(settings);
     } else {
       return;
     }
@@ -100,7 +119,7 @@ const Tab = ({ flows, library, calendar, setting }) => {
     newTab.content = template.content;
     tempTabs[index] = newTab;
     setTabs(tempTabs);
-  }, [flows, library, calendar, setting]);
+  }, [flows, library, calendar, settings]);
   return (
     <div className="container">
       <div className="row d-flex align-middle topnavbar">
@@ -157,15 +176,16 @@ const Tab = ({ flows, library, calendar, setting }) => {
                   role="tabpanel"
                   aria-labelledby={"pills-" + tab.key + "-tab"}
                 >
-                  {/* Flow頁面的工具欄會放在state variable後嵌入於此 */}
                   {tab.bar}
-                  {/* 目前content-body僅處理Flows頁面的排列，之後會修改如何呈現Flow頁面的區塊 */}
                   {tabState[tab.key] === 1 ? (
                     tempFlows.layout(tab, intoFlow)
                   ) : tabState[tab.key] === 2 ? (
                     tempLibrary.layout(tab, intoFlow)
+                  ) : tabState[tab.key] === 3 ? (
+                    tempCalendar.layout(tab, intoFlow, getDate)
+                  ) : tabState[tab.key] === 4 ? (
+                    tempSettings.layout()
                   ) : (
-                    //Flow頁面的筆記內容會嵌入於此
                     <div className="content-body">not implemented</div>
                   )}
                 </div>

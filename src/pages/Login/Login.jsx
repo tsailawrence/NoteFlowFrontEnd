@@ -6,10 +6,14 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import jwt_decode from "jwt-decode";
 import "./Login.scss";
+import instance from "../../api";
+import { SHA256 } from "crypto-js";
+import { useParams } from "../../hooks/useParams";
+import { useNavigate } from "react-router-dom";
 
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
-  "951808884400-hap9nnfiqanq4r0nh9uin5o3t5asmpc6.apps.googleusercontent.com";
+  "951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com";
 
 const Profile = ({ user }) => {
   return (
@@ -20,24 +24,57 @@ const Profile = ({ user }) => {
   );
 };
 
-const Login = ({ setLogin }) => {
+const Login = () => {
   const [user, setUser] = useState({}); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
   const divRef = useRef(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setLogin } = useParams();
+  const navigateTo = useNavigate();
 
   const handleCallbackResponse = (res) => {
     const userObject = jwt_decode(res.credential);
     console.log(userObject);
     setUser(userObject);
     setLogin(true);
+    navigateTo("/home");
   };
 
   const handleLogOut = (e) => {
     setUser({});
   };
 
-  const handleSubmit = () => {
-    console.log("submit");
-    setLogin(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const passwordHashed = SHA256(password).toString();
+    const request = {
+      user: {
+        email: email,
+        password: passwordHashed,
+      },
+    };
+
+    console.log(email);
+    console.log(password);
+
+    // const request = {
+    //   user: {
+    //     email: "admin@gmail.com",
+    //     password: SHA256("112a").toString(),
+    //   },
+    // };
+    instance
+      .post("/user/login", request)
+      .then((res) => {
+        console.log(res.data);
+        setLogin(true);
+        navigateTo("/home");
+      })
+      .catch((e) => {
+        console.log("Login error");
+      });
+
+    //
   };
 
   useEffect(() => {
@@ -74,6 +111,7 @@ const Login = ({ setLogin }) => {
         </div>
         <div className="info">
           <h2>Log in</h2>
+          {/* <button onClick={() => handleLogin()}>Login</button> */}
 
           <div className="infoContainer">
             {Object.keys(user).length === 0 && (
@@ -94,6 +132,9 @@ const Login = ({ setLogin }) => {
                     autoComplete="email"
                     autoFocus
                     size="small"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
                   />
                   <TextField
                     margin="normal"
@@ -105,6 +146,9 @@ const Login = ({ setLogin }) => {
                     id="password"
                     autoComplete="current-password"
                     size="small"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
                   />
 
                   <Button
