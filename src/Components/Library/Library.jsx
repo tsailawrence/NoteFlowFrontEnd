@@ -3,24 +3,24 @@ const libraryTemplate = {
   key: 0,
   bar: (
     <div className="row m-0 content-top-bar">
-      <div className="col-auto d-flex align-items-center justify-content-around me-auto">
+      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
         <img
           className="content-top-bar-pic me-2"
           src="src/assets/library_books_white_24dp.svg"
         />
         <div className="text-white">Library</div>
-      </div>
+      </div> */}
 
       <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
-        <div class="form-inline">
+        <div className="form-inline">
           <input
             type="text"
             id="form1"
-            class="form-control"
+            className="form-control"
             placeholder="Search"
           />
         </div>
-        <button type="button" class="btn btn-secondary me-3">
+        <button type="button" className="btn btn-secondary me-3">
           <img src="src/assets/search_white_24dp.svg" />
         </button>
         <img
