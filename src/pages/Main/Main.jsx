@@ -8,10 +8,6 @@ import "./Main.scss";
 import { useParams } from "../../hooks/useParams";
 
 export default function Main() {
-  const [flows, setFlows] = useState(1);
-  const [library, setLibrary] = useState(1);
-  const [calendar, setCalendar] = useState(1);
-  const [settings, setSettings] = useState(1);
   const { login } = useParams();
   const navigateTo = useNavigate();
 
@@ -25,20 +21,10 @@ export default function Main() {
       {login && (
         <div className="App-container">
           <div className="App-sidebar">
-            <Sidebar
-              setFlows={setFlows}
-              setLibrary={setLibrary}
-              setCalendar={setCalendar}
-              setSettings={setSettings}
-            />
+            <Sidebar />
           </div>
           <div className="App-tab">
-            <Tab
-              flows={flows}
-              library={library}
-              calendar={calendar}
-              settings={settings}
-            />
+            <Tab />
           </div>
         </div>
       )}

@@ -10,7 +10,7 @@ const Router = () => {
     <HashRouter>
       <Routes>
         <Route element={<Login />} path="/" />
-        <Route element={<Register />} path="/Register" />
+        <Route element={<Register />} path="/register" />
         <Route element={<Main />} path="/home" />
         <Route element={<Flow />} path="/flow" />
       </Routes>

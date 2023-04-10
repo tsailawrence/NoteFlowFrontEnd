@@ -3,13 +3,13 @@ const settingsTemplate = {
   key: 0,
   bar: (
     <div className="row m-0 content-top-bar">
-      <div className="col-auto d-flex align-items-center justify-content-around me-auto">
+      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
         <img
           className="content-top-bar-pic me-2"
           src="src/assets/settings_white_24dp.svg"
         />
         <div className="text-white">Settings</div>
-      </div>
+      </div> */}
     </div>
   ),
   layout: () => {
@@ -19,7 +19,7 @@ const settingsTemplate = {
           <div className="col-md-11 border-end border-secondary">
             <div className="row">
               <div className="col-md-7 d-flex justify-content-center align-items-center">
-                <div class="circle">
+                <div className="circle">
                   <img src="src/assets/person_black_24dp.svg" alt="" />
                 </div>
               </div>
