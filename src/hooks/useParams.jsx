@@ -8,6 +8,12 @@ const MyContext = createContext({});
 // Create a provider component to wrap the application with the context
 const MyProvider = (props) => {
   const [login, setLogin] = useState(false);
+  const [flows, setFlows] = useState(1);
+  const [library, setLibrary] = useState(1);
+  const [calendar, setCalendar] = useState(1);
+  const [settings, setSettings] = useState(1);
+  const [tabState, setTabState] = useState({ 0: 1 });
+  const [activateKey, setActivateKey] = useState(0);
   useEffect(() => {
     console.log(login);
   }, [login]);
@@ -17,6 +23,18 @@ const MyProvider = (props) => {
       value={{
         login,
         setLogin,
+        flows,
+        setFlows,
+        library,
+        setLibrary,
+        calendar,
+        setCalendar,
+        settings,
+        setSettings,
+        tabState,
+        setTabState,
+        activateKey,
+        setActivateKey,
       }}
       {...props}
     />
