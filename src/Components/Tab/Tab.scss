@@ -68,3 +68,68 @@
         color: gray;
     }
 }
+.calendar{
+    height: calc(100vh - 100px);
+    overflow-y: hidden;
+}
+.calendar-item{
+    min-width: 32%;
+    .calendar-item-pic{
+        cursor: pointer;
+        height: 20vmin;
+        width: 100%;
+        border: 1px solid black;
+    }
+}
+.calendar-item-desc{
+    font-size: 1.5vmin;
+    .ms-auto{
+        color: gray;
+    }
+}
+.settings{
+    height: calc(100vh - 100px);
+    .row{
+        height: 100%;
+    }
+    .profile{
+        width: 80%;
+    }
+    .information{
+        font-size: 2.5vmin;
+        .userName{
+            font-size: 5vmin;
+            font-weight: bold;
+        }
+    }
+    .profile-sidebar{
+        font-size: 2vmin;
+        .profile-button, .theme-button{
+            cursor: pointer;
+            height: 60px;
+            width: 100%;
+        }
+        .profile-button{
+            background-color: black;
+            color: white;
+        }
+        .theme-button{
+            background-color: white;
+            color: black;
+        }
+    }
+    
+}
+.circle {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 2px solid black;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+  

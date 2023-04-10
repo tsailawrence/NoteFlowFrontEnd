@@ -1,8 +1,6 @@
 const libraryTemplate = {
-  //tab的名字與key
   name: "Library",
   key: 0,
-  // 每個tab上方的工具欄/搜尋列，需事先定義好
   bar: (
     <div className="row m-0 content-top-bar">
       <div className="col-auto d-flex align-items-center justify-content-around me-auto">
@@ -33,7 +31,6 @@ const libraryTemplate = {
       </div>
     </div>
   ),
-  // Flows頁面中會出現的Flow列表
   layout: (tab, intoFlow) => {
     return (
       <div className="content-body py-4">

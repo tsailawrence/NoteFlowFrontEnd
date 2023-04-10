@@ -8,16 +8,18 @@
   width: 100%;
   justify-content: flex-start;
   position: relative;
-
   .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
-    margin-top: 5vmin;
-    margin-bottom: 5vmin;
+    margin-top: 3vmin;
+    margin-bottom: 3vmin;
 }
 .sidebar-item{  
     width: 100%;
-    margin-top: 5vmin;
-    margin-bottom: 5vmin; 
+    margin-top: 4vmin;
+    margin-bottom: 4vmin; 
     display: flex;
     flex-direction: row;
     justify-content: center;
