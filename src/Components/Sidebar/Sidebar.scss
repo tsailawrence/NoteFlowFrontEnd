@@ -14,13 +14,14 @@
     justify-content: center;
     cursor: pointer;
     margin-top: 3vmin;
-    margin-bottom: 3vmin;
+    margin-bottom: 2vmin;
     // margin-left: 1vm;
   }
   .sidebar-item {
     width: 100%;
-    margin-top: 4vmin;
-    margin-bottom: 4vmin;
+    margin: 0 !important;
+    padding-top: 3vmin;
+    padding-bottom: 3vmin;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -38,5 +39,27 @@
       margin: 0;
       padding: 0;
     }
+   
+  }
+  .active-item{
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    animation: colorChange 0.1s ease;
+  }
+}
+
+
+@keyframes colorChange {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: gray;
+  }
+  100% {
+    background-color: white;
   }
 }

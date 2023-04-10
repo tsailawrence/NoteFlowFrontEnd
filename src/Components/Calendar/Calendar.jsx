@@ -7,13 +7,13 @@ const calendarTemplate = {
   key: 0,
   bar: (
     <div className="row m-0 content-top-bar">
-      <div className="col-auto d-flex align-items-center justify-content-around me-auto">
+      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
         <img
           className="content-top-bar-pic me-2"
           src="src/assets/calendar_month_white_24dp.svg"
         />
         <div className="text-white">Calendar</div>
-      </div>
+      </div> */}
     </div>
   ),
   layout: (tab, intoFlow, getDate) => {
