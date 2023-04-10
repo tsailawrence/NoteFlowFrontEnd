@@ -13,10 +13,24 @@
     flex-direction: row;
     justify-content: flex-start;
   }
-  .App-sidebar {
-    width: 10%;
-  }
-  .App-tab {
-    width: 90%;
+
+  .App-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    gap: 0;
+
+    align-items: center;
+    justify-content: center;
+    .App-sidebar {
+      width: 10vw;
+      min-width: 100px;
+    }
+    .App-tab {
+      width: 90vw;
+      padding: 0;
+      margin: 0;
+      background-color: black;
+    }
   }
 }

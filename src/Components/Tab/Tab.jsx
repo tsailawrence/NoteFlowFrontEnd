@@ -5,9 +5,20 @@ import libraryTemplate from "../Library/Library";
 import calendarTemplate from "../Calendar/Calendar";
 import settingsTemplate from "../Settings/Settings";
 import { Navigate, useNavigate } from "react-router-dom";
-import userFlows from "../../data";
+import { useFlowStorage } from "../../storage/Storage";
+import { useParams } from "../../hooks/useParams";
 
-const Tab = ({ flows, library, calendar, settings }) => {
+const Tab = () => {
+  const {
+    flows,
+    library,
+    calendar,
+    settings,
+    tabState,
+    setTabState,
+    activateKey,
+    setActivateKey,
+  } = useParams();
   // 暫時用，之後會連後端拿資料
   const tempFlows = flowsTemplate;
   const tempLibrary = libraryTemplate;
@@ -19,8 +30,9 @@ const Tab = ({ flows, library, calendar, settings }) => {
   const [settingsRef, setSettingsRef] = useState(settings);
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
-  const [tabState, setTabState] = useState({ 0: 1 });
   const navigate = useNavigate();
+  const userFlows = useFlowStorage((state) => state.flows);
+  tempFlows.content = userFlows;
 
   useEffect(() => {
     if (tabs.length === 0) {
@@ -57,9 +69,9 @@ const Tab = ({ flows, library, calendar, settings }) => {
     }
     // just for test
     setKey(key + 1);
+    setActivateKey(key);
     setTabState({ ...tabState, [key]: 1 });
     setTabs([...tabs, addFlows]);
-    
   };
   const intoFlow = (target, name, flow) => {
     const { [target]: temp, ...rest } = tabState;
@@ -69,7 +81,7 @@ const Tab = ({ flows, library, calendar, settings }) => {
     const index = tempTabs.indexOf(currentTab);
     tempTabs[index].name = name;
     setTabs(tempTabs);
-    navigate('/flow',{state:flow});
+    navigate("/flow", { state: flow });
   };
   const getDate = () => {
     const today = new Date();
@@ -86,6 +98,7 @@ const Tab = ({ flows, library, calendar, settings }) => {
         .getAttribute("data-bs-target")
         .match(/\d+/g)[0]
     );
+    setActivateKey(activeKey);
     let mode;
     let template;
     if (flowsRef !== flows) {
@@ -120,6 +133,15 @@ const Tab = ({ flows, library, calendar, settings }) => {
     tempTabs[index] = newTab;
     setTabs(tempTabs);
   }, [flows, library, calendar, settings]);
+  const getActive = () => {
+    const activeKey = parseInt(
+      document
+        .getElementsByClassName("nav-link active")[0]
+        .getAttribute("data-bs-target")
+        .match(/\d+/g)[0]
+    );
+    setActivateKey(activeKey);
+  };
   return (
     <div className="container">
       <div className="row d-flex align-middle topnavbar">
@@ -128,7 +150,12 @@ const Tab = ({ flows, library, calendar, settings }) => {
           src="src/assets/home_white_24dp.svg"
         />
         <div className="col-auto d-flex p-0">
-          <ul className="nav nav-pills" id="pills-tab" role="tablist">
+          <ul
+            className="nav nav-pills"
+            id="pills-tab"
+            role="tablist"
+            onClick={() => getActive()}
+          >
             {tabs.map((tab) => (
               <li className="nav-item" role="presentation" key={tab.key}>
                 <button

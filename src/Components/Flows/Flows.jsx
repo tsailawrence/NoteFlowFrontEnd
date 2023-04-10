@@ -1,3 +1,7 @@
+import { FaPlus } from "react-icons/fa";
+import Button from "@mui/material/Button";
+import { userFlows } from "../../storage/data";
+
 const flowsTemplate = {
   //tab的名字與key
   name: "Flows",
@@ -5,19 +9,25 @@ const flowsTemplate = {
   // 每個tab上方的工具欄/搜尋列，需事先定義好
   bar: (
     <div className="row m-0 content-top-bar">
-      <div className="col-auto d-flex align-items-center justify-content-around me-auto">
+      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
         <img
           className="content-top-bar-pic me-2"
           src="src/assets/edit_white_24dp.svg"
         />
         <div className="text-white">Flows</div>
-      </div>
+      </div> */}
       <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
-        <img
-          className="content-top-bar-pic me-2"
-          src="src/assets/sort_white_24dp.svg"
-        />
-        <div className="text-white">Oldest to newest</div>
+        <Button>
+          <FaPlus size={20} color="white" />
+          <div className="text-white">Create New Flow</div>
+        </Button>
+        <Button>
+          <img
+            className="content-top-bar-pic me-2"
+            src="src/assets/sort_white_24dp.svg"
+          />
+          <div className="text-white">Oldest to newest</div>
+        </Button>
       </div>
     </div>
   ),
@@ -32,7 +42,7 @@ const flowsTemplate = {
                 <div className="mt-4 px-3 content-item" key={item.name}>
                   <div
                     className="content-item-pic"
-                    onClick={() => intoFlow(tab.key, item.name)}
+                    onClick={() => intoFlow(tab.key, item.name, item)}
                   ></div>
                   <div className="d-flex content-item-desc">
                     <div className="me-auto">{item.name}</div>
@@ -50,13 +60,6 @@ const flowsTemplate = {
       </div>
     );
   },
-  content: [
-    { src: "", name: "flow1", time: "1" },
-    { src: "", name: "flow2", time: "2" },
-    { src: "", name: "flow3", time: "3" },
-    { src: "", name: "flow4", time: "4" },
-    { src: "", name: "flow5", time: "5" },
-    { src: "", name: "flow6", time: "6" },
-  ],
+  // content: userFlows,
 };
 export default flowsTemplate;
