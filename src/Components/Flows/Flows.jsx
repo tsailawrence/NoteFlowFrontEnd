@@ -1,6 +1,6 @@
 import { FaPlus } from "react-icons/fa";
-import Button from '@mui/material/Button';
-import userFlows from "../../storage/data";
+import Button from "@mui/material/Button";
+import { userFlows } from "../../storage/data";
 
 const flowsTemplate = {
   //tab的名字與key
@@ -18,7 +18,7 @@ const flowsTemplate = {
       </div>
       <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
         <Button>
-          <FaPlus size={20} color="white"/>
+          <FaPlus size={20} color="white" />
           <div className="text-white">Create New Flow</div>
         </Button>
         <Button>
@@ -28,13 +28,11 @@ const flowsTemplate = {
           />
           <div className="text-white">Oldest to newest</div>
         </Button>
-
       </div>
     </div>
   ),
   // Flows頁面中會出現的Flow列表
   layout: (tab, intoFlow) => {
-    
     return (
       <div className="content-body py-4">
         <div className="d-flex flex-wrap align-items-center justify-content-evenly">

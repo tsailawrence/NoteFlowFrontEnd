@@ -118,7 +118,7 @@ export const QuillToolbar = () => {
     }
   }, []);
 
-  console.log(sessionStorage.getItem("myData"));
+  // console.log(sessionStorage.getItem("myData"));
   return (
     <div id="toolbar">
       <span className="ql-formats">

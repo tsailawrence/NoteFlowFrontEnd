@@ -6,25 +6,60 @@ import "./Editor.scss";
 import { IoIosArrowBack } from "react-icons/io";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
+import { useFlowStorage } from "../../storage/Storage";
 
-export const Editor = ({ handleDrawerClose }) => {
-  const [state, setState] = useState({ value: null });
+export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
+  const saveNode = useFlowStorage((state) => state.saveNode);
+  /* */
+  // const flowID = "user1_1";
+  // const nodeID = "1";
+  const flows = useFlowStorage((state) => state.flows);
+  const filtered_flow = flows.filter((f) => f.id === flowID)[0];
+  const filtered_node = filtered_flow.nodes.filter((n) => n.id === nodeID)[0];
+
+  const flowNodes = useFlowStorage((state) => state.flowNodes);
+  const filtered_value_flow = flowNodes.filter((f) => f.id === flowID)[0];
+  const filtered_value = filtered_value_flow.nodes.filter(
+    (n) => n.id === nodeID
+  )[0];
+
+  const [state, setState] = useState({
+    title: filtered_node.data.label,
+    value: filtered_value.value,
+  });
   const handleChange = (value) => {
     setState({ ...state, value });
   };
 
-  console.log(state.value);
+  const onSave = () => {
+    console.log(state.value);
+    saveNode({
+      flow_id: flowID,
+      node_id: nodeID,
+      title: state.title,
+      value: state.value,
+    });
+
+    //connect to backend
+  };
 
   return (
     <div className="editor">
       <div className="header">
-        <IconButton size="large" onClick={() => handleDrawerClose()}>
+        <IconButton
+          size="large"
+          onClick={() => {
+            handleDrawerClose();
+            onSave();
+          }}
+        >
           <IoIosArrowBack size={20} />
         </IconButton>
         <input
           className="title-input"
           type="text"
           placeholder="Untitled..."
+          value={state.title}
           onChange={(e) => {
             setState({ ...state, title: e.target.value });
           }}

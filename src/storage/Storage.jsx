@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import produce from "immer";
-import userFlows from "./data";
+import { userFlows, userFlowNode } from "./data";
 
 const flows = userFlows;
 export const useFlowStorage = create((set) => ({
   flows: flows,
+  flowNodes: userFlowNode,
+
   saveFlow: (payload) =>
     set(
       produce((state) => {
@@ -22,11 +24,13 @@ export const useFlowStorage = create((set) => ({
   saveNode: (payload) =>
     set(
       produce((state) => {
-        for (let ele in state.flows) {
-          if (payload.user_id === state.flows[ele].id) {
-            if (payload.node_id === state.flows[ele].nodes.id) {
-              state.flows[ele].nodes.data.label = payload.title;
-              state.flows[ele].nodes.data.value = payload.value;
+        for (let ele in state.flowNodes) {
+          if (payload.flow_id === state.flowNodes[ele].id) {
+            for (let el in state.flowNodes[ele].nodes) {
+              if (payload.node_id === state.flowNodes[ele].nodes[el].id) {
+                state.flows[ele].nodes[el].data.label = payload.title;
+                state.flowNodes[ele].nodes[el].value = payload.value;
+              }
             }
           }
         }
