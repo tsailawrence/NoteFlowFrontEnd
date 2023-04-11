@@ -7,6 +7,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { useFlowStorage } from "../../storage/Storage";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+window.katex = katex;
 
 export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
   const saveNode = useFlowStorage((state) => state.saveNode);
