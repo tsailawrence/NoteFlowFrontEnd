@@ -7,27 +7,33 @@ import { IoIosArrowBack } from "react-icons/io";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { useFlowStorage } from "../../storage/Storage";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+window.katex = katex;
 
-export const Editor = ({ saveNodeLabel, handleDrawerClose, flowID, nodeID }) => {
+export const Editor = ({ saveNodeLabel, handleDrawerClose, flowID, nodes, nodeID }) => {
   const saveNode = useFlowStorage((state) => state.saveNode);
   /* */
   // const flowID = "user1_1";
   // const nodeID = "1";
   const flows = useFlowStorage((state) => state.flows);
   const filtered_flow = flows.filter((f) => f.id === flowID)[0];
-  const filtered_node = filtered_flow.nodes.filter((n) => n.id === nodeID)[0];
 
+  const filtered_node = nodes.filter((n) => n.id === nodeID)[0];
   const flowNodes = useFlowStorage((state) => state.flowNodes);
-  const filtered_value_flow = flowNodes.filter((f) => f.id === flowID)[0];
-  const filtered_value = filtered_value_flow.nodes.filter(
-    (n) => n.id === nodeID
-  )[0];
+  const filtered_value_flow = flowNodes.filter((f) => f.id === flowID).length !=0 ?flowNodes.filter((f) => f.id === flowID)[0]:{id:flowID, nodes:[{id:nodeID, value:""}]};
+  console.log(flowNodes)
+  console.log(filtered_value_flow)
+  console.log(filtered_value_flow.nodes)
+  const filtered_value = filtered_value_flow.nodes.filter((n) => n.id === nodeID).length !=0 ?filtered_value_flow.nodes.filter((n) => n.id === nodeID)[0]:{id: nodeID,value:""};
 
   const [state, setState] = useState({
-    title: filtered_node?filtered_node.data.label:"Untitle",
-    value: filtered_value?filtered_value.value:"",
+    title: filtered_node.data.label,
+    value: filtered_value.value,
   });
+
   const handleChange = (value) => {
+    console.log(state.value)
     setState({ ...state, value });
   };
 

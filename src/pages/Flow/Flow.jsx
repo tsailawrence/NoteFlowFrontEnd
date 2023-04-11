@@ -72,13 +72,12 @@ const onDownload = () => {
 
 function Flow(props) {
   const location = useLocation();
-  const reactFlowInstance = useReactFlow();
+  const rfInstance = useReactFlow();
   const xPos = useRef(50);
   const yPos = useRef(0);
   const nodeId = useRef(location.state.nextNodeId);
 
   const [bgVariant, setBgVariant] = useState("line");
-  const [rfInstance, setRfInstance] = useState(null);
   const [edges, setEdges, onEdgesChange] = useEdgesState(location.state.edges);
   const [nodes, setNodes, onNodesChange] = useNodesState(location.state.nodes);
   const [title, setTitle] = useState(location.state.name);
@@ -88,7 +87,10 @@ function Flow(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [flowID, setFlowID] = useState(location.state.id);
   const saveFlow = useFlowStorage((state) => state.saveFlow);
+  const flows = useFlowStorage((state) => state.flows);
+
   // const saveFlow = useFlowStorage((state) => state.saveFlow);
+  // console.log(flows);
 
 
   // 被雙擊的 node
@@ -106,7 +108,7 @@ function Flow(props) {
     []
   );
 
-  const saveNodeLabel = (nodeID, title)=>{
+  const saveNodeLabel = useCallback((nodeID, title)=>{
     setNodes((nds) =>
     nds.map((node) => {
       if (node.id == nodeID) {
@@ -118,7 +120,7 @@ function Flow(props) {
       return node;
     })    
     )
-  }
+  })
   const onNodesDelete = useCallback(
     (deleted) => {
       setEdges(
@@ -144,7 +146,7 @@ function Flow(props) {
     [nodes, edges]
   );
 
-  const addNode = () => {
+  const onAdd = useCallback(() => {
     yPos.current += 50;
     if (yPos.current > 400) {
       yPos.current = 50;
@@ -152,16 +154,15 @@ function Flow(props) {
     }
     const newNode = {
       id: (nodeId.current + 1).toString(),
-      data: { label: "Untitled", toolbarPosition: Position.Top },
+      data: { label: 'Untitle', toolbarPosition: Position.Top  },
       type: "CustomNode",
       position: { x: xPos.current, y: yPos.current },
       style: defaultNodeStyle,
-      // copyNode: (id)=>{copyNode(id)}, changeStyle:(id)=>{changeStyle(id)}
-    };
-
-    setNodes([...nodes, newNode]);
+      }
+    setNodes((nds) => nds.concat(newNode));
     nodeId.current += 1;
-  };
+  }, [setNodes]);
+
 
   const changeStyle = () => {
     setIsStyleBarOpen(true);
@@ -187,12 +188,11 @@ function Flow(props) {
   const handleDrawerClose = () => {
     setIsEdit(false);
   };
-  const onNodeDoubleClick = (event, node) => {
+  const onNodeDoubleClick = useCallback((event, node) => {
     //open editor by nodeID
-    console.log(node.id);
     setActiveNodeID(node.id);
     setIsEdit(true);
-  };
+  });
 
   const copyNode = (id) => {
     yPos.current += 50;
@@ -216,7 +216,7 @@ function Flow(props) {
         <>
           <ToolBar
             flowTitle={title}
-            addNode={addNode}
+            addNode={onAdd}
             onSave={onSave}
             changeBackground={(bgStyle) => {
               setBgVariant(bgStyle);
@@ -231,7 +231,7 @@ function Flow(props) {
             onEdgesChange={onEdgesChange}
             onEdgeUpdate={onEdgeUpdate}
             onConnect={onConnect}
-            onInit={setRfInstance}
+            // onInit={setRfInstance}
             onNodeDoubleClick={onNodeDoubleClick}
             nodeTypes={nodeTypes}
             // edgeTypes={edgeTypes}
@@ -269,8 +269,9 @@ function Flow(props) {
             open={open}
           >
             <Editor
-              flowID={flowID}
-              nodeID={activeNodeID}
+              nodes = {nodes}
+              flowID = {flowID}
+              nodeID = {activeNodeID}
               saveNodeLabel={saveNodeLabel}
               handleDrawerClose={handleDrawerClose}
             />
