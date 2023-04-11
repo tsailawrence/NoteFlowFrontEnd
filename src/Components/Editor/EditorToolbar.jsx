@@ -105,6 +105,7 @@ export const formats = [
   "video",
   "color",
   "code-block",
+  "formula"
 ];
 
 // Quill Toolbar component
