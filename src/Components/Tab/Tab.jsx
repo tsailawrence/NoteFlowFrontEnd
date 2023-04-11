@@ -4,7 +4,8 @@ import flowsTemplate from "../Flows/Flows";
 import libraryTemplate from "../Library/Library";
 import calendarTemplate from "../Calendar/Calendar";
 import settingsTemplate from "../Settings/Settings";
-import { Navigate, useNavigate } from "react-router-dom";
+import PageTab from "../PageTab/PageTab";
+import { useNavigate } from "react-router-dom";
 import { useFlowStorage } from "../../storage/Storage";
 import { useParams } from "../../hooks/useParams";
 
@@ -31,6 +32,8 @@ const Tab = () => {
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const navigate = useNavigate();
+  const addFlow = useFlowStorage((state) => state.addFlow);
+
   const userFlows = useFlowStorage((state) => state.flows);
   tempFlows.content = userFlows;
 
@@ -39,13 +42,13 @@ const Tab = () => {
       setTabs([tempFlows]);
       return;
     }
-    const activeLinks = document.getElementsByClassName("nav-link active")[0];
-    if (activeLinks === undefined) {
-      const navLinks = document.getElementsByClassName("nav-link");
-      navLinks[navLinks.length - 1].classList.add("active");
-      const tabPanes = document.getElementsByClassName("tab-pane");
-      tabPanes[tabPanes.length - 1].classList.add("active");
-    }
+    // const activeLinks = document.getElementsByClassName("nav-link active")[0];
+    // if (activeLinks === undefined) {
+    //   const navLinks = document.getElementsByClassName("nav-link");
+    //   navLinks[navLinks.length - 1].classList.add("active");
+    //   const tabPanes = document.getElementsByClassName("tab-pane");
+    //   tabPanes[tabPanes.length - 1].classList.add("active");
+    // }
   }, [tabs]);
   const cancelTab = (target) => {
     const filteredArr = tabs.filter((obj) => obj.key !== target);
@@ -91,6 +94,19 @@ const Tab = () => {
     const dateString = year + "-" + month + "-" + day;
     return dateString;
   };
+  const addNewFlow = () => {
+    const payload = {
+      id: "user1"+Math.floor(Math.random() * 10000),
+      name: "untitle",
+      time: "0",
+      nextNodeId: 1,
+      nodes:[],
+      edges:[],
+      viewport:{}
+    }
+    addFlow(payload);
+    console.log("hi")
+  }
   useEffect(() => {
     const activeKey = parseInt(
       document
@@ -144,7 +160,7 @@ const Tab = () => {
   };
   return (
     <div className="container">
-      <div className="row d-flex align-middle topnavbar">
+      {/* <div className="row d-flex align-middle topnavbar">
         <img
           className="col-auto home-pic"
           src="src/assets/home_white_24dp.svg"
@@ -190,7 +206,8 @@ const Tab = () => {
           src="src/assets/add_white_24dp.svg"
           onClick={() => addTab()}
         />
-      </div>
+      </div> */}
+      <PageTab addNewFlow = {addNewFlow}/>
       <div className="row d-flex align-middle">
         <div className="col-md-12 p-0">
           <div className="tab-content" id="pills-tabContent">
