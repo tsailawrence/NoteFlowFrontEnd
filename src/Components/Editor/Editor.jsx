@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { useFlowStorage } from "../../storage/Storage";
 
-export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
+export const Editor = ({ saveNodeLabel, handleDrawerClose, flowID, nodeID }) => {
   const saveNode = useFlowStorage((state) => state.saveNode);
   /* */
   // const flowID = "user1_1";
@@ -62,6 +62,7 @@ export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
           value={state.title}
           onChange={(e) => {
             setState({ ...state, title: e.target.value });
+            saveNodeLabel(nodeID, e.target.value);
           }}
         ></input>
         <span className="focus-border"></span>
