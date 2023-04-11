@@ -270,7 +270,7 @@ function Flow(props) {
 
 function FlowWithProvider(...props) {
   return (
-    <div className = "FlowContainer">
+    <div className = "Flow-container">
       <PageTab/>
       <ReactFlowProvider >
         <Flow {...props} />

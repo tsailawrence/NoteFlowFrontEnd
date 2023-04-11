@@ -24,8 +24,8 @@ export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
   )[0];
 
   const [state, setState] = useState({
-    title: filtered_node.data.label,
-    value: filtered_value.value,
+    title: filtered_node?filtered_node.data.label:"Untitle",
+    value: filtered_value?filtered_value.value:"",
   });
   const handleChange = (value) => {
     setState({ ...state, value });

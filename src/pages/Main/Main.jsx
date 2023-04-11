@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Main.scss";
 import { useParams } from "../../hooks/useParams";
+import FlowGrid from "../../Components/FlowGrid/FlowGrid.jsx";
+import PageTab from "../../Components/PageTab/PageTab.jsx";
 
 export default function Main() {
   const { login } = useParams();
@@ -24,7 +26,13 @@ export default function Main() {
             <Sidebar />
           </div>
           <div className="App-tab">
-            <Tab />
+            {/* <Tab /> */}
+            <div className="Page-tab">
+              <PageTab/>
+            </div>
+            <div className="Flow-grid">
+              <FlowGrid/>
+            </div>
           </div>
         </div>
       )}
