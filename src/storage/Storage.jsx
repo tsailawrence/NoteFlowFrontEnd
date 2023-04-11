@@ -3,10 +3,41 @@ import produce from "immer";
 import { userFlows, userFlowNode } from "./data";
 
 const flows = userFlows;
+const tabList = [];
 export const useFlowStorage = create((set) => ({
   flows: flows,
+  tabList: tabList,
+  flowNow: {},
   flowNodes: userFlowNode,
+  changeFlowNow:  (payload) =>
+    set(
+      produce((state) => {
+        state.flowNow = payload;
+      })
+    ),
+  addTab: (payload) =>
+    set(
+      produce((state) => {
+        state.tabList.push(payload);
+      })
+    ),
+  closeTab: (payload) =>
+    set(
+      produce((state) => {
+        state.tabList.pop(payload);
+      })
+    ),
 
+  saveNewNode:(payload) =>
+    set(
+      produce((state) => {
+        for (let ele in state.flows) {
+          if (payload.id == state.flows[ele].id) {
+            state.flows[ele].nodes = payload.flow.nodes;
+          }
+        }
+      })
+    ),
   saveFlow: (payload) =>
     set(
       produce((state) => {

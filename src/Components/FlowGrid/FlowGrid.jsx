@@ -2,39 +2,54 @@ import * as React from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-
+import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import PageTab from '../PageTab/PageTab';
 import { useFlowStorage } from "../../storage/Storage";
+import { useNavigate } from "react-router-dom";
+import { grey } from '@mui/material/colors';
 
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 export default function FlowGrid() {
   const flows = useFlowStorage((state) => state.flows);
-  console.log(flows)
+  const tabList = useFlowStorage((state) => state.tabList);
+  const addTab = useFlowStorage((state) => state.addTab);
+  const navigate = useNavigate();
+  const changeFlowNow = useFlowStorage((state) => state.changeFlowNow);
+  const FlowButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(grey[100]),
+    backgroundColor: 'white',
+    border: '1px black solid', 
+    '&:hover': {
+      backgroundColor: grey[100],
+      border: '1px grey solid', 
+
+    },
+    width: 300 , 
+    height:200,  
+  }));
+
+
+  const toFlow = (flow) => {
+    console.log(flow);
+    if(!tabList.find((f)=>f.id==flow.id)){
+      addTab({id:flow.id, title:flow.name});
+    }
+    changeFlowNow(flow);
+    navigate("/flow", { state: flow });
+  }
+
   return (
-    <Box sx={{  flexGrow: 1, width: 1000}}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {flows.map((flow) => (
-          <Grid xs={2} sm={4} md={4}>
-            <CardContent>
-              <Button sx={{width: 300 , height:200,ml:20, p: 2, border: 1 }}></Button>
-              <Typography >{flow.name}</Typography>
-            </CardContent>
-            {/* <MiniFlow flow={flow}/> */}
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <Grid container justifyContent="left"sx={{ pl: 2, pt:2 }} spacing={2}>
+      {flows.map((flow) => (
+        <Grid item>
+          <FlowButton onClick={()=>toFlow(flow)}>Last Edit Time: {flow.time} hours</FlowButton>
+          <Typography >{flow.name}</Typography>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
