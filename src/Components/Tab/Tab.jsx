@@ -36,19 +36,11 @@ const Tab = () => {
 
   const userFlows = useFlowStorage((state) => state.flows);
   tempFlows.content = userFlows;
-
   useEffect(() => {
     if (tabs.length === 0) {
       setTabs([tempFlows]);
       return;
     }
-    // const activeLinks = document.getElementsByClassName("nav-link active")[0];
-    // if (activeLinks === undefined) {
-    //   const navLinks = document.getElementsByClassName("nav-link");
-    //   navLinks[navLinks.length - 1].classList.add("active");
-    //   const tabPanes = document.getElementsByClassName("tab-pane");
-    //   tabPanes[tabPanes.length - 1].classList.add("active");
-    // }
   }, [tabs]);
   const cancelTab = (target) => {
     const filteredArr = tabs.filter((obj) => obj.key !== target);
@@ -159,7 +151,7 @@ const Tab = () => {
     setActivateKey(activeKey);
   };
   return (
-    <div className="container">
+    <div className="container mx-0">
       <div className="row d-flex align-middle topnavbar">
         <img
           className="col-auto home-pic"
@@ -221,7 +213,7 @@ const Tab = () => {
                   aria-labelledby={"pills-" + tab.key + "-tab"}
                 >
                   {tab.bar}
-                  {tabState[tab.key] === 1 ? (
+                  {tabState[tab.key] === 0 || tabState[tab.key] === 1 ? (
                     tempFlows.layout(tab, intoFlow)
                   ) : tabState[tab.key] === 2 ? (
                     tempLibrary.layout(tab, intoFlow)

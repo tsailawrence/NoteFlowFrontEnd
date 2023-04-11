@@ -1,3 +1,6 @@
+.container{
+  width: 100% !important;
+}
 .topnavbar {
   width: 100vw;
   background-color: black;
@@ -33,6 +36,7 @@
   // width: 100vw;
 }
 .content-body {
+  width: 100%;
   height: calc(
     100vh - 100px
   ); /* 設置content-body高度為父元素高度減去頂部導航欄高度 */
