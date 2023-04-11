@@ -96,17 +96,17 @@ const Tab = () => {
   };
   const addNewFlow = () => {
     const payload = {
-      id: "user1"+Math.floor(Math.random() * 10000),
+      id: "user1" + Math.floor(Math.random() * 10000),
       name: "untitle",
       time: "0",
       nextNodeId: 1,
-      nodes:[],
-      edges:[],
-      viewport:{}
-    }
+      nodes: [],
+      edges: [],
+      viewport: {},
+    };
     addFlow(payload);
-    console.log("hi")
-  }
+    console.log("hi");
+  };
   useEffect(() => {
     const activeKey = parseInt(
       document
@@ -160,7 +160,7 @@ const Tab = () => {
   };
   return (
     <div className="container">
-      {/* <div className="row d-flex align-middle topnavbar">
+      <div className="row d-flex align-middle topnavbar">
         <img
           className="col-auto home-pic"
           src="src/assets/home_white_24dp.svg"
@@ -206,8 +206,8 @@ const Tab = () => {
           src="src/assets/add_white_24dp.svg"
           onClick={() => addTab()}
         />
-      </div> */}
-      <PageTab addNewFlow = {addNewFlow}/>
+      </div>
+      {/* <PageTab addNewFlow = {addNewFlow}/> */}
       <div className="row d-flex align-middle">
         <div className="col-md-12 p-0">
           <div className="tab-content" id="pills-tabContent">
