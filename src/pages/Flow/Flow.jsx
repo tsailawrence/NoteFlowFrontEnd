@@ -106,6 +106,19 @@ function Flow(props) {
     []
   );
 
+  const saveNodeLabel = (nodeID, title)=>{
+    setNodes((nds) =>
+    nds.map((node) => {
+      if (node.id == nodeID) {
+        node.data = {
+          ...node.data,
+          label: title,
+        };
+      }
+      return node;
+    })    
+    )
+  }
   const onNodesDelete = useCallback(
     (deleted) => {
       setEdges(
@@ -258,6 +271,7 @@ function Flow(props) {
             <Editor
               flowID={flowID}
               nodeID={activeNodeID}
+              saveNodeLabel={saveNodeLabel}
               handleDrawerClose={handleDrawerClose}
             />
           </Drawer>
