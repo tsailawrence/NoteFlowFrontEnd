@@ -158,16 +158,32 @@ const Register = () => {
                       setCheckPassword(e.target.value);
                     }}
                   />
-
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2, mb: 2 }}
-                    style={{ backgroundColor: "#0e1111" }}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                      width: "100%",
+                    }}
                   >
-                    Register
-                  </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 2, mb: 2, width: "45%" }}
+                      style={{ backgroundColor: "white", color: "black" }}
+                      onClick={() => navigateTo("/")}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 2, mb: 2, width: "45%" }}
+                      style={{ backgroundColor: "#0e1111" }}
+                    >
+                      Register
+                    </Button>
+                  </div>
                 </Box>
               </>
             )}
