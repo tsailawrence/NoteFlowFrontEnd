@@ -4,10 +4,11 @@
   width: 100%;
   .header {
     height: 80px;
-    background-color: #c5c5c5;
+    padding: 0;
     display: flex;
     align-items: center;
     position: relative;
+
     .title-input {
       margin-left: 10px;
       margin-bottom: 0;
@@ -15,6 +16,7 @@
       font-weight: 700;
       border: none;
       background: transparent;
+      color: #1e1e1e;
       // border-bottom: black solid 1px;
       width: 50vw;
 
@@ -24,17 +26,17 @@
       }
 
       &:focus + .focus-border {
-        width: 50vw;
+        width: 35vw;
         transition: 0.4s;
       }
     }
     .focus-border {
       position: absolute;
       bottom: 15px;
-      left: 10px;
+      left: 50px;
       width: 0px;
       height: 2px;
-      background-color: black;
+      background-color: #7b7b7b;
       transition: 0.4s;
     }
 
@@ -44,16 +46,27 @@
       gap: 5px;
       position: absolute;
       right: 3vw;
-      bottom: 25px;
+      bottom: 20px;
       width: fit-content;
       .user {
+        cursor: pointer;
         border-radius: 50% 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 25px;
-        height: 25px;
-        color: white;
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        img {
+          object-fit: cover;
+          width: 100%;
+        }
+
+        &:hover {
+          border: black solid 0.2vw;
+          transition: 0.2s ease-out;
+          transform: scale(130%);
+        }
       }
     }
   }
