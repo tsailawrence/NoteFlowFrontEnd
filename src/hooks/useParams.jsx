@@ -7,7 +7,7 @@ const useParams = create((set) => ({
   library: 1,
   setLibrary: (param) => set((state) => ({ library: param })),
   calendar: 1,
-  setCalender: (param) => set((state) => ({ calendar: param })),
+  setCalendar: (param) => set((state) => ({ calendar: param })),
   settings: 1,
   setSettings: (param) => set((state) => ({ settings: param })),
   tabState: { 0: 1 },

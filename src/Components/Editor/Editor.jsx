@@ -7,27 +7,40 @@ import { IoIosArrowBack } from "react-icons/io";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { useFlowStorage } from "../../storage/Storage";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+import { useParams } from "../../hooks/useParams";
+window.katex = katex;
 
-export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
+export const Editor = ({
+  saveNodeLabel,
+  handleDrawerClose,
+  flowID,
+  nodes,
+  nodeID,
+}) => {
   const saveNode = useFlowStorage((state) => state.saveNode);
-  /* */
-  // const flowID = "user1_1";
-  // const nodeID = "1";
+  const { user } = useParams();
   const flows = useFlowStorage((state) => state.flows);
-  const filtered_flow = flows.filter((f) => f.id === flowID)[0];
-  const filtered_node = filtered_flow.nodes.filter((n) => n.id === nodeID)[0];
 
+  const filtered_node = nodes.filter((n) => n.id === nodeID)[0];
   const flowNodes = useFlowStorage((state) => state.flowNodes);
-  const filtered_value_flow = flowNodes.filter((f) => f.id === flowID)[0];
-  const filtered_value = filtered_value_flow.nodes.filter(
-    (n) => n.id === nodeID
-  )[0];
+  const filtered_value_flow =
+    flowNodes.filter((f) => f.id === flowID).length != 0
+      ? flowNodes.filter((f) => f.id === flowID)[0]
+      : { id: flowID, nodes: [{ id: nodeID, value: "" }] };
+  const filtered_value =
+    filtered_value_flow.nodes.filter((n) => n.id === nodeID).length != 0
+      ? filtered_value_flow.nodes.filter((n) => n.id === nodeID)[0]
+      : { id: nodeID, value: "" };
 
   const [state, setState] = useState({
     title: filtered_node.data.label,
     value: filtered_value.value,
   });
+
   const handleChange = (value) => {
+    console.log(state.value);
     setState({ ...state, value });
   };
 
@@ -62,19 +75,14 @@ export const Editor = ({ handleDrawerClose, flowID, nodeID }) => {
           value={state.title}
           onChange={(e) => {
             setState({ ...state, title: e.target.value });
+            saveNodeLabel(nodeID, e.target.value);
           }}
         ></input>
         <span className="focus-border"></span>
         {/* 需限制 user 數量 */}
         <div className="users">
-          <div className="user" style={{ backgroundColor: "black" }}>
-            R
-          </div>
-          <div className="user" style={{ backgroundColor: "blue" }}>
-            J
-          </div>
-          <div className="user" style={{ backgroundColor: "purple" }}>
-            L
+          <div className="user">
+            <img src={user.picture} alt="" />
           </div>
         </div>
       </div>

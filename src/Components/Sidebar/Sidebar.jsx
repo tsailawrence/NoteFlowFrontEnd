@@ -16,6 +16,12 @@ const Sidebar = () => {
     for (let index = 1; index <= 4; index++) {
       items[index - 1].classList.remove("active-item");
     }
+    if (tabState[activateKey] === 0) {
+      items[0].classList.add("active-item");
+      const tempArray = [true, false, false, false];
+      setActive(tempArray);
+      return;
+    }
     items[tabState[activateKey] - 1].classList.add("active-item");
     const tempArray = [false, false, false, false];
     tempArray[tabState[activateKey] - 1] = true;

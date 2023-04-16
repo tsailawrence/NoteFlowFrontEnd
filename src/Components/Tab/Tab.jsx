@@ -4,7 +4,8 @@ import flowsTemplate from "../Flows/Flows";
 import libraryTemplate from "../Library/Library";
 import calendarTemplate from "../Calendar/Calendar";
 import settingsTemplate from "../Settings/Settings";
-import { Navigate, useNavigate } from "react-router-dom";
+import PageTab from "../PageTab/PageTab";
+import { useNavigate } from "react-router-dom";
 import { useFlowStorage } from "../../storage/Storage";
 import { useParams } from "../../hooks/useParams";
 
@@ -31,20 +32,14 @@ const Tab = () => {
   const [key, setKey] = useState(1);
   const [tabs, setTabs] = useState([tempFlows]);
   const navigate = useNavigate();
+  const addFlow = useFlowStorage((state) => state.addFlow);
+
   const userFlows = useFlowStorage((state) => state.flows);
   tempFlows.content = userFlows;
-
   useEffect(() => {
     if (tabs.length === 0) {
       setTabs([tempFlows]);
       return;
-    }
-    const activeLinks = document.getElementsByClassName("nav-link active")[0];
-    if (activeLinks === undefined) {
-      const navLinks = document.getElementsByClassName("nav-link");
-      navLinks[navLinks.length - 1].classList.add("active");
-      const tabPanes = document.getElementsByClassName("tab-pane");
-      tabPanes[tabPanes.length - 1].classList.add("active");
     }
   }, [tabs]);
   const cancelTab = (target) => {
@@ -90,6 +85,19 @@ const Tab = () => {
     const day = today.getDate();
     const dateString = year + "-" + month + "-" + day;
     return dateString;
+  };
+  const addNewFlow = () => {
+    const payload = {
+      id: "user1" + Math.floor(Math.random() * 10000),
+      name: "untitle",
+      time: "0",
+      nextNodeId: 1,
+      nodes: [],
+      edges: [],
+      viewport: {},
+    };
+    addFlow(payload);
+    console.log("hi");
   };
   useEffect(() => {
     const activeKey = parseInt(
@@ -143,7 +151,7 @@ const Tab = () => {
     setActivateKey(activeKey);
   };
   return (
-    <div className="container">
+    <div className="container mx-0">
       <div className="row d-flex align-middle topnavbar">
         <img
           className="col-auto home-pic"
@@ -191,6 +199,7 @@ const Tab = () => {
           onClick={() => addTab()}
         />
       </div>
+      {/* <PageTab addNewFlow = {addNewFlow}/> */}
       <div className="row d-flex align-middle">
         <div className="col-md-12 p-0">
           <div className="tab-content" id="pills-tabContent">
@@ -204,7 +213,7 @@ const Tab = () => {
                   aria-labelledby={"pills-" + tab.key + "-tab"}
                 >
                   {tab.bar}
-                  {tabState[tab.key] === 1 ? (
+                  {tabState[tab.key] === 0 || tabState[tab.key] === 1 ? (
                     tempFlows.layout(tab, intoFlow)
                   ) : tabState[tab.key] === 2 ? (
                     tempLibrary.layout(tab, intoFlow)
