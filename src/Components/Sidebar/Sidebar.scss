@@ -8,6 +8,7 @@
   width: 100%;
   justify-content: flex-start;
   position: relative;
+  border-right: 1px solid grey;
   .logo {
     width: 100%;
     display: flex;
@@ -16,50 +17,5 @@
     margin-top: 3vmin;
     margin-bottom: 2vmin;
     // margin-left: 1vm;
-  }
-  .sidebar-item {
-    width: 100%;
-    margin: 0 !important;
-    padding-top: 3vmin;
-    padding-bottom: 3vmin;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 2vmin;
-
-    img {
-      //   border: red solid 2px;
-      margin: 0;
-    }
-
-    .text {
-      //   border: red solid 2px;
-      margin: 0;
-      padding: 0;
-    }
-   
-  }
-  .active-item{
-    margin-left: 1px;
-    margin-right: 1px;
-    background-color: white;
-    border: 2px solid black;
-    color: black;
-    animation: colorChange 0.1s ease;
-  }
-}
-
-
-@keyframes colorChange {
-  0% {
-    background-color: black;
-  }
-  50% {
-    background-color: gray;
-  }
-  100% {
-    background-color: white;
   }
 }
