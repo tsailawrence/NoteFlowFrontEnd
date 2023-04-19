@@ -25,7 +25,7 @@ const Profile = ({ user }) => {
 };
 
 const Login = () => {
-  const [user, setUser] = useState({}); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
+  const { user, setUser } = useParams(); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
   const divRef = useRef(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
