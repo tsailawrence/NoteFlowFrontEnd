@@ -4,31 +4,35 @@ import { userFlows, userFlowNode } from "./data";
 
 const flows = userFlows;
 const tabList = [];
+const nodes = userFlowNode[0].nodes;
 export const useFlowStorage = create((set) => ({
   flows: flows,
+  nodes: nodes,
   tabList: tabList,
   flowNow: {},
   flowNodes: userFlowNode,
-  changeFlowNow:  (payload) =>
+  changeFlowNow: (payload) =>
     set(
       produce((state) => {
         state.flowNow = payload;
       })
     ),
   addTab: (payload) =>
-    set(
-      produce((state) => {
-        state.tabList.push(payload);
-      })
-    ),
+    set((state) => {
+      return {
+        ...state,
+        tabList: [...state.tabList, payload],
+      };
+    }),
   closeTab: (payload) =>
-    set(
-      produce((state) => {
-        state.tabList.pop(payload);
-      })
-    ),
+    set((state) => {
+      return {
+        ...state,
+        tabList: state.tabList.filter((item) => item !== payload),
+      };
+    }),
 
-  saveNewNode:(payload) =>
+  saveNewNode: (payload) =>
     set(
       produce((state) => {
         for (let ele in state.flows) {
@@ -63,27 +67,42 @@ export const useFlowStorage = create((set) => ({
             for (let el in state.flowNodes[ele].nodes) {
               if (payload.node_id === state.flowNodes[ele].nodes[el].id) {
                 findNode = true;
-                console.log(payload.title)
+                console.log(payload.title);
                 // state.flows[ele].nodes[el].data.label = payload.title;
                 state.flowNodes[ele].nodes[el].value = payload.value;
               }
             }
-            if(!findNode){
-              state.flowNodes[ele].nodes.push({id: payload.node_id, value: payload.value})
+            if (!findNode) {
+              state.flowNodes[ele].nodes.push({
+                id: payload.node_id,
+                value: payload.value,
+              });
             }
           }
         }
-        if(!findFlow){  
-          state.flows.push({id: payload.flow_id, nodes:[{id: payload.node_id, data:{label: payload.title}}]})          
-          state.flowNodes.push({id: payload.flow_id, nodes:[{id: payload.node_id, value: payload.value}]})
+        if (!findFlow) {
+          state.flows.push({
+            id: payload.flow_id,
+            nodes: [{ id: payload.node_id, data: { label: payload.title } }],
+          });
+          state.flowNodes.push({
+            id: payload.flow_id,
+            nodes: [{ id: payload.node_id, value: payload.value }],
+          });
         }
-
       })
     ),
   addFlow: (payload) =>
-  set(
-    produce((state) => {    
-      state.flows.unshift(payload);
-    })
-  ),
+    set(
+      produce((state) => {
+        state.flows.unshift(payload);
+      })
+    ),
+  mode: 0,
+  changeMode: (curMode) =>
+    set(
+      produce((state) => {
+        state.mode = curMode;
+      })
+    ),
 }));
