@@ -6,10 +6,11 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import jwt_decode from "jwt-decode";
 import "./Register.scss";
-import instance from "../../api";
+import instance from "../../API/api";
 import { SHA256 } from "crypto-js";
 import { useParams } from "../../hooks/useParams";
 import { useNavigate } from "react-router-dom";
+import { useApp } from "../../hooks/useApp";
 
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
@@ -25,25 +26,14 @@ const Profile = ({ user }) => {
 };
 
 const Register = () => {
-  const [user, setUser] = useState({}); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
+  const { user, refetchFromLocalStorage } = useApp(); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-  const { setLogin } = useParams();
   const navigateTo = useNavigate();
 
-  const handleCallbackResponse = (res) => {
-    const userObject = jwt_decode(res.credential);
-    console.log(userObject);
-    setUser(userObject);
-    setLogin(true);
-    navigateTo("/home");
-  };
-
-  const handleLogOut = (e) => {
-    setUser({});
-  };
+  const handleLogOut = (e) => {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,7 +63,8 @@ const Register = () => {
       .post("/user/register", request)
       .then((res) => {
         console.log(res.data);
-        setLogin(true);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        refetchFromLocalStorage();
         navigateTo("/home");
       })
       .catch((e) => {
@@ -95,98 +86,96 @@ const Register = () => {
           {/* <button onClick={() => handleLogin()}>Login</button> */}
 
           <div className="infoContainer">
-            {Object.keys(user).length === 0 && (
-              <>
-                <Box
-                  component="form"
-                  onSubmit={handleSubmit}
-                  noValidate
-                  style={{ margin: "10px 15px" }}
+            <>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                style={{ margin: "10px 15px" }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  size="small"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  size="small"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  size="small"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Check Password"
+                  type="password"
+                  id="check-password"
+                  autoComplete="current-password"
+                  size="small"
+                  onChange={(e) => {
+                    setCheckPassword(e.target.value);
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                    width: "100%",
+                  }}
                 >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="name"
-                    label="Name"
-                    name="name"
-                    autoComplete="name"
-                    autoFocus
-                    size="small"
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    size="small"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    size="small"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Check Password"
-                    type="password"
-                    id="check-password"
-                    autoComplete="current-password"
-                    size="small"
-                    onChange={(e) => {
-                      setCheckPassword(e.target.value);
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                      width: "100%",
-                    }}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 2, mb: 2, width: "45%" }}
+                    style={{ backgroundColor: "white", color: "black" }}
+                    onClick={() => navigateTo("/")}
                   >
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2, width: "45%" }}
-                      style={{ backgroundColor: "white", color: "black" }}
-                      onClick={() => navigateTo("/")}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2, width: "45%" }}
-                      style={{ backgroundColor: "#0e1111" }}
-                    >
-                      Register
-                    </Button>
-                  </div>
-                </Box>
-              </>
-            )}
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 2, mb: 2, width: "45%" }}
+                    style={{ backgroundColor: "#0e1111" }}
+                  >
+                    Register
+                  </Button>
+                </div>
+              </Box>
+            </>
           </div>
 
           {/* {Object.keys(user).length !== 0 && (

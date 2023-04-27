@@ -101,6 +101,9 @@
 .ql-editor .ql-font-comic-sans {
   font-family: "Comic Sans MS", "Comic Sans", serif;
 }
+.ql-editor .ql-font-DFKai-sb {
+  font-family: "BiauKai", "DFKai-sb", "標楷體", KaiTi, serif;
+}
 
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="comic-sans"]::before {
   font-family: "Comic Sans MS", "Comic Sans";
@@ -118,6 +121,9 @@
 }
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="lucida"]::before {
   font-family: "Lucida Console", "Courier New", monospace;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="DFKai-sb"]::before {
+  font-family: "BiauKai", "DFKai-sb", "標楷體", KaiTi, serif;
 }
 
 .ql-picker-label {

@@ -9,18 +9,20 @@ export const useFlowStorage = create((set) => ({
   tabList: tabList,
   flowNow: {},
   flowNodes: userFlowNode,
-  changeFlowNow:  (payload) =>
+  changeFlowNow: (payload) =>
     set(
       produce((state) => {
         state.flowNow = payload;
       })
     ),
-  addTab: (payload) =>
+  addTab: (payload) => {
+    console.log("addtab:", payload);
     set(
       produce((state) => {
         state.tabList.push(payload);
       })
-    ),
+    );
+  },
   closeTab: (payload) =>
     set(
       produce((state) => {
@@ -28,7 +30,7 @@ export const useFlowStorage = create((set) => ({
       })
     ),
 
-  saveNewNode:(payload) =>
+  saveNewNode: (payload) =>
     set(
       produce((state) => {
         for (let ele in state.flows) {
@@ -63,27 +65,35 @@ export const useFlowStorage = create((set) => ({
             for (let el in state.flowNodes[ele].nodes) {
               if (payload.node_id === state.flowNodes[ele].nodes[el].id) {
                 findNode = true;
-                console.log(payload.title)
+                console.log(payload.title);
                 // state.flows[ele].nodes[el].data.label = payload.title;
                 state.flowNodes[ele].nodes[el].value = payload.value;
               }
             }
-            if(!findNode){
-              state.flowNodes[ele].nodes.push({id: payload.node_id, value: payload.value})
+            if (!findNode) {
+              state.flowNodes[ele].nodes.push({
+                id: payload.node_id,
+                value: payload.value,
+              });
             }
           }
         }
-        if(!findFlow){  
-          state.flows.push({id: payload.flow_id, nodes:[{id: payload.node_id, data:{label: payload.title}}]})          
-          state.flowNodes.push({id: payload.flow_id, nodes:[{id: payload.node_id, value: payload.value}]})
+        if (!findFlow) {
+          state.flows.push({
+            id: payload.flow_id,
+            nodes: [{ id: payload.node_id, data: { label: payload.title } }],
+          });
+          state.flowNodes.push({
+            id: payload.flow_id,
+            nodes: [{ id: payload.node_id, value: payload.value }],
+          });
         }
-
       })
     ),
   addFlow: (payload) =>
-  set(
-    produce((state) => {    
-      state.flows.unshift(payload);
-    })
-  ),
+    set(
+      produce((state) => {
+        state.flows.unshift(payload);
+      })
+    ),
 }));
