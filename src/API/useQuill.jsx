@@ -4,18 +4,17 @@ import React, {
   useEffect,
   useState,
   useRef,
-} from "react";
-import ObjectID from "bson-objectid";
-import tinycolor from "tinycolor2";
-import ReconnectingWebSocket from "reconnecting-websocket";
-import sharedb from "sharedb/lib/client";
-import richText from "rich-text";
-import { useApp } from "../hooks/useApp";
+} from 'react';
+import ObjectID from 'bson-objectid';
+import tinycolor from 'tinycolor2';
+// import ReconnectingWebSocket from 'reconnecting-websocket';
+import sharedb from 'sharedb/lib/client';
+import richText from 'rich-text';
+import { useApp } from '../hooks/useApp';
 
 // dotenv.config();
 
-const NOTEFLOW_HOST = "140.112.107.71";
-const NOTEFLOW_PORT = "3000";
+const NOTEFLOW_HOST = 'noteflow.live';
 
 sharedb.types.register(richText.type);
 
@@ -24,7 +23,7 @@ const QuillContext = createContext({
   setIdentity: () => {},
 });
 
-const collection = "editor";
+const collection = 'editor';
 
 /**
  * 亂數產生的 hashId, 這個 id 可以再綁定一個名字，
@@ -54,14 +53,14 @@ const QuillProvider = (props) => {
   const { user } = useApp();
 
   useEffect(() => {
-    const socket = new ReconnectingWebSocket(
-      `ws://${NOTEFLOW_HOST}:${NOTEFLOW_PORT}`
+    if (!editorId) return;
+    const socket = new WebSocket(
+      `wss://${NOTEFLOW_HOST}/ws/node?id=${editorId}`
     );
     const connection = new sharedb.Connection(socket);
-
     setWebsocket(connection);
     setIdentity(user.name);
-  }, []);
+  }, [editorId]);
 
   const OpenEditor = async (editorId) => {
     // TODO: 確認有沒有這個 collection & table 存在 mongodb 裡面
@@ -72,21 +71,23 @@ const QuillProvider = (props) => {
     if (presence) {
       await presence.unsubscribe();
     }
+    console.log('open', editorId);
     setEditorId(editorId);
     QuillRef.current !== null
       ? setQuill(QuillRef.current.getEditor())
-      : console.error("NULL QUILL REFERENCE");
+      : console.error('NULL QUILL REFERENCE');
   };
 
   useEffect(() => {
     if (!editorId || !quill || !websocket) return;
 
-    const editor = websocket.get(collection, editorId);
+    console.log('editorId', editorId);
 
+    const editor = websocket.get(collection, editorId);
+    console.log(editor);
     editor.subscribe((error) => {
-      // console.log("訂閱好><);
-      if (error) return console.error(error);
-      console.log("訂閱好啦！");
+      if (error) throw error;
+      console.log('訂閱好啦！');
       // 設定特定 node editor 的 websocket
       // if (editor.type === null) {
       //   editor.create([{ insert: "hello world" }], "rich-text");
@@ -95,13 +96,13 @@ const QuillProvider = (props) => {
       quill.setContents(editor.data);
 
       // 如果你改變文字
-      quill.on("text-change", (delta, oldDelta, source) => {
-        if (source !== "user") return; // ?
+      quill.on('text-change', (delta, oldDelta, source) => {
+        if (source !== 'user') return; // ?
         editor.submitOp(delta);
       });
 
       // 如果你收到從別的地方來的訊息
-      editor.on("op", function (op, source) {
+      editor.on('op', function (op, source) {
         if (source) return;
         quill.updateContents(op);
       });
@@ -118,27 +119,28 @@ const QuillProvider = (props) => {
       });
 
       const localPresence = presence.create(user.email);
-      quill.on("");
-      quill.on("selection-change", (range, oldRange, source) => {
-        if (source !== "user") return;
+      quill.on('');
+      quill.on('selection-change', (range, oldRange, source) => {
+        if (source !== 'user') return;
         if (!range) return;
-        range.name = identity ? (identity.name ? identity.name : "-") : "-"; // # TODO
+        range.name = identity ? (identity.name ? identity.name : '-') : '-'; // # TODO
         localPresence.submit(range, (error) => {
           if (error) throw error;
         });
       });
 
-      const cursors = quill.getModule("cursors");
-      presence.on("receive", function (id, range) {
+      const cursors = quill.getModule('cursors');
+      presence.on('receive', function (id, range) {
         console.log(range);
         colors[id] = colors[id] || tinycolor.random().toHexString();
-        var name = (range && range.name) || "Anonymous";
+        var name = (range && range.name) || 'Anonymous';
         cursors.createCursor(id, name, colors[id]);
         cursors.moveCursor(id, range);
       });
     });
 
     setEditor(editor);
+    console.log('Done');
   }, [editorId, quill, websocket, identity]);
 
   return (

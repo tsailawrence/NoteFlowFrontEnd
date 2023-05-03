@@ -31,12 +31,16 @@
       padding: 0;
       margin: 0;
       background-color: black;
-      .Page-tab{
-        height:10%;
+      display: flex;
+      flex-direction: column;
+      .Page-tab {
+        height: 10vh;
+        max-height: 50px;
       }
-      .Flow-grid{
+      .Flow-grid {
         background-color: white;
-        height:90%;
+        flex: 1;
+        overflow-y: scroll;
       }
     }
   }

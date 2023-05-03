@@ -1,80 +1,121 @@
-const libraryTemplate = {
-  name: "Library",
-  key: 0,
-  bar: (
-    <div className="row m-0 content-top-bar">
-      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
-        <img
-          className="content-top-bar-pic me-2"
-          src="src/assets/library_books_white_24dp.svg"
-        />
-        <div className="text-white">Library</div>
-      </div> */}
-
-      <div className="col-auto d-flex align-items-center justify-content-around ms-auto">
-        <div className="form-inline">
-          <input
-            type="text"
-            id="form1"
-            className="form-control"
-            placeholder="Search"
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import { styled, alpha } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
+import { BsSortDown } from 'react-icons/bs';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import { useFlowStorage } from '../../storage/Storage';
+import { useNavigate } from 'react-router-dom';
+const Library = () => {
+  const nodes = useFlowStorage((state) => state.nodes);
+  const tabList = useFlowStorage((state) => state.tabList);
+  const addTab = useFlowStorage((state) => state.addTab);
+  const navigate = useNavigate();
+  const NodeButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(grey[100]),
+    fontSize: '12px',
+    backgroundColor: 'white',
+    border: '1px black solid',
+    '&:hover': {
+      backgroundColor: grey[100],
+      border: '1px grey solid',
+    },
+    width: '100%',
+    height: 150,
+  }));
+  const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  }));
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '12ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
+    },
+  }));
+  const toNode = (node) => {
+    console.log(node);
+    if (!tabList.find((f) => f.id == node.id)) {
+      addTab({ id: node.id, title: node.name });
+    }
+    navigate('/node', { state: node });
+  };
+  return (
+    <Stack direction='column' justifyContent='center' alignItems='center'>
+      <Stack
+        direction='row'
+        justifyContent='flex-end'
+        alignItems='center'
+        sx={{
+          marginTop: '1vmin',
+          marginBottom: '1vmin',
+          paddingLeft: 2,
+          paddingRight: 2,
+          width: '100%',
+        }}
+      >
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder='Search…'
+            inputProps={{ 'aria-label': 'search' }}
           />
-        </div>
-        <button type="button" className="btn btn-secondary me-3">
-          <img src="src/assets/search_white_24dp.svg" />
-        </button>
-        <img
-          className="content-top-bar-pic me-2"
-          src="src/assets/sort_white_24dp.svg"
-        />
-        <div className="text-white">Oldest to newest</div>
-      </div>
-    </div>
-  ),
-  layout: (tab, intoFlow) => {
-    return (
-      <div className="content-body py-4">
-        <div className="d-flex flex-wrap align-items-center justify-content-evenly">
-          {tab.content.map((item) => {
-            if (item.src !== undefined) {
-              return (
-                <div className="mt-4 px-3 library-item" key={item.name}>
-                  <div
-                    className="library-item-pic"
-                    onClick={() => intoFlow(tab.key, item.name)}
-                  ></div>
-                  <div className="d-flex library-item-desc">
-                    <div className="me-auto">{item.name}</div>
-                    <div className="ms-auto">Edited {item.time} hours ago</div>
-                  </div>
-                </div>
-              );
-            } else {
-              return (
-                <div className="mt-4 px-3 library-item" key={item.name}></div>
-              );
-            }
-          })}
-        </div>
-      </div>
-    );
-  },
-  content: [
-    { src: "", name: "Card", time: "1" },
-    { src: "", name: "PDF", time: "1" },
-    { src: "", name: "Video", time: "2" },
-    { src: "", name: "PDF1", time: "2" },
-    { src: "", name: "Card1", time: "3" },
-    { src: "", name: "Card2", time: "3" },
-    { src: "", name: "Card3", time: "4" },
-    { src: "", name: "PDF2", time: "4" },
-    { src: "", name: "Card4", time: "5" },
-    { src: "", name: "Video1", time: "5" },
-    { src: "", name: "Video2", time: "5" },
-    { src: "", name: "Card5", time: "6" },
-    { src: "", name: "PDF3", time: "6" },
-    { src: "", name: "Card6", time: "6" },
-    { src: "", name: "PDF4", time: "6" },
-  ],
+        </Search>
+        <Button style={{ color: 'black' }}>
+          <BsSortDown size={20} style={{ marginRight: '3px' }} />
+          <Typography>Newest to oldest</Typography>
+        </Button>
+      </Stack>
+      <Grid
+        container
+        justifyContent='left'
+        sx={{ paddingLeft: 2, paddingRight: 2 }}
+        spacing={2}
+        columns={15}
+      >
+        {nodes.map((node, id) => (
+          <Grid item xs={3} md={3} key={id}>
+            <NodeButton onClick={() => toNode(node)}>
+              Last Edit Time: {node.time} hours
+            </NodeButton>
+            <Typography style={{ fontSize: '14px' }}>{node.name}</Typography>
+          </Grid>
+        ))}
+      </Grid>
+    </Stack>
+  );
 };
-export default libraryTemplate;
+export default Library;

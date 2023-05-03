@@ -1,5 +1,6 @@
-import { useContext, createContext, useState, useEffect } from "react";
-import crc32 from "crc-32";
+import { useContext, createContext, useState, useEffect } from 'react';
+import crc32 from 'crc-32';
+import instance from '../API/api';
 
 const UserContext = createContext({
   user: {},
@@ -8,22 +9,23 @@ const UserContext = createContext({
 
 const getRandomPicture = (name) => {
   const hash = Math.abs(crc32.str(name) + Number(Date.now() / 3600000));
-  return `./src/assets/avatar/${Math.ceil(hash % 7)}.png`;
+  return `/assets/avatar/${Math.ceil(hash % 7)}.png`;
 };
 
 const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   const [rerender, setRerender] = useState(false);
   useEffect(() => {
-    const userItem = localStorage.getItem("user");
-    const user = JSON.parse(userItem);
-
-    if (userItem !== null) {
-      if (!user.picture) {
-        user.picture = getRandomPicture(user.name);
-      }
-      setUser(user);
-    }
+    instance
+      .get('/user/who-am-i')
+      .then((res) => {
+        const user = res.data;
+        if (!user.picture) {
+          user.picture = getRandomPicture(user.name);
+        }
+        setUser(user);
+      })
+      .catch((e) => console.log(e));
   }, [rerender]);
 
   useEffect(() => {}, []);

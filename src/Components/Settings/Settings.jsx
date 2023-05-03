@@ -1,62 +1,101 @@
-const settingsTemplate = {
-  name: "Settings",
-  key: 0,
-  bar: (
-    <div className="row m-0 content-top-bar">
-      {/* <div className="col-auto d-flex align-items-center justify-content-around me-auto">
-        <img
-          className="content-top-bar-pic me-2"
-          src="src/assets/settings_white_24dp.svg"
-        />
-        <div className="text-white">Settings</div>
-      </div> */}
-    </div>
-  ),
-  layout: () => {
-    return (
-      <div className="content-body">
-        <div className="row settings">
-          <div className="col-md-11 border-end border-secondary">
-            <div className="row">
-              <div className="col-md-7 d-flex justify-content-center align-items-center">
-                <div className="circle">
-                  <img src="src/assets/person_black_24dp.svg" alt="" />
-                </div>
+import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { BsFillPersonFill } from 'react-icons/bs';
+import { MdLanguage } from 'react-icons/md';
+import { styled } from '@mui/material/styles';
+const Settings = () => {
+  const SettingsButton = styled(Box)(({ theme }) => ({
+    cursor: 'pointer',
+    color: 'black',
+    backgroundColor: 'white',
+    width: '100%',
+    paddingTop: '3vmin',
+    paddingBottom: '3vmin',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    ':hover': {
+      backgroundColor: 'lightgrey',
+      border: '1px lightgrey solid',
+    },
+  }));
+  return (
+    <Grid container columns={10} sx={{ height: '100%' }}>
+      <Grid item xs={9}>
+        <Grid container columns={12} sx={{ height: '100%' }}>
+          <Grid item xs={7}>
+            <Stack
+              direction='row'
+              justifyContent='center'
+              alignItems='center'
+              sx={{ height: '100%' }}
+            >
+              <div
+                style={{
+                  width: '350px',
+                  height: '350px',
+                  borderRadius: '50%',
+                  border: '2px solid black',
+                  overflow: 'hidden',
+                }}
+              >
+                <BsFillPersonFill
+                  color='black'
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
               </div>
-              <div className="col-md-5 d-flex flex-column justify-content-center align-items-start information">
-                <div className="userName my-3">Lawrence Tsai</div>
-                <div className="userEmail my-3">Email: lawrence@gmail.com</div>
-                <div className="userPassword my-3">
-                  <span className="me-3">Password:</span>
-                  <button>Reset Password</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="profile-sidebar m-0 p-0 col-md-1 d-flex flex-column justify-content-start align-items-center">
-            <div className="row profile-button m-0 p-0">
-              <img
-                className="col-md-4 m-0 p-1"
-                src="src/assets/person_white_24dp.svg"
-              />
-              <div className="col-md-7 m-0 p-0 d-flex align-items-center">
-                Profile
-              </div>
-            </div>
-            <div className="row theme-button m-0 p-0">
-              <img
-                className="col-md-4 m-0 p-1"
-                src="src/assets/light_mode_black_24dp.svg"
-              />
-              <div className="col-md-7 m-0 p-0 d-flex align-items-center">
-                Theme
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  },
-  content: [],
+            </Stack>
+          </Grid>
+          <Grid item xs={5}>
+            <Stack
+              direction='column'
+              justifyContent='center'
+              alignItems='left'
+              sx={{ height: '100%' }}
+            >
+              <Typography sx={{ fontSize: '24px', marginBottom: '20px' }}>
+                Lawrence Tsai
+              </Typography>
+              <Typography sx={{ marginBottom: '10px' }}>
+                Email: lawrence@gmail.com
+              </Typography>
+              <Stack direction='row' justifyContent='left' alignItems='center'>
+                <Typography sx={{ marginRight: '5px' }}>Password:</Typography>
+                <Button
+                  variant='outlined'
+                  sx={{ backgroundColor: '#0e1111', color: 'white' }}
+                >
+                  Reset Password
+                </Button>
+              </Stack>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={1} sx={{ borderLeft: '1px solid grey' }}>
+        <Stack direction='column' justifyContent='center' alignItems='left'>
+          <SettingsButton>
+            <BsFillPersonFill
+              color='black'
+              size={28}
+              style={{ width: '35%' }}
+            />
+            <Typography style={{ width: '65%' }}>Profile</Typography>
+          </SettingsButton>
+          <SettingsButton>
+            <MdLanguage color='black' size={28} style={{ width: '35%' }} />
+            <Typography style={{ width: '65%' }}>Language</Typography>
+          </SettingsButton>
+        </Stack>
+      </Grid>
+    </Grid>
+  );
 };
-export default settingsTemplate;
+export default Settings;
