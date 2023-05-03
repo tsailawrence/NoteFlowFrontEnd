@@ -1,25 +1,25 @@
-import ReconnectingWebSocket from "reconnecting-websocket";
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
-const NOTEFLOW_HOST = "140.112.107.71";
-const NOTEFLOW_PORT = 3000;
+const NOTEFLOW_HOST = 'noteflow.live';
+
 class Colab {
   constructor(nodeId, email, callback) {
-    const socket = new WebSocket(
-      `ws://${NOTEFLOW_HOST}:${NOTEFLOW_PORT}/registerNodeColab`
+    const socket = new ReconnectingWebSocket(
+      `wss://${NOTEFLOW_HOST}/ws/registerNodeColab?id=${nodeId}`
     );
 
-    socket.addEventListener("message", (msg) => {
-      const message = JSON.parse(msg.data.toString("utf-8"));
+    socket.addEventListener('message', (msg) => {
+      const message = JSON.parse(msg.data.toString('utf-8'));
       let userList = new Array(message.length);
       message.forEach((m, id) => {
-        const newList = m.split("-");
+        const newList = m.split('-');
         const singleUser = newList[newList.length - 1];
         userList[id] = singleUser;
       });
       callback(userList);
     });
 
-    socket.addEventListener("open", () => {
+    socket.addEventListener('open', () => {
       socket.send(
         JSON.stringify({
           nodeId: nodeId,
@@ -36,8 +36,13 @@ class Colab {
       }, 2000);
     });
 
-    socket.addEventListener("error", function (event) {
-      console.error("WebSocket error:", event);
+    // socket.addEventListener('close', () => {
+    //   console.log('The colab socket has closed');
+    //   clearInterval(this.timerId);
+    // });
+
+    socket.addEventListener('error', function (event) {
+      console.error('WebSocket error:', event);
     });
 
     this.socket = socket;

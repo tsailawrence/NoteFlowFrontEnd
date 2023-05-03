@@ -1,36 +1,36 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
-import jwt_decode from "jwt-decode";
-import "./Login.scss";
-import instance from "../../API/api";
-import { SHA256 } from "crypto-js";
-import { useNavigate } from "react-router-dom";
-import { useApp } from "../../hooks/useApp";
+import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import jwt_decode from 'jwt-decode';
+import './Login.scss';
+import instance from '../../API/api';
+import { SHA256 } from 'crypto-js';
+import { useNavigate } from 'react-router-dom';
+import { useApp } from '../../hooks/useApp';
 
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
-  "951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com";
+  '951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com';
 
 const Login = () => {
   const divRef = useRef(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigateTo = useNavigate();
   const { refetchFromLocalStorage, user } = useApp();
   useEffect(() => {
-    if (user) navigateTo("/home");
+    if (user) navigateTo('/home');
   }, [user]);
   useEffect(() => {
     instance
-      .get("/user/who-am-i")
+      .get('/user/who-am-i')
       .then((res) => {
         if (res.status == 200) {
           refetchFromLocalStorage();
-          navigateTo("/home");
+          navigateTo('/home');
         }
       })
       .catch((e) => {
@@ -40,11 +40,11 @@ const Login = () => {
   const handleCallbackResponse = (res) => {
     const userObject = jwt_decode(res.credential);
     instance
-      .post("/user/google-login", { user: userObject })
+      .post('/user/google-login', { user: userObject })
       .then((res) => {
         if (res.status == 200) {
           refetchFromLocalStorage();
-          navigateTo("/home");
+          navigateTo('/home');
         }
       })
       .catch((e) => {
@@ -62,13 +62,13 @@ const Login = () => {
       },
     };
     instance
-      .post("/user/login", request)
+      .post('/user/login', request)
       .then((res) => {
         refetchFromLocalStorage();
-        navigateTo("/home");
+        navigateTo('/home');
       })
       .catch((e) => {
-        console.log("Login error");
+        console.log('Login error');
       });
 
     //
@@ -82,9 +82,9 @@ const Login = () => {
         callback: handleCallbackResponse,
       });
 
-      google.accounts.id.renderButton(document.getElementById("signInDiv"), {
-        theme: "dark",
-        width: "330",
+      google.accounts.id.renderButton(document.getElementById('signInDiv'), {
+        theme: 'dark',
+        width: '330',
       });
 
       google.accounts.id.prompt();
@@ -92,88 +92,88 @@ const Login = () => {
   }, [divRef.current]);
 
   return (
-    <div className="login">
-      <div className="login-container">
-        <div className="logo">
-          <img src="/src/assets/logo.png" alt="" width="190" height="190" />
+    <div className='login'>
+      <div className='login-container'>
+        <div className='logo'>
+          <img src='/src/assets/logo.png' alt='' width='190' height='190' />
           <h1>NoteFlow</h1>
         </div>
-        <div className="info">
+        <div className='info'>
           <h2>Log in</h2>
 
-          <div className="infoContainer">
+          <div className='infoContainer'>
             <Box
-              component="form"
+              component='form'
               onSubmit={handleSubmit}
               noValidate
-              style={{ margin: "10px 15px" }}
+              style={{ margin: '10px 15px' }}
             >
               <TextField
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
                 autoFocus
-                size="small"
+                size='small'
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
               />
               <TextField
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                size="small"
+                name='password'
+                label='Password'
+                type='password'
+                id='password'
+                autoComplete='current-password'
+                size='small'
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
 
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
+                variant='contained'
                 sx={{ mt: 2, mb: 2 }}
-                style={{ backgroundColor: "#0e1111" }}
+                style={{ backgroundColor: '#0e1111' }}
               >
                 Log in
               </Button>
               <div
-                className="links"
+                className='links'
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Link
-                  href="#/forgotPassword"
-                  variant="body2"
-                  style={{ color: "#414a4c" }}
+                  href='#/forgotPassword'
+                  variant='body2'
+                  style={{ color: '#414a4c' }}
                 >
                   Forgot password?
                 </Link>
                 <Link
-                  href="#/register"
-                  variant="body2"
-                  style={{ color: "#414a4c" }}
+                  href='#/register'
+                  variant='body2'
+                  style={{ color: '#414a4c' }}
                 >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </div>
             </Box>
           </div>
-          <div className="horizontalLine">
+          <div className='horizontalLine'>
             <span>OR</span>
           </div>
-          <div id="signInDiv" ref={divRef}></div>
+          <div id='signInDiv' ref={divRef}></div>
         </div>
       </div>
     </div>

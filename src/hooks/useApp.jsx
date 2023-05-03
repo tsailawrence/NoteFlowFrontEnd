@@ -1,6 +1,6 @@
-import { useContext, createContext, useState, useEffect } from "react";
-import crc32 from "crc-32";
-import instance from "../API/api";
+import { useContext, createContext, useState, useEffect } from 'react';
+import crc32 from 'crc-32';
+import instance from '../API/api';
 
 const UserContext = createContext({
   user: {},
@@ -17,10 +17,9 @@ const UserProvider = (props) => {
   const [rerender, setRerender] = useState(false);
   useEffect(() => {
     instance
-      .get("/user/who-am-i")
+      .get('/user/who-am-i')
       .then((res) => {
         const user = res.data;
-        console.log(user);
         if (!user.picture) {
           user.picture = getRandomPicture(user.name);
         }
