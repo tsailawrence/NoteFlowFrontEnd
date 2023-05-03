@@ -1,82 +1,85 @@
 import React, { useEffect, useState } from "react";
 import "./SideBar.scss";
-import { useParams } from "../../hooks/useParams";
+import { FaPen, FaBook, FaCalendarAlt } from "react-icons/fa";
+import { AiTwotoneSetting } from "react-icons/ai";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { useFlowStorage } from "../../storage/Storage";
+import { useLocation } from "react-router-dom";
+
 const Sidebar = () => {
-  const {
-    setFlows,
-    setLibrary,
-    setCalendar,
-    setSettings,
-    tabState,
-    activateKey,
-  } = useParams();
-  const [active, setActive] = useState([true, false, false, false]);
-  const items = document.getElementsByClassName("sidebar-item");
+  const changeMode = useFlowStorage((state) => state.changeMode);
+  const mode = useFlowStorage((state) => state.mode);
+  const tabList = useFlowStorage((state) => state.tabList);
+  const location = useLocation();
+  const SideBarItem = styled(Box)(({ theme }) => ({
+    cursor: "pointer",
+    color: "white",
+    backgroundColor: "black",
+    border: "1px black solid",
+    width: "100%",
+    paddingTop: "3vmin",
+    paddingBottom: "3vmin",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  }));
+  // 按鈕顏色互斥
+  const setColor = () => {
+    const all = document.querySelectorAll(".sidebar-item");
+    for (let index = 0; index < all.length; index++) {
+      if (index === mode) {
+        all[index].style.backgroundColor = "white";
+        all[index].style.color = "black";
+      } else {
+        all[index].style.backgroundColor = "black";
+        all[index].style.color = "white";
+      }
+    }
+  };
   useEffect(() => {
-    for (let index = 1; index <= 4; index++) {
-      items[index - 1].classList.remove("active-item");
-    }
-    if (tabState[activateKey] === 0) {
-      items[0].classList.add("active-item");
-      const tempArray = [true, false, false, false];
-      setActive(tempArray);
-      return;
-    }
-    items[tabState[activateKey] - 1].classList.add("active-item");
-    const tempArray = [false, false, false, false];
-    tempArray[tabState[activateKey] - 1] = true;
-    setActive(tempArray);
-  }, [tabState, activateKey]);
+    setColor();
+  }, [mode, tabList, location]);
   return (
-    <div className="d-flex sidebar border-end border-secondary">
-      <div className="logo">
+    <Stack className="sidebar">
+      <a className="logo" href="/home">
         <img src="/src/assets/logo.png" alt="" width="60" height="60" />
-      </div>
-      <div className="row sidebar-item" onClick={() => setFlows(Date.now())}>
-        {active[0] ? (
-          <img className="col-4" src="src/assets/edit_black_24dp.svg" />
+      </a>
+      <SideBarItem className="sidebar-item" onClick={() => changeMode(0)}>
+        {mode === 0 ? (
+          <FaPen color="black" size={20} style={{ width: "45%" }} />
         ) : (
-          <img className="col-4" src="src/assets/edit_white_24dp.svg" />
+          <FaPen color="white" size={20} style={{ width: "45%" }} />
         )}
-        <div className="col-6">Flows</div>
-      </div>
-      <div className="row sidebar-item" onClick={() => setLibrary(Date.now())}>
-        {active[1] ? (
-          <img
-            className="col-4"
-            src="src/assets/library_books_black_24dp.svg"
-          />
+        <Typography style={{ width: "55%" }}>Flows</Typography>
+      </SideBarItem>
+      <SideBarItem className="sidebar-item" onClick={() => changeMode(1)}>
+        {mode === 1 ? (
+          <FaBook color="black" size={20} style={{ width: "45%" }} />
         ) : (
-          <img
-            className="col-4"
-            src="src/assets/library_books_white_24dp.svg"
-          />
+          <FaBook color="white" size={20} style={{ width: "45%" }} />
         )}
-        <div className="col-6">Library</div>
-      </div>
-      <div className="row sidebar-item" onClick={() => setCalendar(Date.now())}>
-        {active[2] ? (
-          <img
-            className="col-4"
-            src="src/assets/calendar_month_black_24dp.svg"
-          />
+        <Typography style={{ width: "55%" }}>Library</Typography>
+      </SideBarItem>
+      <SideBarItem className="sidebar-item" onClick={() => changeMode(2)}>
+        {mode === 2 ? (
+          <FaCalendarAlt color="black" size={20} style={{ width: "45%" }} />
         ) : (
-          <img
-            className="col-4"
-            src="src/assets/calendar_month_white_24dp.svg"
-          />
+          <FaCalendarAlt color="white" size={20} style={{ width: "45%" }} />
         )}
-        <div className="col-6">Calendar</div>
-      </div>
-      <div className="row sidebar-item" onClick={() => setSettings(Date.now())}>
-        {active[3] ? (
-          <img className="col-4" src="src/assets/settings_black_24dp.svg" />
+        <Typography style={{ width: "55%" }}>Calendar</Typography>
+      </SideBarItem>
+      <SideBarItem className="sidebar-item" onClick={() => changeMode(3)}>
+        {mode === 3 ? (
+          <AiTwotoneSetting color="black" size={20} style={{ width: "45%" }} />
         ) : (
-          <img className="col-4" src="src/assets/settings_white_24dp.svg" />
+          <AiTwotoneSetting color="white" size={20} style={{ width: "45%" }} />
         )}
-        <div className="col-6">Settings</div>
-      </div>
-    </div>
+        <Typography style={{ width: "55%" }}>Settings</Typography>
+      </SideBarItem>
+    </Stack>
   );
 };
 

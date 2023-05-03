@@ -4,8 +4,10 @@ import { userFlows, userFlowNode } from "./data";
 
 const flows = userFlows;
 const tabList = [];
+const nodes = userFlowNode[0].nodes;
 export const useFlowStorage = create((set) => ({
   flows: flows,
+  nodes: nodes,
   tabList: tabList,
   flowNow: {},
   flowNodes: userFlowNode,
@@ -15,20 +17,20 @@ export const useFlowStorage = create((set) => ({
         state.flowNow = payload;
       })
     ),
-  addTab: (payload) => {
-    console.log("addtab:", payload);
-    set(
-      produce((state) => {
-        state.tabList.push(payload);
-      })
-    );
-  },
+  addTab: (payload) =>
+    set((state) => {
+      return {
+        ...state,
+        tabList: [...state.tabList, payload],
+      };
+    }),
   closeTab: (payload) =>
-    set(
-      produce((state) => {
-        state.tabList.pop(payload);
-      })
-    ),
+    set((state) => {
+      return {
+        ...state,
+        tabList: state.tabList.filter((item) => item !== payload),
+      };
+    }),
 
   saveNewNode: (payload) =>
     set(
@@ -94,6 +96,13 @@ export const useFlowStorage = create((set) => ({
     set(
       produce((state) => {
         state.flows.unshift(payload);
+      })
+    ),
+  mode: 0,
+  changeMode: (curMode) =>
+    set(
+      produce((state) => {
+        state.mode = curMode;
       })
     ),
 }));

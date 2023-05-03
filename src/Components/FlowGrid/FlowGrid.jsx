@@ -40,7 +40,7 @@ export default function FlowGrid() {
   useEffect(() => {
     if (!user) return;
     instance
-      .post("/flows", { user })
+      .get("/flows")
       .then((res) => {
         if (res.status === 200) setFlows(res.data);
         setLoading(false);

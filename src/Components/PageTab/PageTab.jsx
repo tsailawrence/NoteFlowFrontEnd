@@ -69,6 +69,7 @@ export default function PageTab({ flows }) {
   };
 
   const clickCloseTab = (payload) => {
+    console.log(payload);
     closeTab(payload);
     navigate("/home");
   };
@@ -106,14 +107,14 @@ export default function PageTab({ flows }) {
           <FaHome color="white" size={20} />
         </IconButton>
         <Stack direction="row" spacing={1}>
-          {tabList.map((tab, key) => {
+          {tabList.map((tab, id) => {
             let tabTitle = tab.title;
             if (tabTitle.length > 7) {
               tabTitle = tabTitle.substring(0, 6) + "...";
             }
 
             return (
-              <ButtonGroup color="primary" variant="outlined" key={key}>
+              <ButtonGroup color="primary" variant="outlined" key={id}>
                 <TabButton onClick={() => toThatTab(tab)}>
                   <Typography color="white">{tabTitle}</Typography>
                 </TabButton>
