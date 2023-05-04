@@ -25,14 +25,20 @@
     .App-sidebar {
       width: 10vw;
       min-width: 100px;
+      min-height: 600px;
     }
     .App-tab {
       width: 90vw;
       padding: 0;
       margin: 0;
+      min-height: 600px;
       background-color: black;
       .Page-tab{
+        .MuiToolbar-root{
+          min-height: 60px !important;
+        }
         height:10%;
+        min-height: 60px;
       }
       .Flow-grid{
         background-color: white;

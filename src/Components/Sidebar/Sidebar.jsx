@@ -8,8 +8,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useFlowStorage } from "../../storage/Storage";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
+  const { t } = useTranslation();
   const changeMode = useFlowStorage((state) => state.changeMode);
   const mode = useFlowStorage((state) => state.mode);
   const tabList = useFlowStorage((state) => state.tabList);
@@ -18,66 +20,54 @@ const Sidebar = () => {
     cursor: "pointer",
     color: "white",
     backgroundColor: "black",
-    border: "1px black solid",
+    borderRight: "1px black solid",
+    borderLeft: "1px black solid",
     width: "100%",
-    paddingTop: "3vmin",
-    paddingBottom: "3vmin",
+    paddingTop: "20px",
+    paddingBottom: "20px",
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
   }));
-  // 按鈕顏色互斥
-  const setColor = () => {
+  const SideBarText = styled(Typography)(() => ({
+    fontSize: "1.2vw",
+    width: "55%",
+  }));
+  useEffect(() => {
     const all = document.querySelectorAll(".sidebar-item");
     for (let index = 0; index < all.length; index++) {
+      // 按鈕顏色互斥
       if (index === mode) {
         all[index].style.backgroundColor = "white";
         all[index].style.color = "black";
+        all[index].firstChild.style.color = "black";
       } else {
         all[index].style.backgroundColor = "black";
         all[index].style.color = "white";
+        all[index].firstChild.style.color = "white";
       }
     }
-  };
-  useEffect(() => {
-    setColor();
-  }, [mode, tabList, location]);
+  }, [mode, tabList, location, t]);
   return (
     <Stack className="sidebar">
       <div className="logo">
-        <img src="/src/assets/logo.png" alt="" width="60" height="60" />
+        <img src="/src/assets/logo.png" alt="" />
       </div>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(0)}>
-        {mode === 0 ? (
-          <FaPen color="black" size={20} style={{ width: "45%" }} />
-        ) : (
-          <FaPen color="white" size={20} style={{ width: "45%" }} />
-        )}
-        <Typography style={{ width: "55%" }}>Flows</Typography>
+        <FaPen size={20} style={{ width: "45%" }} />
+        <SideBarText>{t("Flows")}</SideBarText>
       </SideBarItem>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(1)}>
-        {mode === 1 ? (
-          <FaBook color="black" size={20} style={{ width: "45%" }} />
-        ) : (
-          <FaBook color="white" size={20} style={{ width: "45%" }} />
-        )}
-        <Typography style={{ width: "55%" }}>Library</Typography>
+        <FaBook size={20} style={{ width: "45%" }} />
+        <SideBarText>{t("Favorite")}</SideBarText>
       </SideBarItem>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(2)}>
-        {mode === 2 ? (
-          <FaCalendarAlt color="black" size={20} style={{ width: "45%" }} />
-        ) : (
-          <FaCalendarAlt color="white" size={20} style={{ width: "45%" }} />
-        )}
-        <Typography style={{ width: "55%" }}>Calendar</Typography>
+        <FaCalendarAlt size={20} style={{ width: "45%" }} />
+        <SideBarText>{t("Calendar")}</SideBarText>
       </SideBarItem>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(3)}>
-        {mode === 3 ? (
-          <AiTwotoneSetting color="black" size={20} style={{ width: "45%" }} />
-        ) : (
-          <AiTwotoneSetting color="white" size={20} style={{ width: "45%" }} />
-        )}
-        <Typography style={{ width: "55%" }}>Settings</Typography>
+        <AiTwotoneSetting size={20} style={{ width: "45%" }} />
+        <SideBarText>{t("Settings")}</SideBarText>
       </SideBarItem>
     </Stack>
   );

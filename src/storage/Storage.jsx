@@ -105,4 +105,11 @@ export const useFlowStorage = create((set) => ({
         state.mode = curMode;
       })
     ),
+  lang: "zh",
+  setLang: (curMode) =>
+    set(
+      produce((state) => {
+        state.lang = curMode;
+      })
+    ),
 }));

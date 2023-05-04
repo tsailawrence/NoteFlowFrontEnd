@@ -11,8 +11,10 @@ import PageTab from "../PageTab/PageTab";
 import { useFlowStorage } from "../../storage/Storage";
 import { useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import { useTranslation } from "react-i18next";
 
 export default function FlowGrid() {
+  const { t } = useTranslation();
   const flows = useFlowStorage((state) => state.flows);
   const tabList = useFlowStorage((state) => state.tabList);
   const addTab = useFlowStorage((state) => state.addTab);
@@ -48,9 +50,9 @@ export default function FlowGrid() {
       columns={16}
     >
       {flows.map((flow) => (
-        <Grid item xs={4} md={4}>
+        <Grid item xs={16} sm={8} md={4}>
           <FlowButton onClick={() => toFlow(flow)}>
-            Last Edit Time: {flow.time} hours
+            {t("Last Edit Time:")} {flow.time} {t("hours")}
           </FlowButton>
           <Typography>{flow.name}</Typography>
         </Grid>
