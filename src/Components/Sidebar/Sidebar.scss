@@ -10,12 +10,16 @@
   position: relative;
   border-right: 1px solid grey;
   .logo {
+    height: 10vh;
+    min-height: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     cursor: pointer;
-    margin-top: 3vmin;
-    margin-bottom: 2vmin;
     // margin-left: 1vm;
+    img{
+      height: 80%;
+    }
   }
 }
