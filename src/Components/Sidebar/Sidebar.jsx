@@ -20,17 +20,21 @@ const Sidebar = () => {
     cursor: "pointer",
     color: "white",
     backgroundColor: "black",
-    borderRight: "1px black solid",
-    borderLeft: "1px black solid",
+    border: "3px black solid",
+    borderRight: "5px black solid",
     width: "100%",
-    paddingTop: "20px",
-    paddingBottom: "20px",
+    height: "50px",
+    marginTop: "10px",
+    padding: "20px",
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
+    borderTopRightRadius: "50px",
+    borderBottomRightRadius: "50px",
+    // borderRadius: "15px",
   }));
   const SideBarText = styled(Typography)(() => ({
-    fontSize: "1.2vw",
+    fontSize: "12px",
     width: "55%",
   }));
   useEffect(() => {
@@ -40,11 +44,7 @@ const Sidebar = () => {
       if (index === mode) {
         all[index].style.backgroundColor = "white";
         all[index].style.color = "black";
-        all[index].firstChild.style.color = "black";
-      } else {
-        all[index].style.backgroundColor = "black";
-        all[index].style.color = "white";
-        all[index].firstChild.style.color = "white";
+        // all[index].firstChild.style.color = "black";
       }
     }
   }, [mode, tabList, location, t]);

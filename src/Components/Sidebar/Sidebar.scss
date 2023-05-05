@@ -9,6 +9,7 @@
   justify-content: flex-start;
   position: relative;
   border-right: 1px solid grey;
+
   .logo {
     height: 10vh;
     min-height: 60px;
@@ -18,8 +19,15 @@
     align-items: center;
     cursor: pointer;
     // margin-left: 1vm;
-    img{
+    img {
       height: 80%;
+    }
+  }
+  .sidebar-item {
+    transition: background-color 0.3s ease-out;
+    &:hover {
+      background-color: white;
+      color: black;
     }
   }
 }
