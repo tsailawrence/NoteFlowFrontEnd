@@ -1,5 +1,5 @@
 import PageTab from "../../Components/PageTab/PageTab";
-import Editor from "../../Components/Editor/Editor";
+import { Editor } from "../../Components/Editor/Editor";
 import { useFlowStorage } from "../../storage/Storage";
 import { useLocation } from "react-router-dom";
 import "./Node.scss";

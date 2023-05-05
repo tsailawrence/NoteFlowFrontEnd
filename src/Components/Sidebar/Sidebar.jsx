@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./SideBar.scss";
+import "./Sidebar.scss";
 import { FaPen, FaBook, FaCalendarAlt } from "react-icons/fa";
 import { AiTwotoneSetting } from "react-icons/ai";
 import { styled } from "@mui/material/styles";
@@ -50,9 +50,9 @@ const Sidebar = () => {
   }, [mode, tabList, location, t]);
   return (
     <Stack className="sidebar">
-      <div className="logo">
-        <img src="/src/assets/logo.png" alt="" />
-      </div>
+      <a className="logo" href="/home">
+        <img src="assets/logo.png" alt="" width="60" height="60" />
+      </a>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(0)}>
         <FaPen size={20} style={{ width: "45%" }} />
         <SideBarText>{t("Flows")}</SideBarText>

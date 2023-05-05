@@ -1,11 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./scss/index.scss";
-import "./i18n";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './scss/index.scss';
+import { UserProvider } from './hooks/useApp';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  // <React.StrictMode>
+  <UserProvider>
     <App />
-  </React.StrictMode>
+  </UserProvider>
+  // </React.StrictMode>
 );

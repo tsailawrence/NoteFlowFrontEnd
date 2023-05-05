@@ -1,42 +1,43 @@
-import React from "react";
-import ReactQuill from "react-quill";
-import EditorToolbar, { modules, formats } from "./EditorToolbar";
-import "react-quill/dist/quill.snow.css";
-import "./Editor.scss";
-import { IoIosArrowBack } from "react-icons/io";
-import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
-import { useFlowStorage } from "../../storage/Storage";
-import katex from "katex";
-import "katex/dist/katex.min.css";
-import { useParams } from "../../hooks/useParams";
+import React, { useEffect, useRef } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
+import EditorToolbar, { modules, formats } from './EditorToolbar';
+import 'react-quill/dist/quill.snow.css';
+import './Editor.scss';
+import { IoIosArrowBack } from 'react-icons/io';
+import IconButton from '@mui/material/IconButton';
+import { useState } from 'react';
+import { useFlowStorage } from '../../storage/Storage';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+import { useQuill } from '../../API/useQuill';
+import { useApp, getRandomPicture } from '../../hooks/useApp';
+import { Colab } from '../../API/Colab.js';
+
 window.katex = katex;
 
-export const Editor = ({
-  saveNodeLabel,
-  handleDrawerClose,
-  flowID,
-  nodes,
-  nodeID,
-}) => {
-  const saveNode = useFlowStorage((state) => state.saveNode);
-  const { user } = useParams();
-  const flows = useFlowStorage((state) => state.flows);
-
-  const filtered_node = nodes.filter((n) => n.id === nodeID)[0];
-  const flowNodes = useFlowStorage((state) => state.flowNodes);
-  const filtered_value_flow =
-    flowNodes.filter((f) => f.id === flowID).length != 0
-      ? flowNodes.filter((f) => f.id === flowID)[0]
-      : { id: flowID, nodes: [{ id: nodeID, value: "" }] };
-  const filtered_value =
-    filtered_value_flow.nodes.filter((n) => n.id === nodeID).length != 0
-      ? filtered_value_flow.nodes.filter((n) => n.id === nodeID)[0]
-      : { id: nodeID, value: "" };
+const Editor = ({ handleDrawerClose, editorId }) => {
+  // const saveNode = useFlowStorage((state) => state.saveNode);
+  const { user } = useApp();
+  const [colab, setColab] = useState([]);
+  const [colabWebSocket, setColabWebSocket] = useState(null);
+  const { OpenEditor, QuillRef, colabs } = useQuill();
+  useEffect(() => {
+    OpenEditor(editorId);
+    console.log('open editor');
+    const connection = new Colab(editorId, user.email, (members) => {
+      setColab(members);
+    });
+    setColabWebSocket(connection);
+    // setColab();
+    setState({
+      title: '',
+      value: '',
+    });
+  }, []);
 
   const [state, setState] = useState({
-    title: filtered_node.data.label,
-    value: filtered_value.value,
+    title: '',
+    value: '',
   });
 
   const handleChange = (value) => {
@@ -45,61 +46,67 @@ export const Editor = ({
   };
 
   const onSave = () => {
-    console.log(state.value);
-    saveNode({
-      flow_id: flowID,
-      node_id: nodeID,
-      title: state.title,
-      value: state.value,
-    });
-
+    // console.log(state.value);
+    // saveNode({
+    //   flow_id: flowId,
+    //   node_id: nodeId,
+    //   title: state.title,
+    //   value: state.value,
+    // });
     //connect to backend
   };
 
+  // shareDB
+
   return (
-    <div className="editor">
-      <div className="header">
+    <div className='editor'>
+      <div className='header'>
         <IconButton
-          size="large"
+          size='large'
           onClick={() => {
             handleDrawerClose();
+            colabWebSocket.close();
             onSave();
           }}
         >
           <IoIosArrowBack size={20} />
         </IconButton>
         <input
-          className="title-input"
-          type="text"
-          placeholder="Untitled..."
+          className='title-input'
+          type='text'
+          placeholder='Untitled...'
           value={state.title}
           onChange={(e) => {
             setState({ ...state, title: e.target.value });
-            saveNodeLabel(nodeID, e.target.value);
           }}
         ></input>
-        <span className="focus-border"></span>
+        <span className='focus-border'></span>
         {/* 需限制 user 數量 */}
-        <div className="users">
-          <div className="user">
-            <img src={user.picture} alt="" />
-          </div>
+        <div className='users'>
+          {colab.map((element, index) => {
+            return (
+              <div className='user' key={index}>
+                <img src={getRandomPicture(element)} alt='' />
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div className="text-editor">
+      <div className='text-editor'>
         <EditorToolbar />
         <ReactQuill
-          theme="snow"
+          theme='snow'
           value={state.value}
           onChange={handleChange}
-          placeholder={"Write something awesome..."}
+          placeholder={'Write something awesome...'}
           modules={modules}
           formats={formats}
-          className="editor-input"
+          className='editor-input'
+          ref={QuillRef}
         />
       </div>
     </div>
   );
 };
 
-export default Editor;
+export { Editor };
