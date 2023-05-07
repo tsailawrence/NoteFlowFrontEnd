@@ -4,7 +4,7 @@ import "./LoadingScreen.scss";
 function LoadingScreen() {
   return (
     <div className="ring">
-      <div>Loading</div>
+      <div className="text">Loading</div>
     </div>
   );
 }

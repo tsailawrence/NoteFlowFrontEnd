@@ -120,6 +120,10 @@ const Login = () => {
                 autoComplete="email"
                 autoFocus
                 size="small"
+                InputProps={{
+                  style: { fontFamily: "Bauhaus" },
+                }}
+                InputLabelProps={{ style: { fontFamily: "Bauhaus" } }}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -134,6 +138,10 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
                 size="small"
+                InputProps={{
+                  style: { fontFamily: "Bauhaus" },
+                }}
+                InputLabelProps={{ style: { fontFamily: "Bauhaus" } }}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -144,7 +152,12 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 2, mb: 2 }}
-                style={{ backgroundColor: "#0e1111" }}
+                style={{
+                  backgroundColor: "#0e1111",
+                  fontFamily: "Bauhaus",
+                  paddingTop: "2%",
+                  textTransform: "none",
+                }}
               >
                 Login
               </Button>
@@ -158,14 +171,17 @@ const Login = () => {
                 <Link
                   href="#/forgotPassword"
                   variant="body2"
-                  style={{ color: "#414a4c" }}
+                  style={{
+                    color: "#414a4c",
+                    fontFamily: "Bauhaus",
+                  }}
                 >
                   Forgot password?
                 </Link>
                 <Link
                   href="#/register"
                   variant="body2"
-                  style={{ color: "#414a4c" }}
+                  style={{ color: "#414a4c", fontFamily: "Bauhaus" }}
                 >
                   {"Don't have an account? Sign Up"}
                 </Link>
