@@ -101,7 +101,7 @@ const Login = () => {
           <h1>NoteFlow</h1>
         </div>
         <div className="info">
-          <h2>Log in</h2>
+          <h2>Login</h2>
 
           <div className="infoContainer">
             <Box
@@ -146,7 +146,7 @@ const Login = () => {
                 sx={{ mt: 2, mb: 2 }}
                 style={{ backgroundColor: "#0e1111" }}
               >
-                Log in
+                Login
               </Button>
               <div
                 className="links"

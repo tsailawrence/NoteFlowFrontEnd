@@ -24,7 +24,7 @@
     padding: 0;
     margin: 0;
     // border: red solid 2px;
-    @media(max-height: 1200px){
+    @media (max-height: 1200px) {
       .logo {
         width: 50%;
         height: 100%;
@@ -55,12 +55,12 @@
         justify-content: center;
         // border-radius: 15px;
         // border: red solid 2px;
-  
+
         h2 {
           font-size: 4vw;
           // border: red solid 2px;
         }
-  
+
         .infoContainer {
           width: 90%;
           display: flex;
@@ -69,10 +69,10 @@
           gap: 5px;
           justify-content: center;
           border: red soild 2px;
-  
+
           .profile {
             padding: 0;
-  
+
             img {
               border: none;
               border-radius: 50% 50%;
@@ -83,13 +83,13 @@
             }
           }
         }
-  
+
         #signInDiv {
           max-width: 80%;
           margin-top: 1vw;
           // border: red solid 2px;
         }
-  
+
         .horizontalLine {
           width: 65%;
           font-size: 1vw;
@@ -98,14 +98,14 @@
           line-height: 0.1em;
           margin: 0;
           margin-top: 1vw;
-  
+
           span {
             background: #fff;
             padding: 0 10px;
             margin: 0;
           }
         }
-  
+
         button {
           &:hover {
             border: #666666;
@@ -113,18 +113,18 @@
         }
       }
     }
-    @media(max-height: 600px){
+    @media (max-height: 600px) {
       .logo {
         gap: 0;
       }
       .info {
         gap: 0;
-        .infoContainer{
+        .infoContainer {
           gap: 0;
         }
       }
     }
-    @media(max-height: 470px){
+    @media (max-height: 470px) {
       .logo {
         min-height: 470px;
       }
@@ -132,7 +132,7 @@
         min-height: 470px;
       }
     }
-    @media(max-width: 1100px){
+    @media (max-width: 1100px) {
       .logo {
         min-width: 550px;
       }

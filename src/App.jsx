@@ -1,7 +1,6 @@
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./scss/App.scss";
-import "./fonts/Bauhaus.ttf";
 import Router from "./Router.jsx";
 
 function App() {

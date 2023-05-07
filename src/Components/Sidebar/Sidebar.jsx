@@ -5,7 +5,6 @@ import { AiTwotoneSetting } from "react-icons/ai";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { useFlowStorage } from "../../storage/Storage";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -30,7 +29,7 @@ const Sidebar = () => {
     borderTopRightRadius: "50px",
     borderBottomRightRadius: "50px",
   }));
-  const SideBarText = styled(Typography)(() => ({
+  const SideBarText = styled("div")(() => ({
     fontSize: "12px",
     width: "55%",
   }));
