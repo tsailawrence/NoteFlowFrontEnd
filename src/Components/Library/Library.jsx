@@ -73,6 +73,7 @@ const Library = () => {
     }
     navigate("/node", { state: node });
   };
+
   return (
     <Stack direction="column" justifyContent="center" alignItems="center">
       <Stack
@@ -113,7 +114,9 @@ const Library = () => {
             <NodeButton onClick={() => toNode(node)}>
               {/* {t("Last Edit Time:")} {node.time} {t("hours")} */}
             </NodeButton>
-            <Typography style={{ fontSize: "14px" }}>{node.name}</Typography>
+            <Typography style={{ fontSize: "14px", paddingTop: "2%" }}>
+              {node.name}
+            </Typography>
           </Grid>
         ))}
       </Grid>

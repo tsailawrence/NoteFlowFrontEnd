@@ -7,11 +7,14 @@ import { grey } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import "./Calendar.scss";
+
 const Calendar = () => {
   // const { t } = useTranslation();
   const NodeButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(grey[100]),
     fontSize: "12px",
+    fontFamily: "Bauhaus",
     backgroundColor: "white",
     border: "1px black solid",
     "&:hover": {
@@ -40,9 +43,14 @@ const Calendar = () => {
     const dateString = year + "-" + month + "-" + day;
     return dateString;
   };
+
   return (
     <Grid container columns={12} sx={{ p: 0, m: 0, height: "100%" }}>
-      <Grid item xs={6} sx={{ height: "100%" }}>
+      <Grid
+        item
+        xs={6}
+        sx={{ height: "100%", "& .MuiPickersDay-root": { paddingTop: 0.5 } }}
+      >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker defaultValue={dayjs(getDate())} />
         </LocalizationProvider>
@@ -60,7 +68,14 @@ const Calendar = () => {
           {nodes.map((node, id) => (
             <Grid item xs={4} md={4} key={id}>
               <NodeButton>Last Edit Time: {node.time} hours</NodeButton>
-              <Typography style={{ fontSize: "12px" }}>{node.name}</Typography>
+              <Typography
+                style={{
+                  fontSize: "12px",
+                  paddingTop: "2%",
+                }}
+              >
+                {node.name}
+              </Typography>
             </Grid>
           ))}
         </Grid>

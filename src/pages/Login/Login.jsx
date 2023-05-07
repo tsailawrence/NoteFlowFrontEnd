@@ -10,7 +10,6 @@ import instance from "../../API/api";
 import { SHA256 } from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../hooks/useApp";
-
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
   "951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com";
@@ -120,10 +119,6 @@ const Login = () => {
                 autoComplete="email"
                 autoFocus
                 size="small"
-                InputProps={{
-                  style: { fontFamily: "Bauhaus" },
-                }}
-                InputLabelProps={{ style: { fontFamily: "Bauhaus" } }}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -138,10 +133,6 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
                 size="small"
-                InputProps={{
-                  style: { fontFamily: "Bauhaus" },
-                }}
-                InputLabelProps={{ style: { fontFamily: "Bauhaus" } }}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -154,7 +145,6 @@ const Login = () => {
                 sx={{ mt: 2, mb: 2 }}
                 style={{
                   backgroundColor: "#0e1111",
-                  fontFamily: "Bauhaus",
                   paddingTop: "2%",
                   textTransform: "none",
                 }}
@@ -173,7 +163,6 @@ const Login = () => {
                   variant="body2"
                   style={{
                     color: "#414a4c",
-                    fontFamily: "Bauhaus",
                   }}
                 >
                   Forgot password?
@@ -181,7 +170,7 @@ const Login = () => {
                 <Link
                   href="#/register"
                   variant="body2"
-                  style={{ color: "#414a4c", fontFamily: "Bauhaus" }}
+                  style={{ color: "#414a4c" }}
                 >
                   {"Don't have an account? Sign Up"}
                 </Link>
