@@ -13,12 +13,8 @@ export default function Main() {
   return (
     <div className="App">
       <div className="App-container">
-        <div className="App-sidebar">
-          <Sidebar />
-        </div>
-
+        <Sidebar />
         <div className="App-tab">
-          {/* <Tab /> */}
           <div className="Page-tab">
             <PageTab />
           </div>

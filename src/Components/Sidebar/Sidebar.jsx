@@ -20,10 +20,7 @@ const Sidebar = () => {
     cursor: "pointer",
     color: "white",
     backgroundColor: "black",
-    border: "3px black solid",
-    borderRight: "5px black solid",
-    width: "100%",
-    height: "50px",
+    width: "70%",
     marginTop: "10px",
     padding: "20px",
     display: "flex",
@@ -31,7 +28,6 @@ const Sidebar = () => {
     alignItems: "center",
     borderTopRightRadius: "50px",
     borderBottomRightRadius: "50px",
-    // borderRadius: "15px",
   }));
   const SideBarText = styled(Typography)(() => ({
     fontSize: "12px",
