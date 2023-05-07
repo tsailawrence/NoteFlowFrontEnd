@@ -15,9 +15,7 @@ export default function Main() {
       <div className="App-container">
         <Sidebar />
         <div className="App-tab">
-          <div className="Page-tab">
-            <PageTab />
-          </div>
+          <PageTab />
           <div className="Flow-grid">
             {mode === 0 ? (
               <FlowGrid />

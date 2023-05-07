@@ -4,7 +4,6 @@ import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import { Paper, Toolbar, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { FaHome } from "react-icons/fa";
@@ -103,8 +102,11 @@ export default function PageTab({ flows }) {
           backgroundColor: "black",
           paddingBottom: 0,
           width: "100%",
-          height: "5px",
+          "@media (min-width: 600px)": {
+            minHeight: "55px",
+          },
         }}
+        className="toolbar"
         direction="row"
         spacing={2}
       >

@@ -21,6 +21,7 @@ const Sidebar = () => {
     color: "white",
     backgroundColor: "black",
     width: "70%",
+    height: "8px",
     marginTop: "10px",
     padding: "20px",
     display: "flex",
