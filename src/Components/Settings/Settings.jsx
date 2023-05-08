@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdLanguage } from "react-icons/md";
 import { styled } from "@mui/material/styles";
+import "./Settings.scss";
 
 const Settings = () => {
   const SettingsButton = styled(Box)(({ theme }) => ({
@@ -80,7 +81,13 @@ const Settings = () => {
                 <Typography sx={{ marginRight: "5px" }}>Password:</Typography>
                 <Button
                   variant="outlined"
-                  sx={{ backgroundColor: "#0e1111", color: "white" }}
+                  className="reset-button"
+                  sx={{
+                    backgroundColor: "#0e1111",
+                    color: "white",
+                    height: "30px",
+                    paddingTop: "10px",
+                  }}
                 >
                   Reset Password
                 </Button>

@@ -145,6 +145,7 @@ const Login = () => {
                 sx={{ mt: 2, mb: 2 }}
                 style={{
                   backgroundColor: "#0e1111",
+                  color: "white",
                   paddingTop: "2%",
                   textTransform: "none",
                 }}

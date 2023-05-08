@@ -14,13 +14,14 @@
   border-right: 1px solid grey;
 
   .logo {
-    height: 10vh;
+    height: 13vh;
     // min-height: 10vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding-top: 3%;
   }
   .sidebar-item {
     transition: background-color 0.3s ease-out;

@@ -32,7 +32,7 @@ const Sidebar = () => {
   const SideBarText = styled("div")(() => ({
     paddingTop: "3%",
     lineHeight: "2",
-    fontSize: "13px",
+    fontSize: "15px",
     width: "55%",
   }));
   useEffect(() => {
