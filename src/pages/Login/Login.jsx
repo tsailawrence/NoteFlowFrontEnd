@@ -12,6 +12,8 @@ import { useParams } from "../../hooks/useParams";
 import { useNavigate } from "react-router-dom";
 import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
+import { useTranslation } from "react-i18next";
+
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
   "951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com";
@@ -26,7 +28,8 @@ const Profile = ({ user }) => {
 };
 
 const Login = ({ mode }) => {
-  const Login = () => {
+  const LoginPage = () => {
+    const { t } = useTranslation();
     const { user, setUser } = useParams(); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
     const divRef = useRef(null);
     const [email, setEmail] = useState("");
@@ -106,7 +109,7 @@ const Login = ({ mode }) => {
     }, [user]);
     return (
       <div className="info">
-        <h2>Log in</h2>
+        <h2>{t("Log in")}</h2>
         {/* <button onClick={() => handleLogin()}>Login</button> */}
 
         <div className="infoContainer">
@@ -123,7 +126,7 @@ const Login = ({ mode }) => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t("Email Address")}
                   name="email"
                   autoComplete="email"
                   autoFocus
@@ -137,7 +140,7 @@ const Login = ({ mode }) => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t("Password")}
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -154,7 +157,7 @@ const Login = ({ mode }) => {
                   sx={{ mt: 2, mb: 2 }}
                   style={{ backgroundColor: "#0e1111" }}
                 >
-                  Log in
+                  {t("Log in")}
                 </Button>
                 <div
                   className="links"
@@ -168,14 +171,14 @@ const Login = ({ mode }) => {
                     variant="body2"
                     style={{ color: "#414a4c" }}
                   >
-                    Forgot password?
+                    {t("Forgot password?")}
                   </Link>
                   <Link
                     href="#/Register"
                     variant="body2"
                     style={{ color: "#414a4c" }}
                   >
-                    {"Don't have an account? Sign Up"}
+                    {t("Don't have an account? Sign Up")}
                   </Link>
                 </div>
               </Box>
@@ -183,7 +186,7 @@ const Login = ({ mode }) => {
           )}
         </div>
         <div className="horizontalLine">
-          <span>OR</span>
+          <span>{t("OR")}</span>
         </div>
         <div id="signInDiv" ref={divRef}></div>
         {user && <Profile user={user} />}
@@ -209,11 +212,11 @@ const Login = ({ mode }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: "65%",
+            width: "70%",
           }}
         >
           <Link href="#/Register" variant="body2" style={{ color: "#414a4c" }}>
-            Doesn't have an account yet?
+            {t("Don't have an account yet?")}
           </Link>
           <Button
             type="submit"
@@ -223,7 +226,7 @@ const Login = ({ mode }) => {
               handleLogOut(e);
             }}
           >
-            Register
+            {t("Register")}
           </Button>
         </div>
       </div>
@@ -237,7 +240,7 @@ const Login = ({ mode }) => {
           <h1>NoteFlow</h1>
         </div>
         {mode === "0" ? (
-          <Login />
+          <LoginPage />
         ) : mode === "1" ? (
           <Register />
         ) : (

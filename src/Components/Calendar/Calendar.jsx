@@ -7,7 +7,9 @@ import { grey } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 const Calendar = () => {
+  const { t } = useTranslation();
   const NodeButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(grey[100]),
     fontSize: "12px",
@@ -58,7 +60,9 @@ const Calendar = () => {
         <Grid container columns={12} spacing={2}>
           {nodes.map((node) => (
             <Grid item xs={4} md={4}>
-              <NodeButton>Last Edit Time: {node.time} hours</NodeButton>
+              <NodeButton>
+                {t("Last Edit Time:")} {node.time} {t("hours")}
+              </NodeButton>
               <Typography style={{ fontSize: "12px" }}>{node.name}</Typography>
             </Grid>
           ))}

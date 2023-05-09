@@ -7,8 +7,10 @@ import instance from "../../api";
 import { SHA256 } from "crypto-js";
 import { useParams } from "../../hooks/useParams";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ForgotPassword = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState({}); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
   const [email, setEmail] = useState("");
   const { setLogin } = useParams();
@@ -21,7 +23,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="info">
-      <h2>Forgot password</h2>
+      <h2>{t("Forgot password")}</h2>
       <div className="infoContainer">
         {Object.keys(user).length === 0 && (
           <>
@@ -36,7 +38,7 @@ const ForgotPassword = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={t("Email Address")}
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -60,7 +62,7 @@ const ForgotPassword = () => {
                   style={{ backgroundColor: "white", color: "black" }}
                   onClick={() => navigateTo("/")}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -68,7 +70,7 @@ const ForgotPassword = () => {
                   sx={{ mt: 4, width: "45%" }}
                   style={{ backgroundColor: "#0e1111" }}
                 >
-                  Send me an email
+                  {t("Send me an email")}
                 </Button>
               </div>
             </Box>

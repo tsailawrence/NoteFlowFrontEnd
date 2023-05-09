@@ -7,8 +7,10 @@ import instance from "../../api";
 import { SHA256 } from "crypto-js";
 import { useParams } from "../../hooks/useParams";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState({}); // user 是 google 回傳的 object, 可以拿去 render profile 頁面
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,7 +66,7 @@ const Register = () => {
                 required
                 fullWidth
                 id="name"
-                label="Name"
+                label={t("Name")}
                 name="name"
                 autoComplete="name"
                 autoFocus
@@ -78,7 +80,7 @@ const Register = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={t("Email Address")}
                 name="email"
                 autoComplete="email"
                 size="small"
@@ -91,7 +93,7 @@ const Register = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label={t("Password")}
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -105,7 +107,7 @@ const Register = () => {
                 required
                 fullWidth
                 name="password"
-                label="Check Password"
+                label={t("Check Password")}
                 type="password"
                 id="check-password"
                 autoComplete="current-password"
@@ -129,7 +131,7 @@ const Register = () => {
                   style={{ backgroundColor: "white", color: "black" }}
                   onClick={() => navigateTo("/")}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -137,7 +139,7 @@ const Register = () => {
                   sx={{ mt: 2, mb: 2, width: "45%" }}
                   style={{ backgroundColor: "#0e1111" }}
                 >
-                  Register
+                  {t("Register")}
                 </Button>
               </div>
             </Box>
