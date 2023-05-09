@@ -160,18 +160,18 @@ const Login = () => {
                 }}
               >
                 <Link
-                  href="#/forgotPassword"
                   variant="body2"
                   style={{
                     color: "#414a4c",
                   }}
+                  onClick={() => navigateTo("/forgotPassword")}
                 >
                   Forgot password?
                 </Link>
                 <Link
-                  href="#/register"
                   variant="body2"
                   style={{ color: "#414a4c" }}
+                  onClick={() => navigateTo("/register")}
                 >
                   {"Don't have an account? Sign Up"}
                 </Link>
