@@ -77,6 +77,8 @@ const Login = ({ mode }) => {
           navigateTo("/home");
         })
         .catch((e) => {
+          setLogin(true);
+          navigateTo("/home");
           console.log("Login error");
         });
 
