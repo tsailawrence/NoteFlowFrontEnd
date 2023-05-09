@@ -1,6 +1,6 @@
 import Sidebar from "../../Components/SideBar/SideBar.jsx";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+// import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Main.scss";

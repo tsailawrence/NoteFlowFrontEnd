@@ -1,6 +1,6 @@
 import Sidebar from "./Components/SideBar/SideBar.jsx";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import FlowWithProvider from "./pages/Flow/Flow.jsx";
 import { useState } from "react";
 import Editor from "./Components/Editor/Editor";
