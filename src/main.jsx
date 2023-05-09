@@ -8,7 +8,7 @@ import "./i18n";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Bauhaus",
+    fontFamily: "Flipahaus",
   },
 });
 
