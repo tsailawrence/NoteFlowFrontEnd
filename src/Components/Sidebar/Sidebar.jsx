@@ -57,7 +57,7 @@ const Sidebar = () => {
       </SideBarItem>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(1)}>
         <FaBook size={20} style={{ width: "45%" }} />
-        <SideBarText>{t("Favorite")}</SideBarText>
+        <SideBarText>{t("Library")}</SideBarText>
       </SideBarItem>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(2)}>
         <FaCalendarAlt size={20} style={{ width: "45%" }} />

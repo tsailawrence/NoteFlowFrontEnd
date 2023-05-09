@@ -10,7 +10,7 @@ import InputBase from "@mui/material/InputBase";
 import { useFlowStorage } from "../../storage/Storage";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import instance from "../../api";
+import instance from "../../API/api";
 
 const Library = () => {
   // const { t } = useTranslation();
