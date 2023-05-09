@@ -10,6 +10,11 @@ const theme = createTheme({
   typography: {
     fontFamily: "Flipahaus",
   },
+  palette: {
+    primary: {
+      main: "#FFBF00", // 琥珀色
+    },
+  },
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
