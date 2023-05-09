@@ -70,7 +70,7 @@ const Login = () => {
         console.log("Login error");
       });
 
-    navigateTo("/home");
+    // navigateTo("/home");
 
     //
   };
