@@ -4,6 +4,7 @@ import App from "./App";
 import "./scss/index.scss";
 import { UserProvider } from "./hooks/useApp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./i18n";
 
 const theme = createTheme({
   typography: {
