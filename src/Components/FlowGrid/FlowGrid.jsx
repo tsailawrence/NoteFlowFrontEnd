@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -11,11 +11,16 @@ import PageTab from "../PageTab/PageTab";
 import { useFlowStorage } from "../../storage/Storage";
 import { useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
-import { useTranslation } from "react-i18next";
+import instance from "../../API/api";
+import { useApp } from "../../hooks/useApp";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 export default function FlowGrid() {
-  const { t } = useTranslation();
-  const flows = useFlowStorage((state) => state.flows);
+  // const flows = useFlowStorage((state) => state.flows);
+  // const user = await localStorage.getItem("user");
+  const { user } = useApp();
+  const [flows, setFlows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const tabList = useFlowStorage((state) => state.tabList);
   const addTab = useFlowStorage((state) => state.addTab);
   const navigate = useNavigate();
@@ -28,29 +33,40 @@ export default function FlowGrid() {
       backgroundColor: grey[100],
       border: "1px grey solid",
     },
-    width: "100%",
+    width: 300,
     height: 200,
   }));
 
+  useEffect(() => {
+    if (!user) return;
+    instance
+      .get("/flows")
+      .then((res) => {
+        if (res.status === 200) setFlows(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+      });
+  }, [user]);
+
   const toFlow = (flow) => {
-    console.log(flow);
+    console.log("flow:", flow);
     if (!tabList.find((f) => f.id == flow.id)) {
-      addTab({ id: flow.id, title: flow.name });
+      addTab({
+        id: flow.id,
+        title: flow.name ? flow.name : "Undefined",
+      });
     }
     changeFlowNow(flow);
-    navigate("/flow", { state: flow });
+    navigate(`/flow?id=${flow.id}`);
   };
 
+  if (loading) return <LoadingScreen />;
   return (
-    <Grid
-      container
-      justifyContent="left"
-      sx={{ p: 2 }}
-      spacing={2}
-      columns={16}
-    >
-      {flows.map((flow) => (
-        <Grid item xs={16} sm={8} md={4}>
+    <Grid container justifyContent="left" sx={{ pl: 2, pt: 2 }} spacing={2}>
+      {flows.map((flow, key) => (
+        <Grid item key={key}>
           <FlowButton onClick={() => toFlow(flow)}>
             {t("Last Edit Time:")} {flow.time} {t("hours")}
           </FlowButton>

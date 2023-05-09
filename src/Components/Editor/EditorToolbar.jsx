@@ -2,7 +2,7 @@ import React from "react";
 import { Quill } from "react-quill";
 import "./EditorToolbar.scss";
 import ImageResize from "quill-image-resize-module-react";
-Quill.register("modules/imageResize", ImageResize);
+import QuillCursors from "quill-cursors";
 
 const CustomUndo = () => (
   <svg viewBox="0 0 18 18">
@@ -35,7 +35,6 @@ function redoChange() {
 // Add sizes to whitelist and register them
 const Size = Quill.import("formats/size");
 Size.whitelist = ["extra-small", "small", "medium", "large"];
-Quill.register(Size, true);
 
 // Add fonts to whitelist and register them
 const Font = Quill.import("formats/font");
@@ -46,8 +45,8 @@ Font.whitelist = [
   "georgia",
   "Times-New-Roman",
   "lucida",
+  "DFKai-sb",
 ];
-Quill.register(Font, true);
 
 const BlockEmbed = Quill.import("blots/block/embed");
 const Link = Quill.import("formats/link");
@@ -67,7 +66,7 @@ class EmbedResponsive extends BlockEmbed {
   static sanitize(url) {
     url = url.replace("watch?v=", "embed/");
     console.log(url);
-    // url checker
+    // TODO: url checker
     return Link.sanitize(url);
   }
 
@@ -80,6 +79,10 @@ class EmbedResponsive extends BlockEmbed {
 EmbedResponsive.blotName = "video";
 EmbedResponsive.tagName = "DIV";
 Quill.register("formats/video", EmbedResponsive);
+Quill.register("modules/imageResize", ImageResize);
+Quill.register("modules/cursors", QuillCursors);
+Quill.register(Size, true);
+Quill.register(Font, true);
 
 // Modules object for setting up the Quill editor
 export const modules = {
@@ -106,6 +109,7 @@ export const modules = {
       // other camelCase styles for size display
     },
   },
+  cursors: true,
 };
 
 // Formats objects for setting up the Quill editor
@@ -150,6 +154,7 @@ export const QuillToolbar = () => {
           <option value="georgia">Georgia</option>
           <option value="Times-New-Roman">Times New Roman</option>
           <option value="lucida">Lucida</option>
+          <option value="DFKai-sb">標楷體</option>
         </select>
         <select className="ql-size" defaultValue="medium">
           <option value="extra-small">Size 1</option>

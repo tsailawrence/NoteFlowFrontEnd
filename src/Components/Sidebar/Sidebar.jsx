@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./SideBar.scss";
+import "./Sidebar.scss";
 import { FaPen, FaBook, FaCalendarAlt } from "react-icons/fa";
 import { AiTwotoneSetting } from "react-icons/ai";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { useFlowStorage } from "../../storage/Storage";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,17 +19,20 @@ const Sidebar = () => {
     cursor: "pointer",
     color: "white",
     backgroundColor: "black",
-    borderRight: "1px black solid",
-    borderLeft: "1px black solid",
-    width: "100%",
-    paddingTop: "20px",
-    paddingBottom: "20px",
+    width: "70%",
+    height: "8px",
+    marginTop: "10px",
+    padding: "20px",
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
+    borderTopRightRadius: "50px",
+    borderBottomRightRadius: "50px",
   }));
-  const SideBarText = styled(Typography)(() => ({
-    fontSize: "1.2vw",
+  const SideBarText = styled("div")(() => ({
+    paddingTop: "3%",
+    lineHeight: "2",
+    fontSize: "15px",
     width: "55%",
   }));
   useEffect(() => {
@@ -40,19 +42,15 @@ const Sidebar = () => {
       if (index === mode) {
         all[index].style.backgroundColor = "white";
         all[index].style.color = "black";
-        all[index].firstChild.style.color = "black";
-      } else {
-        all[index].style.backgroundColor = "black";
-        all[index].style.color = "white";
-        all[index].firstChild.style.color = "white";
+        // all[index].firstChild.style.color = "black";
       }
     }
   }, [mode, tabList, location, t]);
   return (
     <Stack className="sidebar">
-      <div className="logo">
-        <img src="/src/assets/logo.png" alt="" />
-      </div>
+      <a className="logo" href="/home">
+        <img src="assets/logo.png" alt="" width="60" height="60" />
+      </a>
       <SideBarItem className="sidebar-item" onClick={() => changeMode(0)}>
         <FaPen size={20} style={{ width: "45%" }} />
         <SideBarText>{t("Flows")}</SideBarText>

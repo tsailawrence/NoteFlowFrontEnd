@@ -8,7 +8,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -40,8 +39,8 @@ export default function StyleBar({ isOpen, data }) {
   };
 
   const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData('application/reactflow', nodeType);
-    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
   };
 
   return (
@@ -89,7 +88,7 @@ export default function StyleBar({ isOpen, data }) {
               <p>Width</p>
             </Grid>
             <Grid item xs={6}>
-              <Select sx={{height:"25px", width:"50px"}}>
+              <Select sx={{ height: "25px", width: "50px" }}>
                 <MenuItem>1</MenuItem>
                 <MenuItem>2</MenuItem>
                 <MenuItem>3</MenuItem>
@@ -117,26 +116,17 @@ export default function StyleBar({ isOpen, data }) {
           <ListItem sx={{ fontSize: "20px", marginBottom: "10px" }}>
             Node Style
           </ListItem>
-          <div
-            onDragStart={(event) => onDragStart(event, "input")}
-            draggable
-          >
+          <div onDragStart={(event) => onDragStart(event, "input")} draggable>
             <p>Left Right Handler</p>
-            <img src="src/assets/left_right_node.png" width="250"/>
+            <img src="src/assets/left_right_node.png" width="250" />
           </div>
-          <div
-            onDragStart={(event) => onDragStart(event, "input")}
-            draggable
-          >
+          <div onDragStart={(event) => onDragStart(event, "input")} draggable>
             <p>Top Down Handler</p>
-            <img src="src/assets/top_down_node.png" width="250"/>
+            <img src="src/assets/top_down_node.png" width="250" />
           </div>
-          <div
-            onDragStart={(event) => onDragStart(event, "input")}
-            draggable
-          >
+          <div onDragStart={(event) => onDragStart(event, "input")} draggable>
             <p>All Handler</p>
-            <img src="src/assets/four_node.png" width="250"/>
+            <img src="src/assets/four_node.png" width="250" />
           </div>
         </List>
       </Drawer>

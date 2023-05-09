@@ -1,7 +1,5 @@
 import { create } from "zustand";
 const useParams = create((set) => ({
-  login: false,
-  setLogin: (param) => set((state) => ({ login: param })),
   flows: 1,
   setFlows: (param) => set((state) => ({ flows: param })),
   library: 1,

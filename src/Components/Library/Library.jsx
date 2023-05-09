@@ -9,12 +9,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { useFlowStorage } from "../../storage/Storage";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import instance from "../../api";
 
 const Library = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const nodes = useFlowStorage((state) => state.nodes);
   const tabList = useFlowStorage((state) => state.tabList);
   const addTab = useFlowStorage((state) => state.addTab);
@@ -85,6 +84,7 @@ const Library = () => {
     }
     navigate("/node", { state: node });
   };
+
   return (
     <Stack direction="column" justifyContent="center" alignItems="center">
       <Stack
@@ -104,15 +104,13 @@ const Library = () => {
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
-            placeholder={t("Search") + "..."}
+            placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
           />
         </Search>
         <Button style={{ color: "black" }}>
           <BsSortDown size={20} style={{ marginRight: "3px" }} />
-          <Typography sx={{ fontSize: "1vw" }}>
-            {t("Newest to oldest")}
-          </Typography>
+          <Typography>Newest to oldest</Typography>
         </Button>
       </Stack>
       <Grid
@@ -122,12 +120,14 @@ const Library = () => {
         spacing={2}
         columns={15}
       >
-        {nodes.map((node) => (
-          <Grid item xs={15} sm={5} md={3}>
+        {nodes.map((node, id) => (
+          <Grid item xs={3} md={3} key={id}>
             <NodeButton onClick={() => toNode(node)}>
-              {t("Last Edit Time:")} {node.time} {t("hours")}
+              {/* {t("Last Edit Time:")} {node.time} {t("hours")} */}
             </NodeButton>
-            <Typography style={{ fontSize: "14px" }}>{node.name}</Typography>
+            <Typography style={{ fontSize: "14px", paddingTop: "2%" }}>
+              {node.name}
+            </Typography>
           </Grid>
         ))}
       </Grid>

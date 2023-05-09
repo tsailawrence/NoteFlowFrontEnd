@@ -1,5 +1,4 @@
 .login {
-  // background-color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,7 +8,6 @@
   min-height: 100vh;
   padding: 0;
   margin: 0;
-  // border: red solid 2px;
 
   .login-container {
     width: 100%;
@@ -23,8 +21,7 @@
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
     padding: 0;
     margin: 0;
-    // border: red solid 2px;
-    @media(max-height: 1200px){
+    @media (max-height: 1200px) {
       .logo {
         width: 50%;
         height: 100%;
@@ -37,7 +34,6 @@
         justify-content: center;
         text-align: center;
         color: white;
-        // font-family: "Bauhaus";
         margin: 0;
         gap: 2vw;
       }
@@ -51,16 +47,12 @@
         flex-direction: column;
         gap: 2vw;
         align-items: center;
-        // text-align: center;
         justify-content: center;
-        // border-radius: 15px;
-        // border: red solid 2px;
-  
+
         h2 {
           font-size: 4vw;
-          // border: red solid 2px;
         }
-  
+
         .infoContainer {
           width: 90%;
           display: flex;
@@ -69,43 +61,29 @@
           gap: 5px;
           justify-content: center;
           border: red soild 2px;
-  
-          .profile {
-            padding: 0;
-  
-            img {
-              border: none;
-              border-radius: 50% 50%;
-            }
-            h3 {
-              margin: 0;
-              font-size: 16px;
-            }
-          }
         }
-  
+
         #signInDiv {
           max-width: 80%;
           margin-top: 1vw;
-          // border: red solid 2px;
         }
-  
+
         .horizontalLine {
-          width: 65%;
+          width: 55%;
           font-size: 1vw;
           text-align: center;
           border-bottom: 1px solid #414a4c;
-          line-height: 0.1em;
+
+          line-height: 0.1%;
           margin: 0;
           margin-top: 1vw;
-  
+
           span {
             background: #fff;
-            padding: 0 10px;
-            margin: 0;
+            padding: 10px 10px;
           }
         }
-  
+
         button {
           &:hover {
             border: #666666;
@@ -113,18 +91,18 @@
         }
       }
     }
-    @media(max-height: 600px){
+    @media (max-height: 600px) {
       .logo {
         gap: 0;
       }
       .info {
         gap: 0;
-        .infoContainer{
+        .infoContainer {
           gap: 0;
         }
       }
     }
-    @media(max-height: 470px){
+    @media (max-height: 470px) {
       .logo {
         min-height: 470px;
       }
@@ -132,7 +110,7 @@
         min-height: 470px;
       }
     }
-    @media(max-width: 1100px){
+    @media (max-width: 1100px) {
       .logo {
         min-width: 550px;
       }

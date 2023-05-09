@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useEffect } from "react";
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import ReactFlow, {
   Position,
   Handle,
@@ -14,87 +14,117 @@ import ReactFlow, {
   getIncomers,
   getOutgoers,
   getConnectedEdges,
-} from "reactflow";
-import CustomNode from "../../Components/Flow/Node";
-import ToolBar from "../../Components/Flow/ToolBar";
-import StyleBar from "../../Components/Flow/StyleBar";
-import Drawer from "@mui/material//Drawer";
-import Editor from "../../Components/Editor/Editor";
-import PageTab from "../../Components/PageTab/PageTab";
-import { useFlowStorage } from "../../storage/Storage";
-import { Navigate, useLocation } from "react-router-dom";
-import { toPng } from "html-to-image";
-
-import _ from "lodash";
-
-import "./Flow.scss";
-import "reactflow/dist/style.css";
+} from 'reactflow';
+import CustomNode from '../../Components/Flow/Node';
+import ToolBar from '../../Components/Flow/ToolBar';
+import StyleBar from '../../Components/Flow/StyleBar';
+import Drawer from '@mui/material//Drawer';
+import { Editor } from '../../Components/Editor/Editor';
+import PageTab from '../../Components/PageTab/PageTab';
+import { useFlowStorage } from '../../storage/Storage';
+import { Navigate, useLocation } from 'react-router-dom';
+import { toPng } from 'html-to-image';
+import { QuillProvider } from '../../API/useQuill';
+// import { FlowProvider, useFlow } from "../../API/useFlow";
+import instance from '../../API/api';
+import { useApp } from '../../hooks/useApp';
+import './Flow.scss';
+import 'reactflow/dist/style.css';
+import FlowWebSocket from '../../hooks/flowConnection';
+import { useNavigate } from 'react-router-dom';
+// import { getConnection } from "../../hooks/flowConnection";
 
 const nodeTypes = {
   CustomNode,
 };
 
 // const edgeTypes = {
-//   CustomEdge
-// }
+//   CustomEdge,
+// };
 
 const defaultNodeStyle = {
-  border: "2px solid",
-  background: "white",
+  border: '2px solid',
+  background: 'white',
   borderRadius: 10,
   height: 50,
   width: 150,
 };
 
 function downloadImage(dataUrl) {
-  const a = document.createElement("a");
+  const a = document.createElement('a');
 
-  a.setAttribute("download", "reactflow.png");
-  a.setAttribute("href", dataUrl);
+  a.setAttribute('download', 'reactflow.png');
+  a.setAttribute('href', dataUrl);
   a.click();
 }
 
-const onDownload = () => {
-  toPng(document.querySelector(".react-flow"), {
-    filter: (node) => {
-      // we don't want to add the minimap and the controls to the image
-      if (
-        node?.classList?.contains("react-flow__minimap") ||
-        node?.classList?.contains("react-flow__controls")
-      ) {
-        return false;
-      }
+// const onDownload = () => {
+//   toPng(document.querySelector('.react-flow'), {
+//     filter: (node) => {
+//       // we don't want to add the minimap and the controls to the image
+//       if (
+//         node?.classList?.contains('react-flow__minimap')
+//         node?.classList?.contains('react-flow__controls')
+//       ) {
+//         return false;
+//       }
 
-      return true;
-    },
-  }).then(downloadImage);
-};
+//       return true;
+//     },
+//   }).then(downloadImage);
+// };
 
-function Flow(props) {
+function Flow() {
   const location = useLocation();
   const rfInstance = useReactFlow();
   const xPos = useRef(50);
   const yPos = useRef(0);
-  const nodeId = useRef(location.state.nextNodeId);
+  const nodeId = useRef(0);
+  const edgeId = useRef(0);
 
-  const [bgVariant, setBgVariant] = useState("line");
-  const [edges, setEdges, onEdgesChange] = useEdgesState(location.state.edges);
-  const [nodes, setNodes, onNodesChange] = useNodesState(location.state.nodes);
-  const [title, setTitle] = useState(location.state.name);
-
+  const [bgVariant, setBgVariant] = useState('line');
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [title, setTitle] = useState('');
   const [isStyleBarOpen, setIsStyleBarOpen] = useState(false);
   const [back, setBack] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [flowID, setFlowID] = useState(location.state.id);
+  const [flowWebSocket, setFlowWebSocket] = useState(null);
   const saveFlow = useFlowStorage((state) => state.saveFlow);
-  const flows = useFlowStorage((state) => state.flows);
+  const { user } = useApp();
+  const [activeNodeId, setActiveNodeId] = useState(null);
+  const [editorId, setEditorId] = useState(null);
+  const searchParams = new URLSearchParams(location.search);
+  const flowId = searchParams.get('id');
 
-  // const saveFlow = useFlowStorage((state) => state.saveFlow);
-  // console.log(flows);
+  const navigateTo = useNavigate();
 
-
-  // 被雙擊的 node
-  const [activeNodeID, setActiveNodeID] = useState(null);
+  useEffect(() => {
+    const flowConnection = new FlowWebSocket(flowId, (data) => {
+      console.log(data);
+      if (data.error) {
+        console.log(data.error);
+        navigateTo('/error');
+      } else rerender(data);
+    });
+    setFlowWebSocket(flowConnection);
+  }, []);
+  //
+  const rerender = (data) => {
+    setNodes(data.nodes);
+    setEdges(data.edges);
+    setTitle(data.name);
+    const node_ids = new Array(data.nodes.length);
+    Object.keys(data.nodes).forEach((element, index) => {
+      node_ids[index] = Number(element);
+    });
+    const edge_ids = new Array(data.edges.length);
+    Object.keys(data.edges).forEach((element, index) => {
+      edge_ids[index] = Number(element);
+    });
+    nodeId.current = data.nodes.length === 0 ? 0 : Math.max(...node_ids) + 1;
+    edgeId.current = data.edges.length === 0 ? 0 : Math.max(...edge_ids) + 1;
+  };
 
   const onConnect = useCallback(
     (params) => {
@@ -108,19 +138,6 @@ function Flow(props) {
     []
   );
 
-  const saveNodeLabel = useCallback((nodeID, title)=>{
-    setNodes((nds) =>
-    nds.map((node) => {
-      if (node.id == nodeID) {
-        node.data = {
-          ...node.data,
-          label: title,
-        };
-      }
-      return node;
-    })    
-    )
-  })
   const onNodesDelete = useCallback(
     (deleted) => {
       setEdges(
@@ -138,7 +155,6 @@ function Flow(props) {
               target,
             }))
           );
-
           return [...remainingEdges, ...createdEdges];
         }, edges)
       );
@@ -152,17 +168,25 @@ function Flow(props) {
       yPos.current = 50;
       xPos.current += 150;
     }
-    const newNode = {
-      id: (nodeId.current + 1).toString(),
-      data: { label: 'Untitle', toolbarPosition: Position.Top  },
-      type: "CustomNode",
-      position: { x: xPos.current, y: yPos.current },
-      style: defaultNodeStyle,
-      }
-    setNodes((nds) => nds.concat(newNode));
-    nodeId.current += 1;
-  }, [setNodes]);
-
+    instance
+      .post('/nodes/new-node')
+      .then((res) => {
+        console.log('res:', res.data);
+        const editorId = res.data.nodeId;
+        const newNode = {
+          id: nodeId.current.toString(),
+          data: { label: 'Untitle', toolbarPosition: Position.Top },
+          type: 'CustomNode',
+          position: { x: xPos.current, y: yPos.current },
+          style: defaultNodeStyle,
+          class: 'Node',
+          editorId: editorId,
+        };
+        // webSocket
+        flowWebSocket.addComponent(newNode, 'node');
+      })
+      .catch((e) => console.log(e));
+  }, [setNodes, flowWebSocket]);
 
   const changeStyle = () => {
     setIsStyleBarOpen(true);
@@ -174,9 +198,8 @@ function Flow(props) {
         const flow = rfInstance.toObject();
         setBack(true);
         saveFlow({
-          id: flowID,
+          id: flowId,
           flow: flow,
-          nextNodeId: nodeId.current + 1,
           title: title,
         });
         //connect to backend
@@ -185,33 +208,15 @@ function Flow(props) {
     [rfInstance]
   );
 
-  const handleDrawerClose = () => {
-    setIsEdit(false);
-  };
   const onNodeDoubleClick = useCallback((event, node) => {
     //open editor by nodeID
-    setActiveNodeID(node.id);
+    console.log('node:', node);
+    setEditorId(node.editorId);
     setIsEdit(true);
   });
 
-  const copyNode = (id) => {
-    yPos.current += 50;
-    if (yPos.current > 400) {
-      yPos.current = 50;
-      xPos.current += 150;
-    }
-    let copy = _.cloneDeep(
-      rfInstance.toObject().nodes.find((nds) => nds.id == id)
-    );
-
-    copy.position = { x: xPos.current, y: yPos.current };
-    copy.id = nodeId.current + 1;
-    // setNextNodeId({id: flowID, nextNodeId: nodeId.current + 1});
-    setNodes([...rfInstance.toObject().nodes, copy]);
-  };
-
   return (
-    <div className="FlowEditPanel">
+    <div className='FlowEditPanel'>
       {!back ? (
         <>
           <ToolBar
@@ -223,14 +228,29 @@ function Flow(props) {
             }}
           />
           <ReactFlow
-            className="NodePanel"
+            className='NodePanel'
             nodes={nodes}
             edges={edges}
-            onNodesDelete={onNodesDelete}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onEdgeUpdate={onEdgeUpdate}
-            onConnect={onConnect}
+            onNodesChange={(param) => {
+              onNodesChange(param);
+              flowWebSocket.editComponent(param, 'node');
+            }}
+            onEdgesChange={(param) => {
+              onEdgesChange(param);
+              flowWebSocket.editComponent(param, 'edge');
+            }}
+            onEdgeUpdate={(param) => {
+              onEdgeUpdate(param);
+              console.log('2');
+            }}
+            onConnect={(param) => {
+              onConnect(param);
+              flowWebSocket.addComponent(
+                { ...param, id: edgeId.current.toString() },
+                'edge'
+              );
+              console.log(param);
+            }}
             // onInit={setRfInstance}
             onNodeDoubleClick={onNodeDoubleClick}
             nodeTypes={nodeTypes}
@@ -239,44 +259,34 @@ function Flow(props) {
             {isStyleBarOpen ? <StyleBar isOpen={isStyleBarOpen} /> : null}
             <MiniMap nodeStrokeWidth={10} zoomable pannable />
             <Controls />
-            <Background color="#ccc" variant={bgVariant} />
+            <Background color='#ccc' variant={bgVariant} />
           </ReactFlow>
-          {/* <button
-            style={{ zIndex: 6 }}
-            onClick={() => {
-              console.log("clicked");
-              onDownload();
-            }}
-          >
-            download
-          </button> */}
         </>
       ) : (
-        <Navigate to="/home" />
+        <Navigate to='/home' />
       )}
       {isEdit && (
-        <div className="EditorContainer">
+        <div className='EditorContainer'>
           <Drawer
             sx={{
-              width: "50%",
+              width: '50%',
               flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: "50%",
+              '& .MuiDrawer-paper': {
+                width: '50%',
               },
             }}
-            variant="persistent"
-            anchor="right"
-            open={open}
+            variant='persistent'
+            anchor='right'
+            open={isEdit}
           >
-            <Editor
-              nodes = {nodes}
-              flowID = {flowID}
-              nodeID = {activeNodeID}
-              saveNodeLabel={saveNodeLabel}
-              handleDrawerClose={handleDrawerClose}
-            />
+            <QuillProvider>
+              <Editor
+                nodes={nodes}
+                editorId={editorId}
+                handleDrawerClose={() => setIsEdit(false)}
+              />
+            </QuillProvider>
           </Drawer>
-          {/* <Editor id={editID}/> */}
         </div>
       )}
     </div>
@@ -285,10 +295,10 @@ function Flow(props) {
 
 function FlowWithProvider(...props) {
   return (
-    <div className = "Flow-container">
-      <PageTab/>
-      <ReactFlowProvider >
-        <Flow {...props} />
+    <div className='Flow-container'>
+      <PageTab />
+      <ReactFlowProvider>
+        <Flow />
       </ReactFlowProvider>
     </div>
   );
