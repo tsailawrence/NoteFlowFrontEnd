@@ -40,7 +40,7 @@ const Register = () => {
       .then((res) => {
         console.log(res.data);
         setLogin(true);
-        navigateTo("/home");
+        navigateTo("/");
       })
       .catch((e) => {
         console.log("Login error");

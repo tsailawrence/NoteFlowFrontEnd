@@ -10,6 +10,8 @@ import InputBase from "@mui/material/InputBase";
 import { useFlowStorage } from "../../storage/Storage";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import instance from "../../api";
 
 const Library = () => {
   const { t } = useTranslation();
@@ -29,6 +31,16 @@ const Library = () => {
     width: "100%",
     height: 150,
   }));
+  useEffect(() => {
+    instance
+      .get("/library")
+      .then((res) => {
+        console.log("success", res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -68,7 +80,6 @@ const Library = () => {
     },
   }));
   const toNode = (node) => {
-    console.log(node);
     if (!tabList.find((f) => f.id == node.id)) {
       addTab({ id: node.id, title: node.name });
     }
