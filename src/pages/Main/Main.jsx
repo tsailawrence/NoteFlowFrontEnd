@@ -1,4 +1,6 @@
-import Sidebar from "../../Components/Sidebar/Sidebar";
+import Sidebar from "../../Components/SideBar/SideBar.jsx";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Main.scss";
 import FlowGrid from "../../Components/FlowGrid/FlowGrid.jsx";
 import PageTab from "../../Components/PageTab/PageTab.jsx";
