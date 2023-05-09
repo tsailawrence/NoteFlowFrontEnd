@@ -49,7 +49,16 @@ const Calendar = () => {
       <Grid
         item
         xs={6}
-        sx={{ height: "100%", "& .MuiPickersDay-root": { paddingTop: 0.5 } }}
+        sx={{
+          height: "100%",
+          "& .MuiPickersDay-root": {
+            paddingTop: 0.5,
+            ":focus": {
+              backgroundColor: "black",
+              color: "white",
+            },
+          },
+        }}
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker defaultValue={dayjs(getDate())} />

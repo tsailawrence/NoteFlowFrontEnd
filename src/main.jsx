@@ -12,7 +12,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: "#FFBF00", // 琥珀色
+      main: "#black", // 琥珀色
     },
   },
 });
