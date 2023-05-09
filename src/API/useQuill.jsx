@@ -12,8 +12,6 @@ import sharedb from 'sharedb/lib/client';
 import richText from 'rich-text';
 import { useApp } from '../hooks/useApp';
 
-// dotenv.config();
-
 const NOTEFLOW_HOST = 'noteflow.live';
 
 sharedb.types.register(richText.type);
