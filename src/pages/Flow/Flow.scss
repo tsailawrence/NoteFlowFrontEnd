@@ -2,7 +2,17 @@
   width: 100vw;
   height: 100vh;
 }
-
+.FlowEditPanel{
+  height: calc(100vh - 55px);
+}
+.navbar{
+  background-color: white !important;
+}
+.titleInput{
+  background-color: white !important;
+  border: 1px solid black !important;
+  color: black !important;
+}
 .NodePanel {
   font-family: sans-serif;
   text-align: center;

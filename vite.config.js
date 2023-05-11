@@ -1,20 +1,19 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { readFileSync } from "fs";
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 
-const cert = readFileSync("./server.cert", "utf-8");
-const key = readFileSync("./server.key", "utf-8");
+export default ({ mode }) => {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  // server: {
-  //   host: '0.0.0.0',
-  //   port: 7414,
-  //   https: {
-  //     key: './server.key',
-  //     cert: './server.cert',
-  //   },
-  //   hmr: false,
-  // },
-});
+  return defineConfig({
+    plugins: [react()],
+    server: {
+      host: '0.0.0.0',
+      port: process.env.FRONTEND_EXPOSE_PORT,
+      https: {
+        key: './server.key',
+        cert: './server.cert',
+      },
+      hmr: false,
+    },
+  });
+};

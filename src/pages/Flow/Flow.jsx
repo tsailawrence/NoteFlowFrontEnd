@@ -18,7 +18,7 @@ import ReactFlow, {
 import CustomNode from '../../Components/Flow/Node';
 import ToolBar from '../../Components/Flow/ToolBar';
 import StyleBar from '../../Components/Flow/StyleBar';
-import Drawer from '@mui/material//Drawer';
+import Drawer from '@mui/material/Drawer';
 import { Editor } from '../../Components/Editor/Editor';
 import PageTab from '../../Components/PageTab/PageTab';
 import { useFlowStorage } from '../../storage/Storage';

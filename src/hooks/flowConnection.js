@@ -1,8 +1,7 @@
 import sharedb from 'sharedb/lib/client';
 import * as json1 from 'ot-json1';
-
-const NOTEFLOW_HOST = 'noteflow.live';
-const NOTEFLOW_PORT = '3000';
+import ReconnectingWebsocket from 'reconnecting-websocket';
+import { BASE_URL } from '../API/api';
 
 sharedb.types.register(json1.type);
 
@@ -20,20 +19,18 @@ class FlowWebSocket {
   }
 
   getConnection(flowId, callback) {
-    const socket = new WebSocket(`wss://${NOTEFLOW_HOST}/ws/flow?id=${flowId}`);
+    const socket = new ReconnectingWebsocket(
+      `wss://${BASE_URL}/ws/flow?id=${flowId}`
+    );
     this.socket = socket;
-    socket.addEventListener('close', (e) => {
-      console.log(e);
-      this.close(callback);
-    });
 
     const collection = 'flow-sharedb';
     const connection = new sharedb.Connection(socket);
     const flow = connection.get(collection, flowId);
-
+    console.log('connecting...');
     flow.subscribe((e) => {
       if (e) throw e;
-
+      console.log('subscribed!');
       this.flow = flow;
       this.flow.on('op', (op, source) => {
         this.lastOp = op;

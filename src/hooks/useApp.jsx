@@ -28,10 +28,6 @@ const UserProvider = (props) => {
       .catch((e) => console.log(e));
   }, [rerender]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const refetchFromLocalStorage = () => {
     setRerender((prev) => !prev);
   };

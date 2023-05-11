@@ -1,7 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
+
+let BASE_URL = import.meta.env.VITE_NOTEFLOW_BACKEND;
+
+if (import.meta.env.VITE_DEV === '1') {
+  BASE_URL = `localhost:${VITE_NOTEFLOW_PORT}`;
+}
+
 const instance = axios.create({
-  baseURL: "http://noteflow.live/api",
+  baseURL: `https://${BASE_URL}/api`,
   withCredentials: true,
 });
 
 export default instance;
+export { BASE_URL };

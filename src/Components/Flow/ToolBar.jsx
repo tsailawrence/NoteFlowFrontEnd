@@ -3,6 +3,7 @@ import "./FlowEditor.scss";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
+import "./ToolBar.scss"
 import {
   BsDot,
   BsNodePlus,
@@ -25,9 +26,9 @@ export default function ToolBar({
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-    <>
-      <nav className="row navbar navbar-dark bg-dark">
-        <div className="col-sm justify-content-left">
+    <div className ="toolbar">
+      <nav className="navbar">
+        <div className="left">
           <Button
             variant="dark"
             onClick={() => onSave(title)}
@@ -42,7 +43,7 @@ export default function ToolBar({
             type="text"
           />
         </div>
-        <div className="d-flex col-sm justify-content-center">
+        <div className="mid">
           <div>
             <Button
               variant="dark"
@@ -81,7 +82,7 @@ export default function ToolBar({
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <div className="d-flex justify-content-end col-sm ">
+        <div className="right">
           <Button
             variant="dark"
             onClick={handleShow}
@@ -96,6 +97,6 @@ export default function ToolBar({
           <Modal.Title>Coming Soon</Modal.Title>
         </Modal.Header>
       </Modal>
-    </>
+    </div>
   );
 }

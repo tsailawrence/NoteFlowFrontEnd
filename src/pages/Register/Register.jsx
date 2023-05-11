@@ -17,7 +17,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-  const { setLogin } = useParams();
   const navigateTo = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -40,7 +39,6 @@ const Register = () => {
       .post("/user/register", request)
       .then((res) => {
         console.log(res.data);
-        setLogin(true);
         navigateTo("/home");
       })
       .catch((e) => {

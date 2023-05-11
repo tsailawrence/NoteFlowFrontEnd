@@ -1,25 +1,24 @@
-import ReconnectingWebSocket from "reconnecting-websocket";
-
-const NOTEFLOW_HOST = "noteflow.live";
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import { BASE_URL } from './api';
 
 class Colab {
   constructor(nodeId, email, callback) {
     const socket = new ReconnectingWebSocket(
-      `wss://${NOTEFLOW_HOST}/ws/registerNodeColab?id=${nodeId}`
+      `wss://${BASE_URL}/ws/registerNodeColab?id=${nodeId}`
     );
 
-    socket.addEventListener("message", (msg) => {
-      const message = JSON.parse(msg.data.toString("utf-8"));
+    socket.addEventListener('message', (msg) => {
+      const message = JSON.parse(msg.data.toString('utf-8'));
       let userList = new Array(message.length);
       message.forEach((m, id) => {
-        const newList = m.split("-");
+        const newList = m.split('-');
         const singleUser = newList[newList.length - 1];
         userList[id] = singleUser;
       });
       callback(userList);
     });
 
-    socket.addEventListener("open", () => {
+    socket.addEventListener('open', () => {
       socket.send(
         JSON.stringify({
           nodeId: nodeId,
@@ -36,8 +35,8 @@ class Colab {
       }, 2000);
     });
 
-    socket.addEventListener("error", function (event) {
-      console.error("WebSocket error:", event);
+    socket.addEventListener('error', function (event) {
+      console.error('WebSocket error:', event);
     });
 
     this.socket = socket;

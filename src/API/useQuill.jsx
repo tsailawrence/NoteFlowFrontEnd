@@ -11,6 +11,7 @@ import tinycolor from 'tinycolor2';
 import sharedb from 'sharedb/lib/client';
 import richText from 'rich-text';
 import { useApp } from '../hooks/useApp';
+import { BASE_URL } from './api';
 
 const NOTEFLOW_HOST = 'noteflow.live';
 
@@ -52,12 +53,10 @@ const QuillProvider = (props) => {
 
   useEffect(() => {
     if (!editorId) return;
-    const socket = new WebSocket(
-      `wss://${NOTEFLOW_HOST}/ws/node?id=${editorId}`
-    );
+    const socket = new WebSocket(`wss://${BASE_URL}/ws/node?id=${editorId}`);
     const connection = new sharedb.Connection(socket);
     setWebsocket(connection);
-    setIdentity(user.name);
+    setIdentity(user);
   }, [editorId]);
 
   const OpenEditor = async (editorId) => {
@@ -121,6 +120,7 @@ const QuillProvider = (props) => {
       quill.on('selection-change', (range, oldRange, source) => {
         if (source !== 'user') return;
         if (!range) return;
+        console.log(1);
         range.name = identity ? (identity.name ? identity.name : '-') : '-'; // # TODO
         localPresence.submit(range, (error) => {
           if (error) throw error;
@@ -129,7 +129,6 @@ const QuillProvider = (props) => {
 
       const cursors = quill.getModule('cursors');
       presence.on('receive', function (id, range) {
-        console.log(range);
         colors[id] = colors[id] || tinycolor.random().toHexString();
         var name = (range && range.name) || 'Anonymous';
         cursors.createCursor(id, name, colors[id]);

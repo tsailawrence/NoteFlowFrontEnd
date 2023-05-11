@@ -13,11 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import instance from "../../API/api";
 import { useApp } from "../../hooks/useApp";
+import { useTranslation } from "react-i18next";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 export default function FlowGrid() {
-  // const flows = useFlowStorage((state) => state.flows);
-  // const user = await localStorage.getItem("user");
+  const { t, i18n } = useTranslation();
   const { user } = useApp();
   const [flows, setFlows] = useState([]);
   const [loading, setLoading] = useState(true);

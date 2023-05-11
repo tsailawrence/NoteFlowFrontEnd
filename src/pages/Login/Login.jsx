@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "../../hooks/useApp";
 // gcloud 註冊的 ＮoteFlow Project 帳號
 const client_id =
-  "951808884400-u2gdsuok7ae5imn9d1e9v24cm666ohs1.apps.googleusercontent.com";
+  "390935399634-2aeudohkkr8kf634paoub0sjnlp7c1ap.apps.googleusercontent.com";
 
 const Login = () => {
   const divRef = useRef(null);
